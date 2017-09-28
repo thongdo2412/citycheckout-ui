@@ -410,7 +410,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-12" id="phonefield">
         <input class="form-control" id="phone" name="phone" type="text" placeholder="Phone">
         <span class="helper-text"></span>
       </div>
@@ -508,7 +508,7 @@
   };
   $.get( `${apiUrl}/client-token`, function( data ) {
     braintree.client.create({
-    authorization: data
+    authorization: data.clientToken
     }, function (err, clientInstance) {
     if (err) {
       console.error(err);
@@ -595,6 +595,7 @@
     						type: 'POST',
     						data: JSON.stringify(formdata),
 				        contentType: 'application/json',
+                crossDomain: true,
                 url: `${apiUrl}/checkout`,
                 success: function(data){
                   console.log("success");
