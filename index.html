@@ -602,21 +602,21 @@
           formdata.postalCode = $('#postal-code').val();
           formdata.phone = $('#phone').val();
 
-          console.log(payload.nonce);
-          // $.ajax({
-          //     type: 'POST',
-          //     data: JSON.stringify(formdata),
-          //     contentType: 'application/json',
-          //     crossDomain: true,
-          //     url: `${apiUrl}/checkout`,
-          //     success: function(data, status){
-          //
-          //     },
-          //     error: function (data, status) {
-          //       console.log(jqXHR.status);
-          //       console.log(exception);
-          //     }
-          // })
+          // console.log(payload.nonce);
+          $.ajax({
+              type: 'POST',
+              data: JSON.stringify(formdata),
+              contentType: 'application/json',
+              crossDomain: true,
+              url: `${apiUrl}/checkout`,
+              success: function(data, status){
+                window.location = `http://citycheckout-ui.s3-website.us-east-2.amazonaws.com/upsell.html?token=${data.transaction.creditCard.token}`;
+              },
+              error: function (data, status) {
+                console.log(status);
+                return;
+              }
+          })
         }
       });
     });
