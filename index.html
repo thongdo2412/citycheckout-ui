@@ -483,7 +483,8 @@
       $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
     }
   });
-  const apiUrl = 'https://w6y42oqyoj.execute-api.us-east-2.amazonaws.com/prod/api';
+  const apiUrl = 'https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api';
+  // const apiUrl = 'http://localhost:3000/api';
   const stylesConfig = {
     'input': {
       'font-size': '14px',
@@ -601,7 +602,12 @@
           formdata.region = $('#region').val();
           formdata.postalCode = $('#postal-code').val();
           formdata.phone = $('#phone').val();
-
+          formdata.voluumClickID = "ABCD1234";
+          formdata.product = {
+            id: 44739029702,
+            price: "35.00",
+            sku: "CITYADVCLR-FULL-1x"
+          };
           // console.log(payload.nonce);
           $.ajax({
               type: 'POST',
@@ -610,7 +616,7 @@
               crossDomain: true,
               url: `${apiUrl}/checkout`,
               success: function(data, status){
-                window.location = `http://citycheckout-ui.s3-website.us-east-2.amazonaws.com/upsell.html?token=${data.transaction.creditCard.token}`;
+                window.location = `http://checkout.citybeauty.com/upsell.html?token=${data.transaction.creditCard.token}`;
               },
               error: function (data, status) {
                 console.log(status);
