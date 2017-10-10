@@ -4,3 +4,4 @@ aws_region=us-east-1
 s3_bucket=checkout.citybeauty.com
 
 aws s3 cp . s3://$s3_bucket --recursive --exclude ".git/*" --exclude "node_modules/*"
+aws cloudfront create-invalidation --distribution-id E2H01GSTD642YJ --paths "/*"

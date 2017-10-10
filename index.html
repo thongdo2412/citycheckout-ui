@@ -13,14 +13,14 @@
 <body>
   <header class="centered_flex">
     <div class="container">
-      <a href="/"><img src="http://citybeauty.com/img/city-beauty-logo.png" alt="citylogo"></a>
+      <a href="/"><img src="https://citybeauty.com/img/city-beauty-logo.png" alt="citylogo"></a>
     </div>
   </header>
   <!-- Bootstrap inspired Braintree Hosted Fields example -->
 <div class="panel panel-default bootstrap-basic">
   <form class="panel-body" id="order-form">
     <div class="row form-group">
-      <div>Amount: <b>40</b></div>
+      <div>Amount: <b>42</b></div>
       <input id="amount" name="amount" type="hidden" min="1" value="40">
     </div>
     <div class="row form-group">
@@ -484,7 +484,6 @@
     }
   });
   const apiUrl = 'https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api';
-  // const apiUrl = 'http://localhost:3000/api';
   const stylesConfig = {
     'input': {
       'font-size': '14px',
@@ -599,7 +598,8 @@
           formdata.extendedAddress = $('#extended-address').val();
           formdata.city = $('#city').val();
           formdata.country = $('#country').val();
-          formdata.region = $('#region').val();
+          formdata.usState = $('#usState').val();
+          formdata.caProvince = $('#caProvince').val();
           formdata.postalCode = $('#postal-code').val();
           formdata.phone = $('#phone').val();
           formdata.voluumClickID = "ABCD1234";
@@ -616,7 +616,7 @@
               crossDomain: true,
               url: `${apiUrl}/checkout`,
               success: function(data, status){
-                window.location = `http://checkout.citybeauty.com/upsell.html?token=${data.transaction.creditCard.token}`;
+                window.location = `https://checkout.citybeauty.com/upsell.html?token=${data.transaction.creditCard.token}`;
               },
               error: function (data, status) {
                 console.log(status);
