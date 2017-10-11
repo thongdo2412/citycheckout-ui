@@ -30,7 +30,6 @@
   }
 
   .panel-body {
-    width: 90%;
     margin: 2em auto;
   }
 
@@ -70,8 +69,21 @@
 
   .form-control {height: 60px;}
   .hideoption {color: #cccccc;}
-  #region {display: none;}
+  #checkoutTaxLabel, #checkoutTaxValue, #billing_info {display: none;}
+  #totalprice {font-size: 18px;font-weight: 400;}
+  #region, #billingRegion {display: none;}
   #card-detail-heading {margin-left: -15px;}
+
+  .leftbar {
+    border-right: 1px solid #ddd;
+  }
+
+  .price-sidebar {
+    min-height:100%;
+    background-color: #f8f9f9;
+    padding:  0 0;
+  }
+
   @media screen and (max-width:767px) {
     #securitycodefield{padding-top: 15px;padding-right: 15px;}
     #phonefield{margin-top: 15px;}

@@ -1,7 +1,7 @@
 {
   "Canada": "9.95",
   "International": "19.95",
-  "United_States": [
+  "United States": [
     {
       "title": "Standard Shipping (3 - 5 business days)",
       "amount_required": "0.00",

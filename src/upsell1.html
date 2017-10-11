@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>City Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i|Playfair+Display:300,300i,400,400i">
+  <link rel="stylesheet" type="text/css" href="https://s3.us-east-2.amazonaws.com/citycheckout-ui/resources/css/citycheckout.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+  <header class="centered_flex">
+    <div class="container">
+      <a href="/"><img src="https://citybeauty.com/img/city-beauty-logo.png" alt="citylogo"></a>
+    </div>
+  </header>
+
+  <!-- Bootstrap inspired Braintree Hosted Fields example -->
+<div class="panel panel-default bootstrap-basic">
+  <form class="panel-body" id="order-form">
+    <input type="hidden" id="amount" value ="25"/>
+    <button value="submit" id="submit" class="btn btn-success btn-lg center-block">Submit Order</button>
+  </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Load the required client component. -->
+<script src="https://js.braintreegateway.com/web/3.22.2/js/client.min.js"></script>
+
+<!-- Load Hosted Fields component. -->
+<script src="https://js.braintreegateway.com/web/3.22.2/js/hosted-fields.min.js"></script>
+<!-- Load bluebird for Promise support -->
+<script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>
+<script>
+  const apiUrl = 'https://w6y42oqyoj.execute-api.us-east-2.amazonaws.com/prod/api';
+  function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+  var ccToken = getParameterByName('token');
+  var amount = $('#amount').val();
+  var formdata = {};
+  formdata.amount = parseFloat($('#amount').val());
+  formdata.token = ccToken;
+  $('#submit').click(function (event) {
+    event.preventDefault();
+    $.ajax({
+        type: 'POST',
+        data: JSON.stringify(formdata),
+        contentType: 'application/json',
+        crossDomain: true,
+        url: `${apiUrl}/1clickCharge`,
+        success: function(data, status){
+          console.log(status);
+          return;
+        },
+        error: function (data, status) {
+          console.log(status);
+          return;
+        }
+    })
+  });
+
+</script>
+</body>
+</html>
