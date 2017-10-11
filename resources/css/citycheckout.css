@@ -73,7 +73,7 @@
   #totalprice {font-size: 18px;font-weight: 400;}
   #region, #billingRegion {display: none;}
   #card-detail-heading {margin-left: -15px;}
-
+  .btn-lg {width: 100%;height: 60px;}
   .leftbar {
     border-right: 1px solid #ddd;
   }
