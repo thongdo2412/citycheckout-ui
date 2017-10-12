@@ -445,6 +445,7 @@
           <option value="WA ">Western Australia</option>
         </select>
         <span class="helper-text"></span>
+        <input type="hidden" id="regionValue" name="regionValue" />
       </div>
       <div class="col-sm-6" id="postal">
         <input class="form-control" id="postal-code" name="postal-code" type="text" placeholder="Postal/Zip Code">
@@ -466,6 +467,7 @@
     <div class="radio">
       <label><input type="radio" name="optradio" value="1">Use a different billing address</label>
     </div>
+    <input type="hidden" id="billingAddrChoice" val="" />
     <div id="billing_info">
       <div class="row">
         <h3 class="panel-title">Billing Information</h3>
@@ -850,15 +852,10 @@
             <option value="WA ">Western Australia</option>
           </select>
           <span class="helper-text"></span>
+          <input type="hidden" id="billingRegionValue" name="billingRegionValue" />
         </div>
         <div class="col-sm-6" id="billingPostal">
           <input class="form-control" id="billingPostal-code" name="billingPostal-code" type="text" placeholder="Postal/Zip Code">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12" id="phonefield">
-          <input class="form-control" id="billingPhone" name="billingPhone" type="text" placeholder="Phone">
-          <span class="helper-text"></span>
         </div>
       </div>
     </div>

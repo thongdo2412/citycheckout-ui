@@ -4,7 +4,7 @@
   <title>City Checkout</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i|Playfair+Display:300,300i,400,400i">
-  <link rel="stylesheet" type="text/css" href="https://s3.us-east-2.amazonaws.com/citycheckout-ui/resources/css/citycheckout.css">
+  <link rel="stylesheet" type="text/css" href="https://checkout.citybeauty.com/resources/css/citycheckout.css">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <!-- Optional theme -->
@@ -18,10 +18,12 @@
   </header>
 
   <!-- Bootstrap inspired Braintree Hosted Fields example -->
-<div class="panel panel-default bootstrap-basic">
+<div class="panel-default bootstrap-basic">
   <form class="panel-body" id="order-form">
-    <input type="hidden" id="amount" value ="25"/>
-    <button value="submit" id="submit" class="btn btn-success btn-lg center-block">Submit Order</button>
+    <p>Do you want to get promotion for first time customer?</p>
+    <button value="submit" id="submit" class="btn btn-success btn-lg center-block">Yes</button>
+    <p></p>
+    <button value="submit" id="NotTakeOffer" class="btn btn-lg center-block">No</button>
   </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -35,7 +37,9 @@
 <!-- Load bluebird for Promise support -->
 <script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>
 <script>
-  const apiUrl = 'https://w6y42oqyoj.execute-api.us-east-2.amazonaws.com/prod/api';
+  const baseUrl = "https://checkout.citybeauty.com";
+  const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
+
   function getParameterByName(name, url) {
       if (!url) url = window.location.href;
       name = name.replace(/[\[\]]/g, "\\$&");
@@ -45,13 +49,44 @@
       if (!results[2]) return '';
       return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
+
   var ccToken = getParameterByName('token');
-  var amount = $('#amount').val();
-  var formdata = {};
-  formdata.amount = parseFloat($('#amount').val());
-  formdata.token = ccToken;
+  var checkoutID = getParameterByName('checkoutid');
+  var clickID = getParameterByName('clickid');
+  var chtx = getParameterByName('chtx');
+
+  var checkouts;
+  var shippingRate;
+  var amountValue;
+  var productValue;
+  $.get(`${apiUrl}/getFunnel`, successGetFN);
+  function successGetFN(data, status) {
+    if (status == 'success') {
+      checkouts = data.checkouts[0];
+      shippingRate = data.shipRate;
+      if (chtx == "1") {
+        amountValue = parseFloat(checkouts.funnels[0].offers[0].product.price) * 1.09;
+      }else {
+        amountValue = parseFloat(checkouts.funnels[0].offers[0].product.price);
+      }
+      productValue = JSON.stringify(checkouts.funnels[0].offers[0].product);
+      console.log(productValue);
+      return;
+    }
+    else {
+      alert("We're having issue with network! Please try again!!");
+      return;
+    }
+  }
+
   $('#submit').click(function (event) {
     event.preventDefault();
+    var formdata = {};
+    formdata.amount = amountValue;
+    formdata.token = ccToken;
+    formdata.product = productValue;
+    formdata.checkoutID = checkoutID;
+    formdata.clickID = clickID;
     $.ajax({
         type: 'POST',
         data: JSON.stringify(formdata),
@@ -59,14 +94,17 @@
         crossDomain: true,
         url: `${apiUrl}/1clickCharge`,
         success: function(data, status){
-          console.log(status);
-          return;
+          window.location = `${baseUrl}/src/thankyou.html?checkoutid=${checkoutID}`;
         },
         error: function (data, status) {
           console.log(status);
           return;
         }
     })
+  });
+  $('#NotTakeOffer').click(function (event) {
+    event.preventDefault();
+    window.location = `${baseUrl}/src/thankyou.html?checkoutid=${checkoutID}`;
   });
 
 </script>

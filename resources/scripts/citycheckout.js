@@ -1,3 +1,7 @@
+  const baseUrl = "https://checkout.citybeauty.com";
+  const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
+  const clickID = "ABCD1234";
+  $('#billingAddrChoice').val("0");
   $("#country").change(function() {
     const country = $(this).find('option:selected').val();
     if (country == 'US') {
@@ -12,6 +16,7 @@
       $('#shippingValueInForm').html(shippingRate.US[0].rate);
       $("#usState").change(function() {
         const state = $(this).find('option:selected').val();
+        $('#regionValue').val(state);
         if (state == 'CA') {
           $('#checkoutTaxLabel').show();
           $('#checkoutTaxValue').show();
@@ -29,7 +34,7 @@
           $('#totalprice').html(totalValue.toFixed(2));
           $('#amount').val(totalValue);
         }
-      })
+      });
       totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html()) + taxValue;
       $('#totalprice').html(totalValue.toFixed(2));
     }else if (country == 'CA'){
@@ -43,6 +48,10 @@
       $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
       $('#shippingRate').html(shippingRate.Canada);
       $('#shippingValueInForm').html(shippingRate.Canada);
+      $("#caProvince").change(function() {
+        const state = $(this).find('option:selected').val();
+        $('#regionValue').val(state);
+      });
       totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html());
       $('#totalprice').html(totalValue.toFixed(2));
       $('#amount').val(totalValue);
@@ -58,6 +67,10 @@
       $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
       $('#shippingRate').html(shippingRate.International);
       $('#shippingValueInForm').html(shippingRate.International);
+      $("#auProvince").change(function() {
+        const state = $(this).find('option:selected').val();
+        $('#regionValue').val(state);
+      });
       totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html());
       $('#totalprice').html(totalValue.toFixed(2));
       $('#amount').val(totalValue);
@@ -71,6 +84,7 @@
       totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html());
       $('#totalprice').html(totalValue.toFixed(2));
       $('#amount').val(totalValue);
+      $('#regionValue').val("");
     }
   });
 
@@ -83,6 +97,10 @@
       $('#billingUSState').show();
       $('#billingCountrySelect').addClass('col-sm-4').removeClass('col-sm-6');
       $('#billingPostal').addClass('col-sm-4').removeClass('col-sm-6');
+      $("#billingUSState").change(function() {
+        const state = $(this).find('option:selected').val();
+        $('#billingRegionValue').val(state);
+      });
     }
     else if (billingCountry == 'CA') {
       $('#billingRegion').show();
@@ -91,6 +109,10 @@
       $('#billingCAProvince').show();
       $('#billingCountrySelect').addClass('col-sm-4').removeClass('col-sm-6');
       $('#billingPostal').addClass('col-sm-4').removeClass('col-sm-6');
+      $("#billingCAProvince").change(function() {
+        const state = $(this).find('option:selected').val();
+        $('#billingRegionValue').val(state);
+      });
     }
     else if (billingCountry == 'AU') {
       $('#billingRegion').show();
@@ -99,15 +121,19 @@
       $('#billingAUProvince').show();
       $('#billingCountrySelect').addClass('col-sm-4').removeClass('col-sm-6');
       $('#billingPostal').addClass('col-sm-4').removeClass('col-sm-6');
+      $("#billingAUProvince").change(function() {
+        const state = $(this).find('option:selected').val();
+        $('#billingRegionValue').val(state);
+      });
     }
     else {
       $('#billingRegion').hide();
       $('#billingCountrySelect').addClass('col-sm-6').removeClass('col-sm-4');
       $('#billingPostal').addClass('col-sm-6').removeClass('col-sm-4');
+      $('#billingRegionValue').val("");
     }
   });
 
-  const apiUrl = 'https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api';
   const stylesConfig = {
     'input': {
       'font-size': '14px',
@@ -212,8 +238,11 @@
         }else {
           var formdata = {};
           formdata.nonce = payload.nonce;
+          formdata.checkoutID = checkoutID;
           formdata.amount = parseFloat($('#amount').val());
           formdata.nameoncard = $('#name-on-card').val();
+
+          //shipping address
           formdata.firstname = $('#fname').val();
           formdata.lastname = $('#lname').val();
           formdata.email = $('#email').val();
@@ -222,16 +251,39 @@
           formdata.extendedAddress = $('#extended-address').val();
           formdata.city = $('#city').val();
           formdata.country = $('#country').val();
-          formdata.usState = $('#usState').val();
-          formdata.caProvince = $('#caProvince').val();
+          formdata.region = $('#regionValue').val();
           formdata.postalCode = $('#postal-code').val();
           formdata.phone = $('#phone').val();
-          formdata.voluumClickID = "ABCD1234";
-          formdata.product = {
-            id: 44739029702,
-            price: "35.00",
-            sku: "CITYADVCLR-FULL-1x"
-          };
+
+          //billing address
+          if ($('#billingAddrChoice').val() == "0") {
+            formdata.billingFirstName = $('#fname').val();
+            formdata.billingLastName = $('#lname').val();
+            formdata.billingCompany = $('#company').val();
+            formdata.billingStreetAddress = $('#shipping-address').val();
+            formdata.extendedBillingAddress = $('#extended-address').val();
+            formdata.billingCity = $('#city').val();
+            formdata.billingCountry = $('#country').val();
+            formdata.billingRegion = $('#regionValue').val();
+            formdata.BillingPostalCode = $('#postal-code').val();
+          }else {
+            formdata.billingFirstName = $('#billingFname').val();
+            formdata.billingLastName = $('#billingLname').val();
+            formdata.billingCompany = $('#billingCompany').val();
+            formdata.billingStreetAddress = $('#billing-address').val();
+            formdata.extendedBillingAddress = $('#extended-billing-address').val();
+            formdata.billingCity = $('#billingCity').val();
+            formdata.billingCountry = $('#billingCountry').val();
+            formdata.billingRegion = $('#billingRegionValue').val();
+            formdata.BillingPostalCode = $('#billingPostal-code').val();
+          }
+
+          formdata.voluumClickID = clickID;
+          formdata.product = checkouts.product;
+          var chTx = "0";
+          if (formdata.region == "CA") {
+            chTx = "1";
+          }
           // console.log(payload.nonce);
           $.ajax({
               type: 'POST',
@@ -240,7 +292,7 @@
               crossDomain: true,
               url: `${apiUrl}/checkout`,
               success: function(data, status){
-                window.location = `https://checkout.citybeauty.com/upsell.html?token=${data.transaction.creditCard.token}`;
+                window.location = `${baseUrl}/src/upsell1.html?token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chTx}&clickid=${clickID}`;
               },
               error: function (data, status) {
                 console.log(status);
@@ -252,14 +304,28 @@
     });
   }
 
+  const checkoutID = getCheckoutID();
+  function getCheckoutID() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 5; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+  }
+
+  var checkouts;
   var shippingRate;
   $.get(`${apiUrl}/getFunnel`, successGetFN);
   function successGetFN(data, status) {
     if (status == 'success') {
-      $('#product_name').html(data.checkouts[0].title);
-      $('#product_price').html(data.checkouts[0].product.price);
-      $('#subtotal').html(data.checkouts[0].product.price);
+      checkouts = data.checkouts[0];
+      $('#product_name').html(checkouts.title);
+      $('#product_price').html(checkouts.product.price);
+      $('#subtotal').html(checkouts.product.price);
       shippingRate = data.shipRate;
+      return;
     }
     else {
       alert("We're having issue with network! Please try again!!");
@@ -270,8 +336,10 @@
   $('input[type=radio][name=optradio]').change(function() {
         if (this.value == '0') {
             $('#billing_info').hide();
+            $('#billingAddrChoice').val("0");
         }
         else if (this.value == '1') {
             $('#billing_info').show();
+            $('#billingAddrChoice').val("1");
         }
     });
