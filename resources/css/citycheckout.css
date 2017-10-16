@@ -84,7 +84,7 @@
     padding:  0 0;
   }
 
-  @media screen and (max-width:991px) {
+  @media screen and (max-width:1199px) {
     .leftbar {border-right: none;}
   }
 

@@ -1,6 +1,5 @@
   const baseUrl = "https://checkout.citybeauty.com";
   const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
-  const clickID = "ABCD1234";
   $('#billingAddrChoice').val("0");
   $("#country").change(function() {
     const country = $(this).find('option:selected').val();
@@ -278,11 +277,14 @@
             formdata.BillingPostalCode = $('#billingPostal-code').val();
           }
 
-          formdata.voluumClickID = clickID;
+          formdata.clickID = clickID;
           formdata.product = checkouts.product;
-          var chTx = "0";
+
           if (formdata.region == "CA") {
-            chTx = "1";
+            formadata.chtx = "1";
+          }
+          else {
+            formadata.chtx = "0";
           }
           // console.log(payload.nonce);
           $.ajax({
@@ -292,7 +294,7 @@
               crossDomain: true,
               url: `${apiUrl}/checkout`,
               success: function(data, status){
-                window.location = `${baseUrl}/src/upsell1.html?token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chTx}&clickid=${clickID}`;
+                window.location = `${baseUrl}/src/upsell1.html?token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chTx}`;
               },
               error: function (data, status) {
                 console.log(status);
@@ -309,7 +311,7 @@
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (var i = 0; i < 5; i++)
+    for (var i = 0; i < 10; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
@@ -331,6 +333,18 @@
       alert("We're having issue with network! Please try again!!");
       return;
     }
+  }
+
+  const clickID = getParameterByName('cid');
+
+  function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
   $('input[type=radio][name=optradio]').change(function() {

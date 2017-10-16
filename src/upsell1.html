@@ -52,7 +52,6 @@
 
   var ccToken = getParameterByName('token');
   var checkoutID = getParameterByName('checkoutid');
-  var clickID = getParameterByName('clickid');
   var chtx = getParameterByName('chtx');
 
   var checkouts;
@@ -69,8 +68,7 @@
       }else {
         amountValue = parseFloat(checkouts.funnels[0].offers[0].product.price);
       }
-      productValue = JSON.stringify(checkouts.funnels[0].offers[0].product);
-      console.log(productValue);
+      productValue = checkouts.funnels[0].offers[0].product;
       return;
     }
     else {
@@ -87,6 +85,7 @@
     formdata.product = productValue;
     formdata.checkoutID = checkoutID;
     formdata.clickID = clickID;
+    formdata.chtx = chtx;
     $.ajax({
         type: 'POST',
         data: JSON.stringify(formdata),
@@ -94,7 +93,7 @@
         crossDomain: true,
         url: `${apiUrl}/1clickCharge`,
         success: function(data, status){
-          window.location = `${baseUrl}/src/thankyou.html?checkoutid=${checkoutID}`;
+          window.location = `https://citybeauty.com/orderconfirmation.php?cid=${checkoutID}`;
         },
         error: function (data, status) {
           console.log(status);
@@ -104,7 +103,7 @@
   });
   $('#NotTakeOffer').click(function (event) {
     event.preventDefault();
-    window.location = `${baseUrl}/src/thankyou.html?checkoutid=${checkoutID}`;
+    window.location = `https://citybeauty.com/orderconfirmation.php?cid=${checkoutID}`;
   });
 
 </script>
