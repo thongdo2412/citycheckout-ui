@@ -84,7 +84,6 @@
     formdata.token = ccToken;
     formdata.product = productValue;
     formdata.checkoutID = checkoutID;
-    formdata.clickID = clickID;
     formdata.chtx = chtx;
     $.ajax({
         type: 'POST',
@@ -93,7 +92,7 @@
         crossDomain: true,
         url: `${apiUrl}/1clickCharge`,
         success: function(data, status){
-          window.location = `https://citybeauty.com/orderconfirmation.php?cid=${checkoutID}`;
+          window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutID}`;
         },
         error: function (data, status) {
           console.log(status);
@@ -103,7 +102,7 @@
   });
   $('#NotTakeOffer').click(function (event) {
     event.preventDefault();
-    window.location = `https://citybeauty.com/orderconfirmation.php?cid=${checkoutID}`;
+    window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutID}`;
   });
 
 </script>

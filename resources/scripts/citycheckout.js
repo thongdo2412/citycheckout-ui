@@ -1,5 +1,6 @@
   const baseUrl = "https://checkout.citybeauty.com";
   const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
+  let chargeTax = "";
   $('#billingAddrChoice').val("0");
   $("#country").change(function() {
     const country = $(this).find('option:selected').val();
@@ -17,6 +18,7 @@
         const state = $(this).find('option:selected').val();
         $('#regionValue').val(state);
         if (state == 'CA') {
+          chargeTax = "1";
           $('#checkoutTaxLabel').show();
           $('#checkoutTaxValue').show();
           taxValue = parseFloat($('#product_price').html()) * .09;
@@ -26,6 +28,7 @@
           $('#amount').val(totalValue);
         }
         else {
+          chargeTax = "0";
           $('#checkoutTaxLabel').hide();
           $('#checkoutTaxValue').hide();
           taxValue = 0.00;
@@ -279,12 +282,13 @@
 
           formdata.clickID = clickID;
           formdata.product = checkouts.product;
-
+          formdata.shipAmount = parseFloat($('#shippingRate').html());
           if (formdata.region == "CA") {
-            formadata.chtx = "1";
+            formdata.chtx = "1";
+
           }
           else {
-            formadata.chtx = "0";
+            formdata.chtx = "0";
           }
           // console.log(payload.nonce);
           $.ajax({
@@ -294,7 +298,7 @@
               crossDomain: true,
               url: `${apiUrl}/checkout`,
               success: function(data, status){
-                window.location = `${baseUrl}/src/upsell1.html?token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chTx}`;
+                window.location = `${baseUrl}/src/upsell1.html?token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chargeTax}`;
               },
               error: function (data, status) {
                 console.log(status);
