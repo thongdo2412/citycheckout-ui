@@ -90,7 +90,7 @@
         data: JSON.stringify(formdata),
         contentType: 'application/json',
         crossDomain: true,
-        url: `${apiUrl}/1clickCharge`,
+        url: `${apiUrl}/aClickCharge`,
         success: function(data, status){
           window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutID}`;
         },
