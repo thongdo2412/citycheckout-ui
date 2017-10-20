@@ -1,6 +1,10 @@
   const baseUrl = "https://checkout.citybeauty.com";
   const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
   let chargeTax = "";
+  let nextpage = "";
+  let pid = "";
+
+  // update the tax value, shipping value and total value
   $('#billingAddrChoice').val("0");
   $("#country").change(function() {
     const country = $(this).find('option:selected').val();
@@ -18,11 +22,21 @@
         const state = $(this).find('option:selected').val();
         $('#regionValue').val(state);
         if (state == 'CA') {
-          chargeTax = "1";
           $('#checkoutTaxLabel').show();
           $('#checkoutTaxValue').show();
           taxValue = parseFloat($('#product_price').html()) * .09;
+          chargeTax = String(value);
           $('#checkoutTaxValue').html(taxValue);
+          totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html()) + taxValue;
+          $('#totalprice').html(totalValue.toFixed(2));
+          $('#amount').val(totalValue);
+        }
+        else if (state == "UT") {
+          chargeTax = "1";
+          $('#checkoutTaxLabel').show();
+          $('#checkoutTaxValue').show();
+          taxValue = parseFloat($('#product_price').html()) * .0676;
+          $('#checkoutTaxValue').html(taxValue.toFixed(2));
           totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html()) + taxValue;
           $('#totalprice').html(totalValue.toFixed(2));
           $('#amount').val(totalValue);
@@ -90,6 +104,8 @@
     }
   });
 
+  // update billing address
+
   $("#billingCountry").change(function() {
     const billingCountry = $(this).find('option:selected').val();
     if (billingCountry == 'US') {
@@ -136,6 +152,8 @@
     }
   });
 
+  // styling for hosted fields
+
   const stylesConfig = {
     'input': {
       'font-size': '14px',
@@ -161,6 +179,7 @@
     }
   };
 
+  // api call for hosted fields
   $.get(`${apiUrl}/client-token`, successGetTK);
 
   function successGetTK(data, status){
@@ -298,7 +317,7 @@
               crossDomain: true,
               url: `${apiUrl}/checkout`,
               success: function(data, status){
-                window.location = `${baseUrl}/src/upsell1.html?token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chargeTax}`;
+                window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chargeTax}`;
               },
               error: function (data, status) {
                 console.log(status);
@@ -326,10 +345,16 @@
   $.get(`${apiUrl}/getFunnel`, successGetFN);
   function successGetFN(data, status) {
     if (status == 'success') {
-      checkouts = data.checkouts[0];
-      $('#product_name').html(checkouts.title);
-      $('#product_price').html(checkouts.product.price);
-      $('#subtotal').html(checkouts.product.price);
+      pagename = getCheckoutNameInURL();
+      checkouts = data.checkouts
+      checkouts.map(function (item) {
+        if (pagename == item.pagename) {
+          $('#product_name').html(item.title);
+          $('#product_price').html(item.product.price);
+          $('#subtotal').html(item.product.price);
+          nextpage = checkout.funnels[0].offers[0].pagename
+        }
+      });
       shippingRate = data.shipRate;
       return;
     }
@@ -338,7 +363,6 @@
       return;
     }
   }
-
   const clickID = getParameterByName('cid');
 
   function getParameterByName(name, url) {
@@ -361,3 +385,9 @@
             $('#billingAddrChoice').val("1");
         }
     });
+
+  function getCheckoutNameInURL(checkoutcode) {
+    const path = window.location.pathname;
+    const pagename = path.split("/").pop();
+    return pagename.split(".html")[0];
+  }
