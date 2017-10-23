@@ -1,6 +1,7 @@
 const baseUrl = "https://checkout.citybeauty.com";
 const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
 var nextpage = "";
+var nopage = "";
 
 function getCheckoutNameInURL(checkoutcode) {
   const path = window.location.pathname;
@@ -37,16 +38,17 @@ function successGetFN(data, status) {
         $('#product_name').html(item.title);
         $('#product_price').html(item.product.price);
         nextpage = item.nextpage;
+        nopage = item.nopage;
+        if (chtx > 0) {
+          amountValue = parseFloat(item.product.price) * (1 + chtx);
+          amountValue = amountValue.toFixed(2);
+        }else {
+          amountValue = parseFloat(item.product.price);
+        }
+        productValue = item.product;
       }
     });
-    shippingRate = data.shipRate;
-    if (chtx > 0) {
-      amountValue = parseFloat(checkouts.funnels[0].offers[0].product.price) * chtx;
-      amountValue = amountValue.toFixed(2);
-    }else {
-      amountValue = parseFloat(checkouts.funnels[0].offers[0].product.price);
-    }
-    productValue = checkouts.funnels[0].offers[0].product;
+
     return;
   }
   else {
@@ -62,7 +64,7 @@ $('#submit').click(function (event) {
   formdata.token = ccToken;
   formdata.product = productValue;
   formdata.checkoutID = checkoutID;
-  formdata.chtx = chtx;
+  formdata.tax_rate = chtx;
   $.ajax({
       type: 'POST',
       data: JSON.stringify(formdata),
@@ -74,7 +76,7 @@ $('#submit').click(function (event) {
           window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutID}`;
         }
         else {
-          window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chargeTax}`;
+          window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chtx}`;
         }
       },
       error: function (data, status) {
@@ -85,5 +87,10 @@ $('#submit').click(function (event) {
 });
 $('#NotTakeOffer').click(function (event) {
   event.preventDefault();
-  window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutID}`;
+  if (nextpage == "orderconfirmation") {
+    window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutID}`;
+  }
+  else {
+    window.location = `${baseUrl}/src/fnl/${nopage}.html?pid=${pid}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chtx}`;
+  }
 });

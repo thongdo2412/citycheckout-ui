@@ -3,13 +3,13 @@
   let chargeTax = "";
   let nextpage = "";
   let pid = "";
-
+  let tax_rate = 0.0;
+  let taxValue = 0.0;
   // update the tax value, shipping value and total value
   $('#billingAddrChoice').val("0");
   $("#country").change(function() {
     const country = $(this).find('option:selected').val();
     if (country == 'US') {
-      taxValue = 0.00;
       $('#region').show();
       $('#caProvince').hide();
       $('#auProvince').hide();
@@ -22,19 +22,21 @@
         const state = $(this).find('option:selected').val();
         $('#regionValue').val(state);
         if (state == 'CA') {
+
           $('#checkoutTaxLabel').show();
           $('#checkoutTaxValue').show();
-          taxValue = parseFloat($('#product_price').html()) * .09;
-          chargeTax = String(value);
+          tax_rate = 0.09
+          taxValue = parseFloat($('#product_price').html()) * tax_rate;
           $('#checkoutTaxValue').html(taxValue);
           totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html()) + taxValue;
           $('#totalprice').html(totalValue.toFixed(2));
           $('#amount').val(totalValue);
         }
         else if (state == "UT") {
-          chargeTax = "1";
+          let taxValue = 0.0;
           $('#checkoutTaxLabel').show();
           $('#checkoutTaxValue').show();
+          tax_rate = 0.676;
           taxValue = parseFloat($('#product_price').html()) * .0676;
           $('#checkoutTaxValue').html(taxValue.toFixed(2));
           totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html()) + taxValue;
@@ -45,8 +47,7 @@
           chargeTax = "0";
           $('#checkoutTaxLabel').hide();
           $('#checkoutTaxValue').hide();
-          taxValue = 0.00;
-          totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html()) + taxValue;
+          totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html());
           $('#totalprice').html(totalValue.toFixed(2));
           $('#amount').val(totalValue);
         }
@@ -302,13 +303,7 @@
           formdata.clickID = clickID;
           formdata.product = checkouts.product;
           formdata.shipAmount = parseFloat($('#shippingRate').html());
-          if (formdata.region == "CA") {
-            formdata.chtx = "1";
-
-          }
-          else {
-            formdata.chtx = "0";
-          }
+          formdata.tax_rate = tax_rate;
           // console.log(payload.nonce);
           $.ajax({
               type: 'POST',
@@ -317,7 +312,7 @@
               crossDomain: true,
               url: `${apiUrl}/checkout`,
               success: function(data, status){
-                window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chargeTax}`;
+                window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${tax_rate}`;
               },
               error: function (data, status) {
                 console.log(status);
@@ -352,7 +347,8 @@
           $('#product_name').html(item.title);
           $('#product_price').html(item.product.price);
           $('#subtotal').html(item.product.price);
-          nextpage = checkout.funnels[0].offers[0].pagename
+          nextpage = item.funnels[0].offers[0].pagename;
+          pid = item.id;
         }
       });
       shippingRate = data.shipRate;
