@@ -19,7 +19,7 @@
   <!-- Bootstrap inspired Braintree Hosted Fields -->
   <div class="container">
 <div class="row">
-  <div class="col-lg-5 col-lg-push-7 col-md-12 col-md-push-0">
+  <div class="col-lg-5 col-lg-push-7 col-md-12 col-md-push-0" id="pricesidebar">
     <div class="panel-body">
       <div class="pull-left" id="product_name">
       </div>
@@ -892,12 +892,24 @@
         </div>
       </div>
     </div>
-
+    <input type="hidden" id="checkoutRoute" value="2" />
     <button value="submit" id="submit" class="btn btn-success btn-lg center-block">SUBMIT ORDER</span></button>
   </form>
 </div>
 </div>
 </div>
+</div>
+<div class="modal js-loading-bar">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-body">
+       <p>Your order will be completed shortly!</p>
+       <div class="progress progress-popup">
+        <div class="progress-bar"></div>
+       </div>
+     </div>
+   </div>
+ </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <!-- Latest compiled and minified JavaScript -->

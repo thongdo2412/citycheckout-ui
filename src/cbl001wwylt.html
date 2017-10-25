@@ -18,37 +18,37 @@
   </header>
   <!-- Bootstrap inspired Braintree Hosted Fields -->
   <div class="container">
-<div class="row">
-  <div class="col-lg-5 col-lg-push-7 col-md-12 col-md-push-0">
-    <div class="panel-body">
-      <div class="pull-left" id="product_name">
+    <div class="row">
+      <div class="col-lg-5 col-lg-push-7 col-md-12 col-md-push-0" id="pricesidebar">
+        <div class="panel-body">
+          <div class="pull-left" id="product_name">
+          </div>
+          <div class="pull-right" id="product_price">
+          </div>
+          <div class="clearfix"></div>
+          <hr>
+          <div class="pull-left">
+            <p>Subtotal</p>
+            <p>Shipping</p>
+            <p id="checkoutTaxLabel">Taxes</p>
+          </div>
+          <div class="pull-right">
+            <p id="subtotal"></p>
+            <p id="shippingRate" class="text-right">&mdash;</p>
+            <p id="checkoutTaxValue" class="text-right"></p>
+          </div>
+          <div class="clearfix"></div>
+          <hr>
+          <div class="pull-left">
+            <p><b>Total</b></p>
+          </div>
+          <div class="pull-right" id="totalprice">
+          </div>
+          <div class="clearfix"></div>
       </div>
-      <div class="pull-right" id="product_price">
-      </div>
-      <div class="clearfix"></div>
-      <hr>
-      <div class="pull-left">
-        <p>Subtotal</p>
-        <p>Shipping</p>
-        <p id="checkoutTaxLabel">Taxes</p>
-      </div>
-      <div class="pull-right">
-        <p id="subtotal"></p>
-        <p id="shippingRate" class="text-right">&mdash;</p>
-        <p id="checkoutTaxValue" class="text-right"></p>
-      </div>
-      <div class="clearfix"></div>
-      <hr>
-      <div class="pull-left">
-        <p><b>Total</b></p>
-      </div>
-      <div class="pull-right" id="totalprice">
-      </div>
-      <div class="clearfix"></div>
-    </div>
   </div>
   <div class="col-lg-7 col-lg-pull-5 col-md-12 col-md-push-0 leftbar">
-<div class="panel-default bootstrap-basic">
+<div class="bootstrap-basic">
   <form class="panel-body" id="order-form">
     <div class="row form-group">
       <input id="amount" name="amount" type="hidden" min="1" value="">
@@ -892,12 +892,24 @@
         </div>
       </div>
     </div>
-
+    <input type="hidden" id="checkoutRoute" value="1" />
     <button value="submit" id="submit" class="btn btn-success btn-lg center-block">SUBMIT ORDER</span></button>
   </form>
 </div>
 </div>
 </div>
+</div>
+<div class="modal js-loading-bar">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-body">
+       <p>Your order will be completed shortly!</p>
+       <div class="progress progress-popup">
+        <div class="progress-bar"></div>
+       </div>
+     </div>
+   </div>
+ </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <!-- Latest compiled and minified JavaScript -->

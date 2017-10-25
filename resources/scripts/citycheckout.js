@@ -1,10 +1,11 @@
   const baseUrl = "https://checkout.citybeauty.com";
   const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
-  let chargeTax = "";
+  const checkoutRoute = parseInt($('#checkoutRoute').val()) - 1;
   let nextpage = "";
-  let pid = "";
   let tax_rate = 0.0;
   let taxValue = 0.0;
+  var checkout = {};
+  var shippingRate = 0.0;
   // update the tax value, shipping value and total value
   $('#billingAddrChoice').val("0");
   $("#country").change(function() {
@@ -22,7 +23,6 @@
         const state = $(this).find('option:selected').val();
         $('#regionValue').val(state);
         if (state == 'CA') {
-
           $('#checkoutTaxLabel').show();
           $('#checkoutTaxValue').show();
           tax_rate = 0.09
@@ -33,10 +33,9 @@
           $('#amount').val(totalValue);
         }
         else if (state == "UT") {
-          let taxValue = 0.0;
           $('#checkoutTaxLabel').show();
           $('#checkoutTaxValue').show();
-          tax_rate = 0.676;
+          tax_rate = 0.0676;
           taxValue = parseFloat($('#product_price').html()) * .0676;
           $('#checkoutTaxValue').html(taxValue.toFixed(2));
           totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html()) + taxValue;
@@ -44,7 +43,6 @@
           $('#amount').val(totalValue);
         }
         else {
-          chargeTax = "0";
           $('#checkoutTaxLabel').hide();
           $('#checkoutTaxValue').hide();
           totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html());
@@ -261,7 +259,7 @@
           var formdata = {};
           formdata.nonce = payload.nonce;
           formdata.checkoutID = checkoutID;
-          formdata.amount = parseFloat($('#amount').val());
+          formdata.amount = parseFloat($('#amount').val()).toFixed(2);
           formdata.nameoncard = $('#name-on-card').val();
 
           //shipping address
@@ -301,21 +299,29 @@
           }
 
           formdata.clickID = clickID;
-          formdata.product = checkouts.product;
+          formdata.product = checkout.product;
           formdata.shipAmount = parseFloat($('#shippingRate').html());
           formdata.tax_rate = tax_rate;
           // console.log(payload.nonce);
+          const $modal = $('.js-loading-bar');
+          const $bar = $modal.find('.progress-bar');
           $.ajax({
               type: 'POST',
               data: JSON.stringify(formdata),
               contentType: 'application/json',
               crossDomain: true,
               url: `${apiUrl}/checkout`,
+              beforeSend: function() {
+                $modal.modal('show');
+                $bar.addClass('animate');
+              },
               success: function(data, status){
-                window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${tax_rate}`;
+                $bar.removeClass('animate');
+                $modal.modal('hide');
+                window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${checkoutRoute}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${tax_rate}`;
               },
               error: function (data, status) {
-                console.log(status);
+                alert("We're having network issue!! Please try again.");
                 return;
               }
           })
@@ -335,22 +341,14 @@
     return text;
   }
 
-  var checkouts;
-  var shippingRate;
   $.get(`${apiUrl}/getFunnel`, successGetFN);
   function successGetFN(data, status) {
     if (status == 'success') {
-      pagename = getCheckoutNameInURL();
-      checkouts = data.checkouts
-      checkouts.map(function (item) {
-        if (pagename == item.pagename) {
-          $('#product_name').html(item.title);
-          $('#product_price').html(item.product.price);
-          $('#subtotal').html(item.product.price);
-          nextpage = item.funnels[0].offers[0].pagename;
-          pid = item.id;
-        }
-      });
+      checkout = data.checkouts[checkoutRoute]
+      $('#product_name').html(checkout.title);
+      $('#product_price').html(checkout.product.price);
+      $('#subtotal').html(checkout.product.price);
+      nextpage = checkout.funnels[0].offers[0].pagename;
       shippingRate = data.shipRate;
       return;
     }
@@ -381,9 +379,3 @@
             $('#billingAddrChoice').val("1");
         }
     });
-
-  function getCheckoutNameInURL(checkoutcode) {
-    const path = window.location.pathname;
-    const pagename = path.split("/").pop();
-    return pagename.split(".html")[0];
-  }

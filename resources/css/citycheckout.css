@@ -9,6 +9,7 @@
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
     font-weight: 300;
+    /* background-color: #f8f9f9!important; */
   }
 
   header img{
@@ -86,10 +87,15 @@
     font-size: 20px;
   }
 
-  .price-sidebar {
+  .progress-bar.animate {
+    width: 100%;
+  }
+
+  #pricesidebar {
     min-height:100%;
-    background-color: #f8f9f9;
-    padding:  0 0;
+    /* background-color: #f8f9f9!important; */
+    padding: 0 0;
+    margin-top: 14px;
   }
 
   @media screen and (max-width:1199px) {

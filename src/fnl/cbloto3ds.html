@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>City Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i|Playfair+Display:300,300i,400,400i">
+  <link rel="stylesheet" type="text/css" href="https://checkout.citybeauty.com/resources/css/citycheckout.css">
+  <link rel="stylesheet" type="text/css" href="https://checkout.citybeauty.com/resources/css/upsell.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+  <header class="centered_flex">
+    <div class="container">
+     <img src="https://checkout.citybeauty.com/resources/img/city-beauty-logo.png" alt="citylogo">
+    </div>
+  </header>
+
+  <div class="center"><img src="https://checkout.citybeauty.com/resources/img/city-below-logo.png" alt="" class="src"></div>
+  <div class="wait"><div id="wait-insidetxt">Last Chance To Get City Lips <br>For An Unbeatable Price</div></div>
+  <div class="topOffer center">Get 3 Tubes of City Lips<span class="reg">&reg;</span> <br>Added To Your Order For Just $25 Each</div>
+  <div class="center polygonWrap"><img src="https://checkout.citybeauty.com/resources/img/polygon.png" alt="" height="20px"></div>
+    <div class="heroContent center">
+      <div class="row">
+        <div class="col-xs-5"><img src="https://checkout.citybeauty.com/resources/img/citylips-1.png" alt=""/></div>
+        <div class="col-xs-7 offer-breakdown">
+          <h3>Add Just 3 Tubes of City Lips <br>And Save $20 Off Regular Price</h3>
+          <p class="fnt24">Was: <s>$35 per tube</s><br>Now: $25 per tube </p>
+          <p class="fnt24">You Save: $30*</p>
+          <p>&nbsp;</p>
+          <p>*This is a one-time opportunity and <br>only available as an add-on to your current order</p>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  
+  <div class="clear"></div>
+  
+  <div class="content">
+    <h3>Why Are We Doing This?</h3>
+    <p>I understand that adding 6 tubes might feel like a lot. Especially if this is your first time experiencing this amazing formula.</p>
+    <p>But I don't want you to miss out on this opportunity. Never will you find City Lips for only $25 per tube.</p>
+    <p>That's why I'm giving you this chance. So you can add just 3 tubes to your order and still get the best price on City Lips.</p>
+  
+    <h3>Don't Decide Today</h3>
+    <p>As always...your order is backed by our 60-day money back guarantee. If you're not completely satisfied - for whatever reason - just send it back for an immediate refund.</p>
+    <p>Click below to add this special to your order for only $25 per tube.</p>
+
+    <div class="upsell-panel panel-default bootstrap-basic">
+      <form class="panel-body" id="order-form">
+        <button value="submit" id="submit" class="btn btn-success usbtn-lg center-block">Yes, I want this special added to my order!</button>
+        <p></p>
+        <p>Or...&nbsp;</p>
+        <button id="NotTakeOffer" class="btn usbtn-lg center-block">No thanks, I understand I won't see this offer again</button>
+      </form>
+    </div>
+      <div class="mbg center">
+        <p>As always, your entire order is backed by our <u>100% Money Back Guarantee</u>. If you don't fall in love with City Lips<span class="reg">&reg;</span> right away, call us and we'll refund every penny.</p>
+        <p><b>We want you to have a superior customer experience.</b></p>
+        <p>That's why our customer support experts are available by phone 7 days a week.</p> 
+        <p>That's also why we make sure your order leaves our warehouse <u>next-day or faster</u>. You'll receive an email with shipment tracking as soon as your order is shipped.</p>
+        <p>If you have any questions of concerns about your order, just give us a call at 1-800-347-1558.</p>
+      </div>
+      <p>&nbsp;</p>
+  </div>
+  
+<div class="modal js-loading-bar">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-body">
+       <p>Your order will be completed shortly!</p>
+       <div class="progress progress-popup">
+        <div class="progress-bar"></div>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Load bluebird for Promise support -->
+<script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>
+<script src="https://checkout.citybeauty.com/resources/scripts/upsell.js"></script>
+</body>
+</html>

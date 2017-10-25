@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>City Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i|Playfair+Display:300,300i,400,400i">
+  <link rel="stylesheet" type="text/css" href="https://checkout.citybeauty.com/resources/css/citycheckout.css">
+  <link rel="stylesheet" type="text/css" href="https://checkout.citybeauty.com/resources/css/upsell.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+  <header class="centered_flex">
+    <div class="container">
+     <img src="https://checkout.citybeauty.com/resources/img/city-beauty-logo.png" alt="citylogo">
+    </div>
+  </header>
+
+  <div class="center"><img src="https://checkout.citybeauty.com/resources/img/city-below-logo.png" alt="" class="src"></div>
+  <div class="wait"><div id="wait-insidetxt">You've Been Randomly Selected <br>for the Following Special Offer...</div></div>
+  <div class="topOffer center">Add 4 Tubes of City Lips<span class="reg">&reg;</span> Added To Your Order <br>and <b>Save $40</b> Off Regular Price</div>
+  <div class="center polygonWrap"><img src="https://checkout.citybeauty.com/resources/img/polygon.png" alt="" height="20px"></div>
+    <div class="heroOffer center">
+      <div class="heroContent">
+        <div class="row">
+          <div class="col-xs-6" id="product-Shot">
+            <img id="product-img" src="https://checkout.citybeauty.com/resources/img/citylips-1.png" alt=""/><br/>
+            <p>Regularly: <s>$35</s> <small>each</small><br>
+              Now Only: $25 <small>each</small></p>
+          </div>
+          <div class="col-xs-6 offer-breakdown">
+              <img src="https://checkout.citybeauty.com/resources/img/citylips-beforeafter.png" alt="/">
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  
+  <div class="clear"></div>
+  
+  <div class="content">
+    <h3>Why Are We Doing This?</h3>
+    <p>If you're anything like our current customers...you'll notice that...the more you use City Lips<span class="reg">&reg;</span>...the better your lips will look and feel.</p>
+    <p>So just imagine, 30 days from today...</p>
+    <p>When you look in the mirror and see the lips you've always dreamed of. </p>
+    <p>Around that time...you'll also be finishing your first tube...</p>
+    <p>...that's when you'll look back to this day and be glad you took advantage of this opportunity to stock up and save.</p>
+    <p>This is a <u>one-time offer</u> and <u><b>only available as an add-on</b></u> to your current order.</p>
+    <p>With this add-on, we're able to save on the cost of processing and shipping - savings that we pass on to you. It creates the rare chance for us to offer City Lips<span class="reg">&reg;</span> at ridiculously low prices.</p>
+    <p>When stored in normal conditions, you know...a cool, dry place like your cabinet or make up drawer, City Lips<span class="reg">&reg;</span> will keep for a minimum of 2 years. 
+      Plenty of time to enjoy the formula before there's even a chance of it going bad.</p>
+    <p>While trends might come and go...<u>sexy, plump lips are always in style</u>.</p>
+    <p>And since City Lips<span class="reg">&reg;</span> is actually good for you in the long-run, you can now use it as much as you like, without worrying about running out anytime soon.</p>
+    <p>Click below to add 4 tubes to your order for only $100 + Free Shipping</p>
+
+    <div class="upsell-panel panel-default bootstrap-basic">
+      <form class="panel-body" id="order-form">
+        <button value="submit" id="submit" class="btn btn-success usbtn-lg center-block">Yes, I want this special added to my order!</button>
+        <p></p>
+        <p>Or...&nbsp;</p>
+        <button id="NotTakeOffer" class="btn usbtn-lg center-block">No thanks, I understand I won't see this offer again</button>
+      </form>
+    </div>
+      <div class="mbg center">
+        <p>As always, your entire order is backed by our <u>100% Money Back Guarantee</u>. If you don't fall in love with City Lips<span class="reg">&reg;</span> right away, call us and we'll refund every penny.</p>
+        <p><b>We want you to have a superior customer experience.</b></p>
+        <p>That's why our customer support experts are available by phone 7 days a week.</p> 
+        <p>That's also why we make sure your order leaves our warehouse <u>next-day or faster</u>. You'll receive an email with shipment tracking as soon as your order is shipped.</p>
+        <p>If you have any questions of concerns about your order, just give us a call at 1-800-347-1558.</p>
+      </div>
+      <p>&nbsp;</p>
+  </div>
+  
+<div class="modal js-loading-bar">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-body">
+       <p>Your order will be completed shortly!</p>
+       <div class="progress progress-popup">
+        <div class="progress-bar"></div>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Load bluebird for Promise support -->
+<script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>
+<script src="https://checkout.citybeauty.com/resources/scripts/upsell.js"></script>
+</body>
+</html>

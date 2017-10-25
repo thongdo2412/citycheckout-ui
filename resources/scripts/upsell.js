@@ -19,10 +19,10 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-var ccToken = getParameterByName('token');
-var checkoutID = getParameterByName('checkoutid');
-var chtx = parseFloat(getParameterByName('chtx'));
-var pid = getParameterByName('pid');
+const ccToken = getParameterByName('token');
+const checkoutID = getParameterByName('checkoutid');
+const chtx = parseFloat(getParameterByName('chtx'));
+const pid = getParameterByName('pid');
 var checkouts;
 var shippingRate;
 var amountValue;
@@ -30,13 +30,10 @@ var productValue;
 $.get(`${apiUrl}/getFunnel`, successGetFN);
 function successGetFN(data, status) {
   if (status == 'success') {
-    pagename = getCheckoutNameInURL();
-    num = parseInt(pid.slice(-1)) - 1;
-    offers = data.checkouts[num].funnels[0].offers;
+    const pagename = getCheckoutNameInURL();
+    offers = data.checkouts[pid].funnels[0].offers;
     offers.map(function (item) {
       if (pagename == item.pagename) {
-        $('#product_name').html(item.title);
-        $('#product_price').html(item.product.price);
         nextpage = item.nextpage;
         nopage = item.nopage;
         if (chtx > 0) {
@@ -48,7 +45,6 @@ function successGetFN(data, status) {
         productValue = item.product;
       }
     });
-
     return;
   }
   else {
@@ -65,13 +61,21 @@ $('#submit').click(function (event) {
   formdata.product = productValue;
   formdata.checkoutID = checkoutID;
   formdata.tax_rate = chtx;
+  const $modal = $('.js-loading-bar');
+  const $bar = $modal.find('.progress-bar');
   $.ajax({
       type: 'POST',
       data: JSON.stringify(formdata),
       contentType: 'application/json',
       crossDomain: true,
       url: `${apiUrl}/aClickCharge`,
+      beforeSend: function() {
+        $modal.modal('show');
+        $bar.addClass('animate');
+      },
       success: function(data, status){
+        $bar.removeClass('animate');
+        $modal.modal('hide');
         if (nextpage == "orderconfirmation") {
           window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutID}`;
         }
@@ -80,7 +84,7 @@ $('#submit').click(function (event) {
         }
       },
       error: function (data, status) {
-        console.log(status);
+        alert("We're having network issue!! Please try again.");
         return;
       }
   })
@@ -91,6 +95,6 @@ $('#NotTakeOffer').click(function (event) {
     window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutID}`;
   }
   else {
-    window.location = `${baseUrl}/src/fnl/${nopage}.html?pid=${pid}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${chtx}`;
+    window.location = `${baseUrl}/src/fnl/${nopage}.html?pid=${pid}&token=${ccToken}&checkoutid=${checkoutID}&chtx=${chtx}`;
   }
 });
