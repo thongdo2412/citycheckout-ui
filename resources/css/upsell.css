@@ -10,7 +10,7 @@
   h3{font-size: 20px!important;}
   b{font-weight: 700;}
   .wait {background: url('https://checkout.citybeauty.com/resources/img/wait-US.png') no-repeat top center; 
-    font-size: 23px; height: 158px; margin: 0 auto;margin-top: 10px;padding: 44px 0 0 250px;}
+    font-size: 23px; height: 158px; margin: 0 auto;margin-top: 20px;padding: 44px 0 0 250px;}
   #wait-insidetxt {
       font-size: 26px; margin: 0 auto; width: 400px;
   }
@@ -31,13 +31,17 @@
     margin-top:-20px;
     padding: 40px 0;
   }
+  .progress-bar.animate {
+    width: 100%;
+  }
   #product-Shot {font-size: 23px;}
   #product-img {width: 140px;}
   .offer-breakdown{padding-top: 50px;}
-  #color-tubes {font-size: 23px;}
+  #color-tubes, #color-tubes-3 {font-size: 23px;}
+  #color-tubes-3 img {width: 480px;}
   #color-tubes img {width: 690px;}
   #colortubes-content-6 {width: 960px;margin: 0 auto;}
-  #colortubes-content-3 {width: 710px;margin: 0 auto;}
+  #colortubes-content-3 {width: 750px;margin: 0 auto;}
   .fnt24{font-size: 25px;}
   .fnt27{font-size: 27px;}
   .ftn36{font-size: 36px;}

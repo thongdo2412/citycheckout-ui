@@ -98,3 +98,11 @@ $('#NotTakeOffer').click(function (event) {
     window.location = `${baseUrl}/src/fnl/${nopage}.html?pid=${pid}&token=${ccToken}&checkoutid=${checkoutID}&chtx=${chtx}`;
   }
 });
+
+$("#submit").on('touchstart', function(event) {
+  $(this).trigger('click');
+});
+
+$("#NotTakeOffer").on('touchstart', function(event) {
+  $(this).trigger('click');
+});

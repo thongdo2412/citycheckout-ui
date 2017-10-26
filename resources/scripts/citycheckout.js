@@ -1,9 +1,10 @@
   const baseUrl = "https://checkout.citybeauty.com";
   const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
-  const checkoutRoute = parseInt($('#checkoutRoute').val()) - 1;
-  let nextpage = "";
-  let tax_rate = 0.0;
-  let taxValue = 0.0;
+  var checkoutRoute;
+  checkoutRoute = parseInt($('#checkoutRoute').val()) - 1;
+  var nextpage = "";
+  var tax_rate = 0.0;
+  var taxValue = 0.0;
   var checkout = {};
   var shippingRate = 0.0;
   // update the tax value, shipping value and total value
@@ -378,4 +379,7 @@
             $('#billing_info').show();
             $('#billingAddrChoice').val("1");
         }
+    });
+    $("#submit").on('touchstart', function(event) {
+      $(this).trigger('click');
     });
