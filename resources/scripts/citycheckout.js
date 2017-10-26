@@ -250,6 +250,182 @@
         $('#card-type').text('Card');
       }
     });
+    $('#order_form').bootstrapValidator({
+      // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+      feedbackIcons: {
+          valid: 'glyphicon glyphicon-ok',
+          invalid: 'glyphicon glyphicon-remove',
+          validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+          fname: {
+              validators: {
+                      stringLength: {
+                      min: 2,
+                  },
+                      notEmpty: {
+                      message: 'Please supply your first name'
+                  }
+              }
+          },
+          billingFname: {
+            validators: {
+                    stringLength: {
+                    min: 2,
+                },
+                    notEmpty: {
+                    message: 'Please supply your first name'
+                }
+            }
+          },
+           lname: {
+              validators: {
+                   stringLength: {
+                      min: 2,
+                  },
+                  notEmpty: {
+                      message: 'Please supply your last name'
+                  }
+              }
+          },
+          billingLname: {
+            validators: {
+                    stringLength: {
+                    min: 2,
+                },
+                    notEmpty: {
+                    message: 'Please supply your first name'
+                }
+            }
+          },
+          email: {
+              validators: {
+                  notEmpty: {
+                      message: 'Please supply your email address'
+                  },
+                  emailAddress: {
+                      message: 'Please supply a valid email address'
+                  }
+              }
+          },
+          phone: {
+              validators: {
+                  notEmpty: {
+                      message: 'Please supply your phone number'
+                  },
+                  phone: {
+                      country: 'US',
+                      message: 'Please supply a vaild phone number with area code'
+                  }
+              }
+          },
+          shipping_address: {
+              validators: {
+                   stringLength: {
+                      min: 8,
+                  },
+                  notEmpty: {
+                      message: 'Please supply your street address'
+                  }
+              }
+          },
+          extended_address: {
+            validators: {
+                 stringLength: {
+                    min: 8,
+                },
+                notEmpty: {
+                    message: 'Please supply your street address'
+                }
+            }
+          },
+          billing_address: {
+            validators: {
+                 stringLength: {
+                    min: 8,
+                },
+                notEmpty: {
+                    message: 'Please supply your street address'
+                }
+            }
+          },
+          extended_billing_address: {
+            validators: {
+               stringLength: {
+                  min: 8,
+              },
+              notEmpty: {
+                  message: 'Please supply your street address'
+              }
+            }
+          },
+          city: {
+              validators: {
+                   stringLength: {
+                      min: 4,
+                  },
+                  notEmpty: {
+                      message: 'Please supply your city'
+                  }
+              }
+          },
+          billingCity: {
+            validators: {
+                 stringLength: {
+                    min: 4,
+                },
+                notEmpty: {
+                    message: 'Please supply your city'
+                }
+            }
+          },
+          state: {
+              validators: {
+                  notEmpty: {
+                      message: 'Please select your state'
+                  }
+              }
+          },
+          zip: {
+              validators: {
+                  notEmpty: {
+                      message: 'Please supply your zip code'
+                  },
+                  zipCode: {
+                      country: 'US',
+                      message: 'Please supply a vaild zip code'
+                  }
+              }
+          },
+          comment: {
+              validators: {
+                    stringLength: {
+                      min: 10,
+                      max: 200,
+                      message:'Please enter at least 10 characters and no more than 200'
+                  },
+                  notEmpty: {
+                      message: 'Please supply a description of your project'
+                  }
+                  }
+              }
+          }
+      })
+      .on('success.form.bv', function(e) {
+          $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
+              $('#contact_form').data('bootstrapValidator').resetForm();
+
+          // Prevent form submission
+          e.preventDefault();
+
+          // Get the form instance
+          var $form = $(e.target);
+
+          // Get the BootstrapValidator instance
+          var bv = $form.data('bootstrapValidator');
+
+      });
+
     $('#submit').click(function (event) {
       event.preventDefault();
       hostedFieldsInstance.tokenize(function (err, payload) {
@@ -268,12 +444,12 @@
           formdata.lastname = $('#lname').val();
           formdata.email = $('#email').val();
           formdata.company = $('#company').val();
-          formdata.streetAddress = $('#shipping-address').val();
-          formdata.extendedAddress = $('#extended-address').val();
+          formdata.streetAddress = $('#shipping_address').val();
+          formdata.extendedAddress = $('#extended_address').val();
           formdata.city = $('#city').val();
           formdata.country = $('#country').val();
           formdata.region = $('#regionValue').val();
-          formdata.postalCode = $('#postal-code').val();
+          formdata.postalCode = $('#postal_code').val();
           formdata.phone = $('#phone').val();
 
           //billing address
@@ -281,22 +457,22 @@
             formdata.billingFirstName = $('#fname').val();
             formdata.billingLastName = $('#lname').val();
             formdata.billingCompany = $('#company').val();
-            formdata.billingStreetAddress = $('#shipping-address').val();
-            formdata.extendedBillingAddress = $('#extended-address').val();
+            formdata.billingStreetAddress = $('#shipping_address').val();
+            formdata.extendedBillingAddress = $('#extended_address').val();
             formdata.billingCity = $('#city').val();
             formdata.billingCountry = $('#country').val();
             formdata.billingRegion = $('#regionValue').val();
-            formdata.BillingPostalCode = $('#postal-code').val();
+            formdata.BillingPostalCode = $('#postal_code').val();
           }else {
             formdata.billingFirstName = $('#billingFname').val();
             formdata.billingLastName = $('#billingLname').val();
             formdata.billingCompany = $('#billingCompany').val();
-            formdata.billingStreetAddress = $('#billing-address').val();
-            formdata.extendedBillingAddress = $('#extended-billing-address').val();
+            formdata.billingStreetAddress = $('#billing_address').val();
+            formdata.extendedBillingAddress = $('#extended_billing_address').val();
             formdata.billingCity = $('#billingCity').val();
             formdata.billingCountry = $('#billingCountry').val();
             formdata.billingRegion = $('#billingRegionValue').val();
-            formdata.BillingPostalCode = $('#billingPostal-code').val();
+            formdata.BillingPostalCode = $('#billingPostal_code').val();
           }
 
           formdata.clickID = clickID;
