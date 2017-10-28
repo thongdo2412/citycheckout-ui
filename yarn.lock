@@ -1193,6 +1193,10 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
+icheck-bootstrap@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/icheck-bootstrap/-/icheck-bootstrap-1.0.7.tgz#412180c9c2fa33a0f4f3e5fbb5232f44d6ad3efc"
+
 iconv-lite@^0.4.17, iconv-lite@~0.4.13:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"

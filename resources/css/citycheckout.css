@@ -90,6 +90,18 @@
   .progress-bar.animate {
     width: 100%;
   }
+  #companywrapper {
+    margin-bottom: 16px;
+  }
+  #billingcompanywrapper{
+    margin-bottom: 14px;
+  }
+  #shipping_info, #billing_info {
+   padding-bottom: 20px;
+  }
+  #PP_payment {
+    display: none;
+  }
 
   #pricesidebar {
     min-height:100%;
