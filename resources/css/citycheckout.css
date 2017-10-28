@@ -73,7 +73,7 @@
   #checkoutTaxLabel, #checkoutTaxValue, #billing_info {display: none;}
   #totalprice {font-size: 18px;font-weight: 400;}
   #region, #billingRegion {display: none;}
-  #card-detail-heading {margin-left: -15px;}
+  .card-detail-heading {margin-left: -15px;}
   .btn-lg {width: 100%;height: 60px;}
   .usbtn-lg {width: 80%;height: 60px;}
   .leftbar {

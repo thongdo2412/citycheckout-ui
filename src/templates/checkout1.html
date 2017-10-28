@@ -865,19 +865,18 @@
     <div>Standard Shipping (3-5 Business Days): <span id="shippingValueInForm"></span></div>
   </div>
   <h3 class="panel-title" id="card-detail-heading">Payment Information</h3>
-  <p class="smallsize">All transactions are secured and encrypted.</p>
+  <p class="smallsize card-detail-heading">All transactions are secured and encrypted.</p>
     <div class="radio">
       <label><input type="radio" name="paymentradio" value="0">Use Paypal</label>
+      <p></p>
+      <div id="PP_payment"><div id="paypal-button"></div></div>
     </div>
     <div class="radio">
       <label><input type="radio" name="paymentradio" value="1" checked="">Use Credit Card</label>
     </div>
     <input type="hidden" id="paymentChoice" value="1" />
-  <div id="PP_payment">
-      <div id="paypal-button"></div>
-  </div>
   <div id="BT_payment">
-    <p id="card-detail-heading">Enter Card Details</p>
+    <p>Enter Card Details</p>
     <p></p>
     <div class="row">
       <div class="col-sm-12">

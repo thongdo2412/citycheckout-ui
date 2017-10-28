@@ -239,76 +239,7 @@
           onAuthorize: function (data, actions) {
             return paypalCheckoutInstance.tokenizePayment(data)
               .then(function (payload) {
-                var formdata = {};
-                formdata.nonce = payload.nonce;
-                formdata.checkoutID = checkoutID;
-                formdata.amount = parseFloat($('#amount').val()).toFixed(2);
-                formdata.nameoncard = $('#name-on-card').val();
-    
-                //shipping address
-                formdata.firstname = $('#fname').val();
-                formdata.lastname = $('#lname').val();
-                formdata.email = $('#email').val();
-                formdata.company = $('#company').val();
-                formdata.streetAddress = $('#shipping_address').val();
-                formdata.extendedAddress = $('#extended_address').val();
-                formdata.city = $('#city').val();
-                formdata.country = $('#country').val();
-                formdata.region = $('#regionValue').val();
-                formdata.postalCode = $('#postal_code').val();
-                formdata.phone = $('#phone').val();
-    
-                //billing address
-                if ($('#billingAddrChoice').val() == "0") {
-                  formdata.billingFirstName = $('#fname').val();
-                  formdata.billingLastName = $('#lname').val();
-                  formdata.billingCompany = $('#company').val();
-                  formdata.billingStreetAddress = $('#shipping_address').val();
-                  formdata.extendedBillingAddress = $('#extended_address').val();
-                  formdata.billingCity = $('#city').val();
-                  formdata.billingCountry = $('#country').val();
-                  formdata.billingRegion = $('#regionValue').val();
-                  formdata.BillingPostalCode = $('#postal_code').val();
-                }else {
-                  formdata.billingFirstName = $('#billingFname').val();
-                  formdata.billingLastName = $('#billingLname').val();
-                  formdata.billingCompany = $('#billingCompany').val();
-                  formdata.billingStreetAddress = $('#billing_address').val();
-                  formdata.extendedBillingAddress = $('#extended_billing_address').val();
-                  formdata.billingCity = $('#billingCity').val();
-                  formdata.billingCountry = $('#billingCountry').val();
-                  formdata.billingRegion = $('#billingRegionValue').val();
-                  formdata.BillingPostalCode = $('#billingPostal_code').val();
-                }
-    
-                formdata.clickID = clickID;
-                formdata.product = checkout.product;
-                formdata.shipAmount = parseFloat($('#shippingRate').html());
-                formdata.tax_rate = tax_rate;
-                // console.log(payload.nonce);
-                const $modal = $('.js-loading-bar');
-                const $bar = $modal.find('.progress-bar');
-                
-                $.ajax({
-                    type: 'POST',
-                    data: JSON.stringify(formdata),
-                    contentType: 'application/json',
-                    crossDomain: true,
-                    url: `${apiUrl}/checkout`,
-                    beforeSend: function() {
-                      $modal.modal('show');
-                      $bar.addClass('animate');
-                    },
-                    success: function(data, status){
-                      $bar.removeClass('animate');
-                      $modal.modal('hide');
-                      window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${checkoutRoute}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${tax_rate}`;
-                    },
-                    error: function (data, status) {
-                      alert("We're having network issue!! Please try again.");
-                      return;
-                    }
-                })
+                return checkoutBT(payload);
               });
           },
 
@@ -390,80 +321,84 @@
               console.error(err);
               return;
             }else {
-              var formdata = {};
-              formdata.nonce = payload.nonce;
-              formdata.checkoutID = checkoutID;
-              formdata.amount = parseFloat($('#amount').val()).toFixed(2);
-              formdata.nameoncard = $('#name-on-card').val();
-  
-              //shipping address
-              formdata.firstname = $('#fname').val();
-              formdata.lastname = $('#lname').val();
-              formdata.email = $('#email').val();
-              formdata.company = $('#company').val();
-              formdata.streetAddress = $('#shipping_address').val();
-              formdata.extendedAddress = $('#extended_address').val();
-              formdata.city = $('#city').val();
-              formdata.country = $('#country').val();
-              formdata.region = $('#regionValue').val();
-              formdata.postalCode = $('#postal_code').val();
-              formdata.phone = $('#phone').val();
-  
-              //billing address
-              if ($('#billingAddrChoice').val() == "0") {
-                formdata.billingFirstName = $('#fname').val();
-                formdata.billingLastName = $('#lname').val();
-                formdata.billingCompany = $('#company').val();
-                formdata.billingStreetAddress = $('#shipping_address').val();
-                formdata.extendedBillingAddress = $('#extended_address').val();
-                formdata.billingCity = $('#city').val();
-                formdata.billingCountry = $('#country').val();
-                formdata.billingRegion = $('#regionValue').val();
-                formdata.BillingPostalCode = $('#postal_code').val();
-              }else {
-                formdata.billingFirstName = $('#billingFname').val();
-                formdata.billingLastName = $('#billingLname').val();
-                formdata.billingCompany = $('#billingCompany').val();
-                formdata.billingStreetAddress = $('#billing_address').val();
-                formdata.extendedBillingAddress = $('#extended_billing_address').val();
-                formdata.billingCity = $('#billingCity').val();
-                formdata.billingCountry = $('#billingCountry').val();
-                formdata.billingRegion = $('#billingRegionValue').val();
-                formdata.BillingPostalCode = $('#billingPostal_code').val();
-              }
-  
-              formdata.clickID = clickID;
-              formdata.product = checkout.product;
-              formdata.shipAmount = parseFloat($('#shippingRate').html());
-              formdata.tax_rate = tax_rate;
-              // console.log(payload.nonce);
-              const $modal = $('.js-loading-bar');
-              const $bar = $modal.find('.progress-bar');
-              $.ajax({
-                  type: 'POST',
-                  data: JSON.stringify(formdata),
-                  contentType: 'application/json',
-                  crossDomain: true,
-                  url: `${apiUrl}/checkout`,
-                  beforeSend: function() {
-                    $modal.modal('show');
-                    $bar.addClass('animate');
-                  },
-                  success: function(data, status){
-                    $bar.removeClass('animate');
-                    $modal.modal('hide');
-                    window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${checkoutRoute}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${tax_rate}`;
-                  },
-                  error: function (data, status) {
-                    alert("We're having network issue!! Please try again.");
-                    return;
-                  }
-              })
+              return checkoutBT(payload);
             }
           });
           event.preventDefault();
     });
     
+  }
+
+  function checkoutBT (payload) {
+    var formdata = {};
+    formdata.nonce = payload.nonce;
+    formdata.checkoutID = checkoutID;
+    formdata.amount = parseFloat($('#amount').val()).toFixed(2);
+    formdata.nameoncard = $('#name-on-card').val();
+
+    //shipping address
+    formdata.firstname = $('#fname').val();
+    formdata.lastname = $('#lname').val();
+    formdata.email = $('#email').val();
+    formdata.company = $('#company').val();
+    formdata.streetAddress = $('#shipping_address').val();
+    formdata.extendedAddress = $('#extended_address').val();
+    formdata.city = $('#city').val();
+    formdata.country = $('#country').val();
+    formdata.region = $('#regionValue').val();
+    formdata.postalCode = $('#postal_code').val();
+    formdata.phone = $('#phone').val();
+
+    //billing address
+    if ($('#billingAddrChoice').val() == "0") {
+      formdata.billingFirstName = $('#fname').val();
+      formdata.billingLastName = $('#lname').val();
+      formdata.billingCompany = $('#company').val();
+      formdata.billingStreetAddress = $('#shipping_address').val();
+      formdata.extendedBillingAddress = $('#extended_address').val();
+      formdata.billingCity = $('#city').val();
+      formdata.billingCountry = $('#country').val();
+      formdata.billingRegion = $('#regionValue').val();
+      formdata.BillingPostalCode = $('#postal_code').val();
+    }else {
+      formdata.billingFirstName = $('#billingFname').val();
+      formdata.billingLastName = $('#billingLname').val();
+      formdata.billingCompany = $('#billingCompany').val();
+      formdata.billingStreetAddress = $('#billing_address').val();
+      formdata.extendedBillingAddress = $('#extended_billing_address').val();
+      formdata.billingCity = $('#billingCity').val();
+      formdata.billingCountry = $('#billingCountry').val();
+      formdata.billingRegion = $('#billingRegionValue').val();
+      formdata.BillingPostalCode = $('#billingPostal_code').val();
+    }
+
+    formdata.clickID = clickID;
+    formdata.product = checkout.product;
+    formdata.shipAmount = parseFloat($('#shippingRate').html());
+    formdata.tax_rate = tax_rate;
+    // console.log(payload.nonce);
+    const $modal = $('.js-loading-bar');
+    const $bar = $modal.find('.progress-bar');
+    $.ajax({
+        type: 'POST',
+        data: JSON.stringify(formdata),
+        contentType: 'application/json',
+        crossDomain: true,
+        url: `${apiUrl}/checkout`,
+        beforeSend: function() {
+          $modal.modal('show');
+          $bar.addClass('animate');
+        },
+        success: function(data, status){
+          $bar.removeClass('animate');
+          $modal.modal('hide');
+          window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${checkoutRoute}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${tax_rate}`;
+        },
+        error: function (data, status) {
+          alert("We're having network issue!! Please try again.");
+          return;
+        }
+    });
   }
 
   const checkoutID = getCheckoutID();
