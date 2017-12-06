@@ -18,38 +18,38 @@
   </header>
   <!-- Bootstrap inspired Braintree Hosted Fields -->
   <div class="container">
-    <div class="row">
-      <div class="col-lg-4 col-lg-push-8 col-md-12 col-md-push-0" id="pricesidebar">
-        <div class="panel-body">
-          <div class="pull-left" id="product_name">
-          </div>
-          <div class="pull-right" id="product_price">
-          </div>
-          <div class="clearfix"></div>
-          <hr>
-          <div class="pull-left">
-            <p>Subtotal</p>
-            <p>Shipping</p>
-            <p id="checkoutTaxLabel">Taxes</p>
-          </div>
-          <div class="pull-right">
-            <p id="subtotal"></p>
-            <p id="shippingRate" class="text-right">&mdash;</p>
-            <p id="checkoutTaxValue" class="text-right"></p>
-          </div>
-          <div class="clearfix"></div>
-          <hr>
-          <div class="pull-left">
-            <p><b>Total</b></p>
-          </div>
-          <div class="pull-right" id="totalprice">
-          </div>
-          <div class="clearfix"></div>
+<div class="row">
+  <div class="col-lg-5 col-lg-push-7 col-md-12 col-md-push-0" id = "pricesidebar">
+    <div class="panel-body">
+      <div class="pull-left" id="product_name">
       </div>
+      <div class="pull-right" id="product_price">
+      </div>
+      <div class="clearfix"></div>
+      <hr>
+      <div class="pull-left">
+        <p>Subtotal</p>
+        <p>Shipping</p>
+        <p id="checkoutTaxLabel">Taxes</p>
+      </div>
+      <div class="pull-right">
+        <p id="subtotal"></p>
+        <p id="shippingRate" class="text-right">&mdash;</p>
+        <p id="checkoutTaxValue" class="text-right"></p>
+      </div>
+      <div class="clearfix"></div>
+      <hr>
+      <div class="pull-left">
+        <p><b>Total</b></p>
+      </div>
+      <div class="pull-right" id="totalprice">
+      </div>
+      <div class="clearfix"></div>
+    </div>
   </div>
-  <div class="col-lg-8 col-lg-pull-4 col-md-12 col-md-push-0 leftbar">
-<div class="bootstrap-basic">
-  <form class="panel-body" id="order_form" role="form" data-toggle="validator">
+  <div class="col-lg-7 col-lg-pull-5 col-md-12 col-md-push-0 leftbar">
+<div class="panel-default bootstrap-basic">
+  <form class="panel-body" id="order-form">
     <div class="row form-group">
       <input id="amount" name="amount" type="hidden" min="1" value="">
     </div>
@@ -57,48 +57,48 @@
       <h3 class="panel-title">Customer Information</h3>
       <p></p>
       <div class="col-sm-12">
-        <input class="form-control" id="email" name="email" type="email" placeholder="Email" data-error="Email address is invalid" required>
-        <div class="help-block with-errors"></div>
+        <input class="form-control" id="email" name="email" type="text" placeholder="Email">
+        <span class="helper-text"></span>
       </div>
     </div>
-  <div id="shipping_info">
+  <div class="form-group" id="shipping_info">
     <div class="row">
       <h3 class="panel-title">Shipping Information</h3>
       <p></p>
-      <div class="col-sm-6 form-group">
-        <input class="form-control" id="fname" name="fname" type="text" placeholder="First Name" data-error="First name has minimum of 2 characters" required>
-        <div class="help-block with-errors"></div>
+      <div class="col-sm-6">
+        <input class="form-control" id="fname" name="fname" type="text" placeholder="First Name">
+        <span class="helper-text"></span>
       </div>
-      <div class="col-sm-6 form-group">
-        <input class="form-control" id="lname" name="lname" type="text" placeholder="Last Name" data-error="Last name has minimum of 2 characters" required>
-        <div class="help-block with-errors"></div>
-      </div>
-    </div>
-    <div class="row" id="companywrapper">
-      <div class="col-sm-12">
-        <input class="form-control" id="company" name="company" type="text" placeholder="Company (Optional)">
-        <div class="help-block with-errors"></div>
+      <div class="col-sm-6">
+        <input class="form-control" id="lname" name="lname" type="text" placeholder="Last Name">
+        <span class="helper-text"></span>
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-8 form-group">
-        <input class="form-control" id="shipping_address" name="shipping_address" type="text" placeholder="Address" data-error="Shipping address is missing" required>
-        <div class="help-block with-errors"></div>
+      <div class="col-sm-12">
+        <input class="form-control" id="company" name="company" type="text" placeholder="Company (Optional)">
+        <span class="helper-text"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <input class="form-control" id="shipping_address" name="shipping_address" type="text" placeholder="Address">
+        <span class="helper-text"></span>
       </div>
       <div class="col-sm-4">
         <input class="form-control" id="extended_address" name="extended_address" type="text" placeholder="Apt, Suite, etc. (Optional)">
-        <div class="help-block with-errors"></div>        
+        <span class="helper-text"></span>
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12 form-group">
-        <input class="form-control" id="city" name="city" type="text" placeholder="City" data-error="City is missing" required>
-        <div class="help-block with-errors"></div>
+      <div class="col-sm-12">
+        <input class="form-control" id="city" name="city" type="text" placeholder="City">
+        <span class="helper-text"></span>
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-6 form-group" id="countrySelect">
-        <select class="form-control" id="country" name="country" data-error="Country is missing" required>
+      <div class="col-sm-6" id="countrySelect">
+        <select class="form-control" id="country" name="country">
           <option selected disabled>Choose your country</option>
           <option value="US">United States</option>
           <option value="AU">Australia</option>
@@ -351,19 +351,19 @@
           <option value="ZM">Zambia</option>
           <option value="ZW">Zimbabwe</option>
         </select>
-        <div class="help-block with-errors"></div>
+        <span class="helper-text"></span>
       </div>
       <div class="col-sm-4" id="region">
-        <select class="form-control" id="usState" name="usState">
+        <select class="form-control" id="usState">
           <option selected disabled class="hideoption">Choose your state</option>
+          <option value="AA">Armed Forces Americas</option>
+          <option value="AP">Armed Forces Pacific</option>
+          <option value="AE">Armed Forces Others</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AS">American Samoa</option>
           <option value="AZ">Arizona</option>
           <option value="AR">Arkansas</option>
-          <option value="AA">Armed Forces Americas</option>
-          <option value="AP">Armed Forces Pacific</option>
-          <option value="AE">Armed Forces Others</option>
           <option value="CA">California</option>
           <option value="CO">Colorado</option>
           <option value="CT">Connecticut</option>
@@ -444,58 +444,51 @@
           <option value="VIC">Victoria</option>
           <option value="WA ">Western Australia</option>
         </select>
+        <span class="helper-text"></span>
         <input type="hidden" id="regionValue" name="regionValue" />
       </div>
-      <div class="col-sm-6 form-group" id="postal">
+      <div class="col-sm-6" id="postal">
         <input class="form-control" id="postal_code" name="postal_code" type="text" placeholder="Postal/Zip Code">
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12" id="phonefield">
-        <input class="form-control" id="phone" name="phone" type="text" placeholder="Phone (Optional)">
-        <div class="help-block with-errors"></div>        
+        <input class="form-control" id="phone" name="phone" type="text" placeholder="Phone">
+        <span class="helper-text"></span>
       </div>
     </div>
   </div>
-  <div id="billingAddressInfo">
-    <h3 class="panel-title card-detail-heading">Billing Address</h3>
+  <div class="form-group">
+    <h3 class="panel-title" id="card-detail-heading">Billing Address</h3>
     <p></p>
     <div class="radio">
-      <input type="radio" id="sameShipping" value="0" name="billingradio" checked>
-      <label for="sameShipping">Same as shipping address</label>
+      <label><input type="radio" name="optradio" value="0" checked="">Same as shipping address</label>
     </div>
     <div class="radio">
-      <input type="radio" id="diffShipping" value="1" name="billingradio" >
-      <label for="diffShipping">Use a different billing address</label>
+      <label><input type="radio" name="optradio" value="1">Use a different billing address</label>
     </div>
-    <!-- <div class="radio">
-      <label><input type="radio" name="billingradio" value="0" checked="">Same as shipping address</label>
-    </div>
-    <div class="radio">
-      <label><input type="radio" name="billingradio" value="1">Use a different billing address</label>
-    </div> -->
     <input type="hidden" id="billingAddrChoice" val="" />
     <div id="billing_info">
       <div class="row">
         <h3 class="panel-title">Billing Information</h3>
         <p></p>
-        <div class="col-sm-6 form-group">
+        <div class="col-sm-6">
           <input class="form-control" id="billingFname" name="billingFname" type="text" placeholder="First Name">
           <span class="helper-text"></span>
         </div>
-        <div class="col-sm-6 form-group">
+        <div class="col-sm-6">
           <input class="form-control" id="billingLname" name="billingLname" type="text" placeholder="Last Name">
           <span class="helper-text"></span>
         </div>
       </div>
-      <div class="row" id="billingcompanywrapper">
+      <div class="row">
         <div class="col-sm-12">
           <input class="form-control" id="billingCompany" name="billingCompany" type="text" placeholder="Company (Optional)">
           <span class="helper-text"></span>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-8 form-group">
+        <div class="col-sm-8">
           <input class="form-control" id="billing_address" name="billing_address" type="text" placeholder="Address">
           <span class="helper-text"></span>
         </div>
@@ -505,13 +498,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12 form-group">
-          <input class="form-control" id="billingCity" name="billingCity" type="text" placeholder="City" >
+        <div class="col-sm-12">
+          <input class="form-control" id="billingCity" name="billingCity" type="text" placeholder="City">
           <span class="helper-text"></span>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-6 form-group" id="billingCountrySelect">
+        <div class="col-sm-6" id="billingCountrySelect">
           <select class="form-control" id="billingCountry" name="billingCountry">
             <option selected disabled>Choose your country</option>
             <option value="US">United States</option>
@@ -770,14 +763,14 @@
         <div class="col-sm-4" id="billingRegion">
           <select class="form-control" id="billingUSState">
             <option selected disabled class="hideoption">Choose your state</option>
+            <option value="AA">Armed Forces Americas</option>
+            <option value="AP">Armed Forces Pacific</option>
+            <option value="AE">Armed Forces Others</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AS">American Samoa</option>
             <option value="AZ">Arizona</option>
             <option value="AR">Arkansas</option>
-            <option value="AA">Armed Forces Americas</option>
-            <option value="AP">Armed Forces Pacific</option>
-            <option value="AE">Armed Forces Others</option>
             <option value="CA">California</option>
             <option value="CO">Colorado</option>
             <option value="CT">Connecticut</option>
@@ -862,27 +855,19 @@
           <input type="hidden" id="billingRegionValue" name="billingRegionValue" />
         </div>
         <div class="col-sm-6" id="billingPostal">
-          <input class="form-control" id="billingpostal_code" name="billingPostal_code" type="text" placeholder="Postal/Zip Code">
+          <input class="form-control" id="billingpostal_code" name="billingpostal_code" type="text" placeholder="Postal/Zip Code">
         </div>
       </div>
     </div>
   </div>
   <div class="form-group">
-    <h3 class="panel-title card-detail-heading">Shipping Method</h3>
+    <h3 class="panel-title" id="card-detail-heading">Shipping Method</h3>
     <p></p>
     <div>Standard Shipping (3-5 Business Days): <span id="shippingValueInForm"></span></div>
   </div>
-  <h3 class="panel-title card-detail-heading">Payment Information</h3>
-  <p class="card-detail-heading"><i>All transactions are secured and encrypted.</i></p>
-  <div class="radio-section">
-    <div class="pull-left" id="ccSection">
-      <input type="radio" id="ccChoice" value="1" name="paymentradio" checked>
-      <label for="ccChoice">Credit Cards</label>
-    </div>
-    <div class="pull-right"><img src="../resources/img/cc-sm-4.png" alt="credit cards logo"/> &amp; <a href="https://www.braintreepayments.com/features/credit-cards">more...</a></div>
-    <div class="clearfix"></div>
-  </div>
-  <div id="BT_payment">
+    <h3 class="panel-title" id="card-detail-heading">Enter Card Details</h3>
+    <p class="smallsize">All transactions are secured and encrypted.</p>
+    <p></p>
     <div class="row">
       <div class="col-sm-12">
         <!--  Hosted Fields div container -->
@@ -907,49 +892,23 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="radio-section">
-    <input type="radio" id="paypalChoice" value="0" name="paymentradio">
-    <label for="paypalChoice"><img id="ppIcon" src="../resources/img/PP_logo_sm.png" alt="paypal logo"/></label>
-  </div>
-  <input type="hidden" id="paymentChoice" value="1" />
-  <div id="PP_payment"><div id="paypal-button"></div></div>
-  <div class="linebreak50"></div>
-  <div class="form-group">
-    <button type="submit" value="submit" id="submit" class="btn btn-success btn-lg center-block">SUBMIT ORDER</button>
-  </div>
+
+    <button value="submit" id="submit" class="btn btn-success btn-lg center-block">SUBMIT ORDER</span></button>
   </form>
 </div>
 </div>
 </div>
 </div>
-<input type="hidden" id="checkoutRoute" value="1" />
-<div class="modal js-loading-bar">
- <div class="modal-dialog">
-   <div class="modal-content">
-     <div class="modal-body">
-       <p>Your order will be completed shortly!</p>
-       <div class="progress progress-popup">
-        <div class="progress-bar"></div>
-       </div>
-     </div>
-   </div>
- </div>
-</div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Load the required client component. -->
+<script src="https://js.braintreegateway.com/web/3.22.2/js/client.min.js"></script>
+
+<!-- Load Hosted Fields component. -->
+<script src="https://js.braintreegateway.com/web/3.22.2/js/hosted-fields.min.js"></script>
 <!-- Load bluebird for Promise support -->
 <script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
-<!-- Load PayPal's checkout.js Library. -->
-<script src="https://www.paypalobjects.com/api/checkout.js" data-version-4 log-level="warn"></script>
-
-<!-- Load the client component. -->
-<script src="https://js.braintreegateway.com/web/3.24.1/js/client.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.24.1/js/hosted-fields.min.js"></script>
-<!-- Load the PayPal Checkout component. -->
-<script src="https://js.braintreegateway.com/web/3.24.1/js/paypal-checkout.min.js"></script>
 <script src="https://checkout.citybeauty.com/resources/scripts/citycheckout.js"></script>
 </body>
 </html>

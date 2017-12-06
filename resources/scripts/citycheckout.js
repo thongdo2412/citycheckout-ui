@@ -454,14 +454,26 @@
       if (this.value == '0') {
           $('#PP_payment').show();
           $('#BT_payment').hide();
+          $('#submit').hide();
           $('#paymentChoice').val("0");
       }
       else if (this.value == '1') {
           $('#BT_payment').show();
           $('#PP_payment').hide();
+          $('#submit').show();
           $('#paymentChoice').val("1");
       }
   });
     // $("#submit").on('touchstart', function(event) {
     //   $(this).trigger('click');
     // });
+  // Segment analytics section
+  analytics.page('City Checkout', {
+    title: 'City Checkout',
+    url: 'https://checkout.citybeauty.com/src/cbl001wwylt.html'
+  });
+  analytics.track('Email entered', {
+    location: '#email',
+    type: 'input'
+  });
+  

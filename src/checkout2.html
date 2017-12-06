@@ -16,7 +16,7 @@
       <a href="/"><img src="https://citybeauty.com/img/city-beauty-logo.png" alt="citylogo"></a>
     </div>
   </header>
-  <!-- Bootstrap inspired Braintree Hosted Fields -->
+  
   <div class="container">
     <div class="row">
       <div class="col-lg-4 col-lg-push-8 col-md-12 col-md-push-0" id="pricesidebar">
@@ -49,7 +49,7 @@
   </div>
   <div class="col-lg-8 col-lg-pull-4 col-md-12 col-md-push-0 leftbar">
 <div class="bootstrap-basic">
-  <form class="panel-body" id="order_form" role="form" data-toggle="validator">
+  <form class="panel-body" id="payment_form" role="form" data-toggle="validator">
     <div class="row form-group">
       <input id="amount" name="amount" type="hidden" min="1" value="">
     </div>
@@ -57,7 +57,7 @@
       <h3 class="panel-title">Customer Information</h3>
       <p></p>
       <div class="col-sm-12">
-        <input class="form-control" id="email" name="email" type="email" placeholder="Email" data-error="Email address is invalid" required>
+        <input class="form-control" id="email" name="bill_to_email" type="email" placeholder="Email" data-error="Email address is invalid" required>
         <div class="help-block with-errors"></div>
       </div>
     </div>
@@ -66,40 +66,40 @@
       <h3 class="panel-title">Shipping Information</h3>
       <p></p>
       <div class="col-sm-6 form-group">
-        <input class="form-control" id="fname" name="fname" type="text" placeholder="First Name" data-error="First name has minimum of 2 characters" required>
+        <input class="form-control" id="fname" name="ship_to_forename" type="text" placeholder="First Name" data-error="First name has minimum of 2 characters" required>
         <div class="help-block with-errors"></div>
       </div>
       <div class="col-sm-6 form-group">
-        <input class="form-control" id="lname" name="lname" type="text" placeholder="Last Name" data-error="Last name has minimum of 2 characters" required>
+        <input class="form-control" id="lname" name="ship_to_surname" type="text" placeholder="Last Name" data-error="Last name has minimum of 2 characters" required>
         <div class="help-block with-errors"></div>
       </div>
     </div>
     <div class="row" id="companywrapper">
       <div class="col-sm-12">
-        <input class="form-control" id="company" name="company" type="text" placeholder="Company (Optional)">
+        <input class="form-control" id="company" name="ship_to_company_name" type="text" placeholder="Company (Optional)">
         <div class="help-block with-errors"></div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-8 form-group">
-        <input class="form-control" id="shipping_address" name="shipping_address" type="text" placeholder="Address" data-error="Shipping address is missing" required>
+        <input class="form-control" id="shipping_address" name="ship_to_address_line1" type="text" placeholder="Address" data-error="Shipping address is missing" required>
         <div class="help-block with-errors"></div>
       </div>
       <div class="col-sm-4">
-        <input class="form-control" id="extended_address" name="extended_address" type="text" placeholder="Apt, Suite, etc. (Optional)">
+        <input class="form-control" id="extended_address" name="ship_to_address_line2" type="text" placeholder="Apt, Suite, etc. (Optional)">
         <div class="help-block with-errors"></div>        
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12 form-group">
-        <input class="form-control" id="city" name="city" type="text" placeholder="City" data-error="City is missing" required>
+        <input class="form-control" id="city" name="ship_to_address_city" type="text" placeholder="City" data-error="City is missing" required>
         <div class="help-block with-errors"></div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-6 form-group" id="countrySelect">
-        <select class="form-control" id="country" name="country" data-error="Country is missing" required>
-          <option selected disabled>Choose your country</option>
+        <select class="form-control" id="country" name="ship_to_address_country" data-error="Country is missing" required>
+          <option selected disabled>Select your country</option>
           <option value="US">United States</option>
           <option value="AU">Australia</option>
           <option value="CA">Canada</option>
@@ -355,7 +355,7 @@
       </div>
       <div class="col-sm-4" id="region">
         <select class="form-control" id="usState" name="usState">
-          <option selected disabled class="hideoption">Choose your state</option>
+          <option selected disabled class="hideoption">Select your state</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AS">American Samoa</option>
@@ -418,7 +418,7 @@
           <option value="WY">Wyoming</option>
         </select>
         <select class="form-control" id="caProvince">
-          <option selected disabled>Choose your province</option>
+          <option selected disabled>Select your province</option>
         	<option value="AB">Alberta</option>
         	<option value="BC">British Columbia</option>
         	<option value="MB">Manitoba</option>
@@ -434,7 +434,7 @@
         	<option value="YT">Yukon</option>
         </select>
         <select class="form-control" id="auProvince">
-          <option selected disabled>Choose your state</option>
+          <option selected disabled>Select your state</option>
           <option value="ACT">Australian Capital Territory</option>
           <option value="NSW">New South Wales</option>
           <option value="NT ">Northern Territory</option>
@@ -444,15 +444,15 @@
           <option value="VIC">Victoria</option>
           <option value="WA ">Western Australia</option>
         </select>
-        <input type="hidden" id="regionValue" name="regionValue" />
+        <input type="hidden" id="regionValue" name="ship_to_address_state" />
       </div>
       <div class="col-sm-6 form-group" id="postal">
-        <input class="form-control" id="postal_code" name="postal_code" type="text" placeholder="Postal/Zip Code">
+        <input class="form-control" id="postal_code" name="ship_to_address_postal_code" type="text" placeholder="Postal/Zip Code">
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12" id="phonefield">
-        <input class="form-control" id="phone" name="phone" type="text" placeholder="Phone (Optional)">
+        <input class="form-control" id="phone" name="ship_to_phone" type="text" placeholder="Phone (Optional)">
         <div class="help-block with-errors"></div>        
       </div>
     </div>
@@ -480,40 +480,40 @@
         <h3 class="panel-title">Billing Information</h3>
         <p></p>
         <div class="col-sm-6 form-group">
-          <input class="form-control" id="billingFname" name="billingFname" type="text" placeholder="First Name">
+          <input class="form-control" id="billingFname" name="bill_to_forename" type="text" placeholder="First Name">
           <span class="helper-text"></span>
         </div>
         <div class="col-sm-6 form-group">
-          <input class="form-control" id="billingLname" name="billingLname" type="text" placeholder="Last Name">
+          <input class="form-control" id="billingLname" name="bill_to_surname" type="text" placeholder="Last Name">
           <span class="helper-text"></span>
         </div>
       </div>
       <div class="row" id="billingcompanywrapper">
         <div class="col-sm-12">
-          <input class="form-control" id="billingCompany" name="billingCompany" type="text" placeholder="Company (Optional)">
+          <input class="form-control" id="billingCompany" name="bill_to_company_name" type="text" placeholder="Company (Optional)">
           <span class="helper-text"></span>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-8 form-group">
-          <input class="form-control" id="billing_address" name="billing_address" type="text" placeholder="Address">
+          <input class="form-control" id="billing_address" name="bill_to_address_line1" type="text" placeholder="Address">
           <span class="helper-text"></span>
         </div>
         <div class="col-sm-4">
-          <input class="form-control" id="extended_billing_address" name="extended_billing_address" type="text" placeholder="Apt, Suite, etc. (Optional)">
+          <input class="form-control" id="extended_billing_address" name="bill_to_address_line2" type="text" placeholder="Apt, Suite, etc. (Optional)">
           <span class="helper-text"></span>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12 form-group">
-          <input class="form-control" id="billingCity" name="billingCity" type="text" placeholder="City" >
+          <input class="form-control" id="billingCity" name="bill_to_address_city" type="text" placeholder="City" >
           <span class="helper-text"></span>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-6 form-group" id="billingCountrySelect">
-          <select class="form-control" id="billingCountry" name="billingCountry">
-            <option selected disabled>Choose your country</option>
+          <select class="form-control" id="billingCountry" name="bill_to_address_country">
+            <option selected disabled>Select your billing country</option>
             <option value="US">United States</option>
             <option value="AU">Australia</option>
             <option value="CA">Canada</option>
@@ -769,7 +769,7 @@
         </div>
         <div class="col-sm-4" id="billingRegion">
           <select class="form-control" id="billingUSState">
-            <option selected disabled class="hideoption">Choose your state</option>
+            <option selected disabled class="hideoption">Select your billing state</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AS">American Samoa</option>
@@ -832,7 +832,7 @@
             <option value="WY">Wyoming</option>
           </select>
           <select class="form-control" id="billingCAProvince">
-            <option selected disabled>Choose your province</option>
+            <option selected disabled>Select your billing province</option>
             <option value="AB">Alberta</option>
             <option value="BC">British Columbia</option>
             <option value="MB">Manitoba</option>
@@ -848,7 +848,7 @@
             <option value="YT">Yukon</option>
           </select>
           <select class="form-control" id="billingAUProvince">
-            <option selected disabled>Choose your state</option>
+            <option selected disabled>Select your billing state</option>
             <option value="ACT">Australian Capital Territory</option>
             <option value="NSW">New South Wales</option>
             <option value="NT ">Northern Territory</option>
@@ -859,10 +859,10 @@
             <option value="WA ">Western Australia</option>
           </select>
           <span class="helper-text"></span>
-          <input type="hidden" id="billingRegionValue" name="billingRegionValue" />
+          <input type="hidden" id="billingRegionValue" name="bill_to_address_state" />
         </div>
         <div class="col-sm-6" id="billingPostal">
-          <input class="form-control" id="billingpostal_code" name="billingPostal_code" type="text" placeholder="Postal/Zip Code">
+          <input class="form-control" id="billingpostal_code" name="bill_to_address_postal_code" type="text" placeholder="Postal/Zip Code">
         </div>
       </div>
     </div>
@@ -879,44 +879,64 @@
       <input type="radio" id="ccChoice" value="1" name="paymentradio" checked>
       <label for="ccChoice">Credit Cards</label>
     </div>
-    <div class="pull-right"><img src="../resources/img/cc-sm-4.png" alt="credit cards logo"/> &amp; <a href="https://www.braintreepayments.com/features/credit-cards">more...</a></div>
+    <div class="pull-right"><img src="../resources/img/cc-sm-4.png" alt="credit cards logo"/> &amp; <a href="https://www.cybersource.com/products/payment_processing/payment_cards/">more...</a></div>
     <div class="clearfix"></div>
   </div>
-  <div id="BT_payment">
-    <div class="row">
+  <div id="CS_payment">
+    <div class="row form-group">
       <div class="col-sm-12">
         <!--  Hosted Fields div container -->
-        <div class="form-control" id="card-number"></div>
+        <input class="form-control" id="card-number" name="card_number" placeholder="Card Number">
         <span class="helper-text"></span>
       </div>
     </div>
     <div class="row form-group">
-      <div class="form-group col-sm-6 col-xs-12" id="nameoncardfield">
-        <input class="form-control" id="name-on-card" placeholder="Name on Card">
-      </div>
-      <div class="col-sm-6 col-xs-12" id="securitydatefield">
-        <div class="row">
-          <div class="col-sm-6 col-xs-12">
-            <!--  Hosted Fields div container -->
-            <div class="form-control" id="expiration-date"></div>
-          </div>
-          <div class="form-group col-sm-6 col-xs-12" id="securitycodefield">
-            <!--  Hosted Fields div container -->
-            <div class="form-control" id="cvv"></div>
-          </div>
+      <div class="col-sm-6 col-xs-12">
+        <!--  Hosted Fields div container -->
+        <input class="form-control" id="expiration-date" name="card_expiry_date" maxlength="7" placeholder="Expiration Date (Date format: MM-YYYY)">
         </div>
+        <div class="form-group col-sm-6 col-xs-12" id="securitycodefield">
+        <!--  Hosted Fields div container -->
+        <select class="form-control" id="card-type" name="card_type">
+          <option selected disabled>Select your card type</option>
+          <option value="001">Visa</option>
+          <option value="002">Mastercard</option>
+          <option value="003">American Express</option>
+          <option value="004">Discover</option>
+        </select>        
       </div>
     </div>
   </div>
-  <div class="radio-section">
+  <!-- <div class="radio-section">
     <input type="radio" id="paypalChoice" value="0" name="paymentradio">
     <label for="paypalChoice"><img id="ppIcon" src="../resources/img/PP_logo_sm.png" alt="paypal logo"/></label>
-  </div>
+  </div> -->
   <input type="hidden" id="paymentChoice" value="1" />
-  <div id="PP_payment"><div id="paypal-button"></div></div>
+  <div id="PP_payment">
+    <h2>Coming Soon</h2>
+    <div id="paypal-button"></div>
+  </div>
   <div class="linebreak50"></div>
+  <input type="hidden" name="access_key" value="9b3c7d838ed93bbc9d3d05953bab7dd4">
+  <input type="hidden" name="profile_id" value="citybeautycheckout">
+  <input type="hidden" name="reference_number" value="">
+  <input type="hidden" name="payment_method" value="card">  
+  <input type="hidden" name="transaction_type" value="sale,create_payment_token">
+  <input type="hidden" name="currency" value="USD">
+  <input type="hidden" name="transaction_uuid" value="">
+  <input type="hidden" name="override_custom_receipt_page" value="">
+  <input type="hidden" name="merchant_defined_data5" value="">
+  <input type="hidden" name="merchant_defined_data6" value="">
+  <input type="hidden" name="merchant_defined_data7" value="">
+  <input type="hidden" name="merchant_defined_data8" value="">
+  <input type="hidden" name="signed_field_names" 
+  value="access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_method,bill_to_forename,bill_to_surname,bill_to_email,bill_to_company_name,bill_to_address_line1,bill_to_address_line2,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code,merchant_defined_data5,merchant_defined_data6,merchant_defined_data7,merchant_defined_data8,merchant_defined_data9,ship_to_forename,ship_to_surname,ship_to_phone,ship_to_company_name,ship_to_address_line1,ship_to_address_line2,ship_to_address_city,ship_to_address_country,ship_to_address_state,ship_to_address_postal_code,override_custom_receipt_page,tax_amount">
+  <input type="hidden" name="unsigned_field_names" value="card_type,card_number,card_expiry_date">
+  <input type="hidden" name="signed_date_time" value="">
+  <input type="hidden" name="signature" value="">  
+  <input type="hidden" name="locale" value="en">
   <div class="form-group">
-    <button type="submit" value="submit" id="submit" class="btn btn-success btn-lg center-block">SUBMIT ORDER</button>
+    <button id="submit" class="btn btn-success btn-lg center-block">SUBMIT ORDER</button>
   </div>
   </form>
 </div>
@@ -942,14 +962,6 @@
 <!-- Load bluebird for Promise support -->
 <script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
-<!-- Load PayPal's checkout.js Library. -->
-<script src="https://www.paypalobjects.com/api/checkout.js" data-version-4 log-level="warn"></script>
-
-<!-- Load the client component. -->
-<script src="https://js.braintreegateway.com/web/3.24.1/js/client.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.24.1/js/hosted-fields.min.js"></script>
-<!-- Load the PayPal Checkout component. -->
-<script src="https://js.braintreegateway.com/web/3.24.1/js/paypal-checkout.min.js"></script>
-<script src="https://checkout.citybeauty.com/resources/scripts/citycheckout.js"></script>
+<script src="https://checkout.citybeauty.com/resources/scripts/citycheckout2.js"></script>
 </body>
 </html>

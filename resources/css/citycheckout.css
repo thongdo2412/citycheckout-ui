@@ -1,4 +1,8 @@
   /* Uses Bootstrap stylesheets for styling, see linked CSS*/
+  a, a:hover {
+    text-decoration: none!important; 
+    color:#000000!important;
+  }
   html {
     box-sizing: border-box;
     height: 100%;
@@ -66,8 +70,6 @@
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(100,100,0,.6);
   }
 
-  .smallsize {font-size: 12px;font-weight: 300;font-style: italic;}
-
   .form-control {height: 60px;}
   .hideoption {color: #cccccc;}
   #checkoutTaxLabel, #checkoutTaxValue, #billing_info {display: none;}
@@ -99,8 +101,15 @@
   #shipping_info, #billing_info {
    padding-bottom: 20px;
   }
+  #CS_payment {
+    margin-top: 20px;
+  }
   #PP_payment {
     display: none;
+  }
+  #paypal-button {
+    margin: 0 auto;
+    text-align: center;
   }
 
   #pricesidebar {
@@ -108,6 +117,73 @@
     /* background-color: #f8f9f9!important; */
     padding: 0 0;
     margin-top: 14px;
+  }
+
+  .radio-section {
+    padding: 6px 0;
+  }
+  .radio-section label {
+    font-weight: 400;
+  }
+  .linebreak50 {
+    margin-top: 50px;
+  }
+  #ccSection {
+    margin-top: 6px;
+  }
+  #ppIcon {
+    margin-top: -4px;
+  }
+
+  /* css for radio buttons  */
+  [type="radio"]:checked,
+  [type="radio"]:not(:checked) {
+      position: absolute;
+      left: -9999px;
+  }
+  [type="radio"]:checked + label,
+  [type="radio"]:not(:checked) + label
+  {
+      position: relative;
+      padding-left: 28px;
+      cursor: pointer;
+      line-height: 20px;
+      display: inline-block;
+  }
+  [type="radio"]:checked + label:before,
+  [type="radio"]:not(:checked) + label:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #ddd;
+      border-radius: 100%;
+      background: #fff;
+  }
+  [type="radio"]:checked + label:after,
+  [type="radio"]:not(:checked) + label:after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: #1E90FF;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      border-radius: 100%;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+  }
+  [type="radio"]:not(:checked) + label:after {
+      opacity: 0;
+      -webkit-transform: scale(0);
+      transform: scale(0);
+  }
+  [type="radio"]:checked + label:after {
+      opacity: 1;
+      -webkit-transform: scale(1);
+      transform: scale(1);
   }
 
   @media screen and (max-width:1199px) {

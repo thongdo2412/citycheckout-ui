@@ -106,3 +106,13 @@ $("#submit").on('touchstart', function(event) {
 $("#NotTakeOffer").on('touchstart', function(event) {
   $(this).trigger('click');
 });
+
+// Segment analytics section
+analytics.page('City Checkout Upsell', {
+  title: 'City Lips 3 tubes with special offer',
+  url: 'https://checkout.citybeauty.com/src/fnl/cbloto3us.html'
+});
+analytics.page('City Checkout Upsell', {
+  title: 'City Lips 3 colors tubes with special offer',
+  url: 'https://checkout.citybeauty.com/src/fnl/cbloto3us.html'
+});

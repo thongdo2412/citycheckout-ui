@@ -461,11 +461,19 @@
     <h3 class="panel-title card-detail-heading">Billing Address</h3>
     <p></p>
     <div class="radio">
+      <input type="radio" id="sameShipping" value="0" name="billingradio" checked>
+      <label for="sameShipping">Same as shipping address</label>
+    </div>
+    <div class="radio">
+      <input type="radio" id="diffShipping" value="1" name="billingradio" >
+      <label for="diffShipping">Use a different billing address</label>
+    </div>
+    <!-- <div class="radio">
       <label><input type="radio" name="billingradio" value="0" checked="">Same as shipping address</label>
     </div>
     <div class="radio">
       <label><input type="radio" name="billingradio" value="1">Use a different billing address</label>
-    </div>
+    </div> -->
     <input type="hidden" id="billingAddrChoice" val="" />
     <div id="billing_info">
       <div class="row">
@@ -865,19 +873,16 @@
     <div>Standard Shipping (3-5 Business Days): <span id="shippingValueInForm"></span></div>
   </div>
   <h3 class="panel-title card-detail-heading">Payment Information</h3>
-  <p class="smallsize card-detail-heading">All transactions are secured and encrypted.</p>
-    <div class="radio">
-      <label><input type="radio" name="paymentradio" value="0">Use Paypal</label>
-      <p></p>
-      <div id="PP_payment"><div id="paypal-button"></div></div>
+  <p class="card-detail-heading"><i>All transactions are secured and encrypted.</i></p>
+  <div class="radio-section">
+    <div class="pull-left" id="ccSection">
+      <input type="radio" id="ccChoice" value="1" name="paymentradio" checked>
+      <label for="ccChoice">Credit Cards</label>
     </div>
-    <div class="radio">
-      <label><input type="radio" name="paymentradio" value="1" checked="">Use Credit Card</label>
-    </div>
-    <input type="hidden" id="paymentChoice" value="1" />
+    <div class="pull-right"><img src="../resources/img/cc-sm-4.png" alt="credit cards logo"/> &amp; <a href="https://www.braintreepayments.com/features/credit-cards">more...</a></div>
+    <div class="clearfix"></div>
+  </div>
   <div id="BT_payment">
-    <p>Enter Card Details</p>
-    <p></p>
     <div class="row">
       <div class="col-sm-12">
         <!--  Hosted Fields div container -->
@@ -902,16 +907,23 @@
         </div>
       </div>
     </div>
-    <input type="hidden" id="checkoutRoute" value="2" />
-    <div class="form-group">
-      <button type="submit" value="submit" id="submit" class="btn btn-success btn-lg center-block">SUBMIT ORDER</button>
-    </div>
+  </div>
+  <div class="radio-section">
+    <input type="radio" id="paypalChoice" value="0" name="paymentradio">
+    <label for="paypalChoice"><img id="ppIcon" src="../resources/img/PP_logo_sm.png" alt="paypal logo"/></label>
+  </div>
+  <input type="hidden" id="paymentChoice" value="1" />
+  <div id="PP_payment"><div id="paypal-button"></div></div>
+  <div class="linebreak50"></div>
+  <div class="form-group">
+    <button type="submit" value="submit" id="submit" class="btn btn-success btn-lg center-block">SUBMIT ORDER</button>
   </div>
   </form>
 </div>
 </div>
 </div>
 </div>
+<input type="hidden" id="checkoutRoute" value="2" />
 <div class="modal js-loading-bar">
  <div class="modal-dialog">
    <div class="modal-content">
