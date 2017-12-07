@@ -9,6 +9,7 @@
   var shipping_rate = 0.0;
   var paymentMethod = "card";
   var productVariantId;
+  var expiry_date;
   // update the tax value, shipping value and total value
   $('#billingAddrChoice').val("0");
   $("#country").change(function() {
@@ -39,7 +40,7 @@
           $('#checkoutTaxValue').show();
           tax_rate = 0.09;
           taxValue = parseFloat($('#product_price').html()) * tax_rate;
-          $('#checkoutTaxValue').html(taxValue);
+          $('#checkoutTaxValue').html(taxValue.toFixed(2));
           totalValue = parseFloat($('#product_price').html()) + shipping_rate + taxValue;
           $('#totalprice').html(totalValue.toFixed(2));
           $('#amount').val(totalValue);
@@ -230,6 +231,19 @@
       }
   });
 
+  $("#expiration-date").keyup(function(){ //handle expiration date field
+    if ($(this).val().length == 4) {
+      var temp = $(this).val(); 
+      if (temp.indexOf('/') <= -1)
+        $(this).val(`${temp.substring(0,2)}/${temp.substring(2,4)}`)
+    }
+ });
+
+ function expiryDateFormat(dateStr) {
+  let xDate = dateStr.split("/");
+  return `${xDate[0]}-20${xDate[1]}`;
+ }
+
   $('#submit').click(function(event){
     event.preventDefault();
     formSubmission();
@@ -273,7 +287,7 @@
     formdata.signed_date_time = String(new Date().toISOString().split('.')[0]+"Z");
     formdata.locale = "en";
     formdata.amount = parseFloat($('#amount').val()).toFixed(2);
-    formdata.tax_amount = taxValue;
+    formdata.tax_amount = String(taxValue.toFixed(2));
 
     //shipping address
     formdata.ship_to_forename = $('#fname').val();
@@ -313,7 +327,7 @@
     formdata.override_custom_receipt_page =  "https://citybeauty.com/scripts/processingorder.php";
     formdata.card_type = $('select[name=card_type]').val();
     formdata.card_number = $('input[name=card_number]').val();
-    formdata.card_expiry_date = $('input[name=card_expiry_date]').val();
+    formdata.card_expiry_date = expiryDateFormat($('input[name=card_expiry_date]').val());
 
     const $modal = $('.js-loading-bar');
     const $bar = $modal.find('.progress-bar');

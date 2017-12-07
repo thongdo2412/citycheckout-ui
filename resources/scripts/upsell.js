@@ -34,7 +34,7 @@ const pid = getParameterByName('pid');
 var checkouts;
 var amountValue;
 var productVariantId;
-var tax_amount
+var tax_amount = 0.0;
 $.get(`${apiUrl}/getFunnel`, successGetFN);
 function successGetFN(data, status) {
   if (status == 'success') {
