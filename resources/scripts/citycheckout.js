@@ -6,12 +6,16 @@
   var tax_rate = 0.0;
   var taxValue = 0.0;
   var checkout = {};
-  var shippingRate = 0.0;
+  var shipping_rate = 0.0;
+  var paymentMethod = "card";
+  var productVariantId;
   // update the tax value, shipping value and total value
   $('#billingAddrChoice').val("0");
   $("#country").change(function() {
     const country = $(this).find('option:selected').val();
     if (country == 'US') {
+      $('#totalprice').html("");
+      $("#usState").prop('selectedIndex', 0);
       $('#region').show();
       $('#caProvince').hide();
       $('#auProvince').hide();
@@ -19,8 +23,9 @@
       $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
       $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
       if (checkoutRoute == 0) {
-        $('#shippingRate').html(shippingRate.US[0].rate);
-        $('#shippingValueInForm').html(shippingRate.US[0].rate);
+        shipping_rate = parseFloat(shippingRate.US[0].rate);
+        $('#shippingRate').html(shipping_rate);
+        $('#shippingValueInForm').html(shipping_rate);
       }
       else {
         $('#shippingRate').html("0.00");
@@ -32,10 +37,10 @@
         if (state == 'CA') {
           $('#checkoutTaxLabel').show();
           $('#checkoutTaxValue').show();
-          tax_rate = 0.09
+          tax_rate = 0.09;
           taxValue = parseFloat($('#product_price').html()) * tax_rate;
           $('#checkoutTaxValue').html(taxValue);
-          totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html()) + taxValue;
+          totalValue = parseFloat($('#product_price').html()) + shipping_rate + taxValue;
           $('#totalprice').html(totalValue.toFixed(2));
           $('#amount').val(totalValue);
         }
@@ -45,14 +50,14 @@
           tax_rate = 0.0676;
           taxValue = parseFloat($('#product_price').html()) * .0676;
           $('#checkoutTaxValue').html(taxValue.toFixed(2));
-          totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html()) + taxValue;
+          totalValue = parseFloat($('#product_price').html()) + shipping_rate + taxValue;
           $('#totalprice').html(totalValue.toFixed(2));
           $('#amount').val(totalValue);
         }
         else {
           $('#checkoutTaxLabel').hide();
           $('#checkoutTaxValue').hide();
-          totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html());
+          totalValue = parseFloat($('#product_price').html()) + shipping_rate;
           $('#totalprice').html(totalValue.toFixed(2));
           $('#amount').val(totalValue);
         }
@@ -66,13 +71,14 @@
       $('#checkoutTaxValue').hide();
       $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
       $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
-      $('#shippingRate').html(shippingRate.Canada);
-      $('#shippingValueInForm').html(shippingRate.Canada);
+      shipping_rate = parseFloat(shippingRate.Canada);
+      $('#shippingRate').html(shipping_rate);
+      $('#shippingValueInForm').html(shipping_rate);
       $("#caProvince").change(function() {
         const state = $(this).find('option:selected').val();
         $('#regionValue').val(state);
       });
-      totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html());
+      totalValue = parseFloat($('#product_price').html()) + shipping_rate;
       $('#totalprice').html(totalValue.toFixed(2));
       $('#amount').val(totalValue);
     }
@@ -85,13 +91,14 @@
       $('#checkoutTaxValue').hide();
       $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
       $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
-      $('#shippingRate').html(shippingRate.International);
-      $('#shippingValueInForm').html(shippingRate.International);
+      shipping_rate = parseFloat(shippingRate.International);
+      $('#shippingRate').html(shipping_rate);
+      $('#shippingValueInForm').html(shipping_rate);
       $("#auProvince").change(function() {
         const state = $(this).find('option:selected').val();
         $('#regionValue').val(state);
       });
-      totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html());
+      totalValue = parseFloat($('#product_price').html()) + shipping_rate;
       $('#totalprice').html(totalValue.toFixed(2));
       $('#amount').val(totalValue);
     }
@@ -99,9 +106,10 @@
       $('#region').hide();
       $('#countrySelect').addClass('col-sm-6').removeClass('col-sm-4');
       $('#postal').addClass('col-sm-6').removeClass('col-sm-4');
-      $('#shippingRate').html(shippingRate.International);
-      $('#shippingValueInForm').html(shippingRate.International);
-      totalValue = parseFloat($('#product_price').html()) + parseFloat($('#shippingRate').html());
+      shipping_rate = parseFloat(shippingRate.International);
+      $('#shippingRate').html(shipping_rate);
+      $('#shippingValueInForm').html(shipping_rate);
+      totalValue = parseFloat($('#product_price').html()) + shipping_rate;
       $('#totalprice').html(totalValue.toFixed(2));
       $('#amount').val(totalValue);
       $('#regionValue').val("");
@@ -156,268 +164,24 @@
     }
   });
 
-  // styling for hosted fields
-
-  const stylesConfig = {
-    'input': {
-      'font-size': '14px',
-      'font-weight': 'lighter',
-      'color': '#3a3a3a'
-    },
-    ':focus': {
-      'color': 'black'
+  const checkoutid = uniqid();
+  function uniqid() {
+    var ts=String(new Date().getTime()), i = 0, out = '';
+    for(i=0;i<ts.length;i+=1) {        
+       out+=Number(ts.substr(i, 2)).toString(36);    
     }
-  };
-  const fieldsConfig = {
-    number: {
-      selector: '#card-number',
-      placeholder: 'Card Number'
-    },
-    cvv: {
-      selector: '#cvv',
-      placeholder: 'CVV'
-    },
-    expirationDate: {
-      selector: '#expiration-date',
-      placeholder: 'Expiration Date'
-    }
-  };
-
-  // api call for hosted fields
-  $.get(`${apiUrl}/client-token`, successGetTK);
-
-  function successGetTK(data, status){
-    if (status == 'success') {
-      braintree.client.create({authorization: data.clientToken}, successClient);
-    }
-    else {
-      alert("We're having issue with network! Please try again later!!");
-      return;
-    }
+    return (Math.floor(Math.random() * 10)+out);
   }
-
-  function successClient (err, clientInstance) {
-    if (err) {
-      alert("We're having issue with network! Please try again later!!");
-      return;
-    }
-      // Create a PayPal Checkout component.
-      braintree.paypalCheckout.create({
-        client: clientInstance
-      }, function (paypalCheckoutErr, paypalCheckoutInstance) {
-
-        // Stop if there was a problem creating PayPal Checkout.
-        // This could happen if there was a network error or if it's incorrectly
-        // configured.
-        if (paypalCheckoutErr) {
-          console.error('Error creating PayPal Checkout:', paypalCheckoutErr);
-          return;
-        }
-        // Set up PayPal with the checkout.js library
-        paypal.Button.render({
-          env: 'sandbox', // or 'production'
-
-          payment: function () {
-            return paypalCheckoutInstance.createPayment({
-              flow: 'vault',
-              billingAgreementDescription: 'Your agreement description',
-              enableShippingAddress: true,
-              shippingAddressEditable: true,
-              shippingAddressOverride: {
-                recipientName: $('#fname').val()+ " " + $('#lname').val(),
-                line1: $('#shipping_address').val(),
-                line2: $('#extended_address').val(),
-                city: $('#city').val(),
-                countryCode: $('#country').val(),
-                postalCode: $('#postal_code').val(),
-                state: $('#regionValue').val(),
-                phone: $('#phone').val()
-              }
-            });
-          },
-
-          onAuthorize: function (data, actions) {
-            return paypalCheckoutInstance.tokenizePayment(data)
-              .then(function (payload) {
-                return checkoutBT(payload);
-              });
-          },
-
-          onCancel: function (data) {
-            console.log('checkout.js payment cancelled', JSON.stringify(data, 0, 2));
-          },
-
-          onError: function (err) {
-            console.error('checkout.js error', err);
-          }
-        }, '#paypal-button').then(function () {
-          // The PayPal button will be rendered in an html element with the id
-          // `paypal-button`. This function will be called when the PayPal button
-          // is set up and ready to be used.
-        });
-
-      });
-
-      //braintree payment
-      braintree.hostedFields.create({
-        client: clientInstance,
-        styles: stylesConfig,
-        fields: fieldsConfig
-      }, successHostedFields);
-  }
-
-  function successHostedFields (err, hostedFieldsInstance) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    hostedFieldsInstance.on('validityChange', function (event) {
-      var field = event.fields[event.emittedBy];
-
-      if (field.isValid) {
-        if (event.emittedBy === 'expirationMonth' || event.emittedBy === 'expirationYear') {
-          if (!event.fields.expirationMonth.isValid || !event.fields.expirationYear.isValid) {
-            return;
-          }
-        } else if (event.emittedBy === 'number') {
-          $('#card-number').next('span').text('');
-        }
-
-        // Remove any previously applied error or warning classes
-        $(field.container).parents('.form-group').removeClass('has-warning');
-        $(field.container).parents('.form-group').removeClass('has-success');
-        // Apply styling for a valid field
-        $(field.container).parents('.form-group').addClass('has-success');
-      } else if (field.isPotentiallyValid) {
-        // Remove styling  from potentially valid fields
-        $(field.container).parents('.form-group').removeClass('has-warning');
-        $(field.container).parents('.form-group').removeClass('has-success');
-        if (event.emittedBy === 'number') {
-          $('#card-number').next('span').text('');
-        }
-      } else {
-        // Add styling to invalid fields
-        $(field.container).parents('.form-group').addClass('has-warning');
-        // Add helper text for an invalid card number
-        if (event.emittedBy === 'number') {
-          $('#card-number').next('span').text('Looks like this card number has an error.');
-        }
-      }
-    });
-
-    hostedFieldsInstance.on('cardTypeChange', function (event) {
-      // Handle a field's change, such as a change in validity or credit card type
-      if (event.cards.length === 1) {
-        $('#card-type').text(event.cards[0].niceType);
-      } else {
-        $('#card-type').text('Card');
-      }
-    });
-
-    $('#order_form').submit(function (event) {
-        // event.preventDefault();
-        hostedFieldsInstance.tokenize(function (err, payload) {
-            if (err) {
-              console.error(err);
-              return;
-            }else {
-              return checkoutBT(payload);
-            }
-          });
-          event.preventDefault();
-    });
-    
-  }
-
-  function checkoutBT (payload) {
-    var formdata = {};
-    formdata.nonce = payload.nonce;
-    formdata.checkoutID = checkoutID;
-    formdata.amount = parseFloat($('#amount').val()).toFixed(2);
-    formdata.nameoncard = $('#name-on-card').val();
-
-    //shipping address
-    formdata.firstname = $('#fname').val();
-    formdata.lastname = $('#lname').val();
-    formdata.email = $('#email').val();
-    formdata.company = $('#company').val();
-    formdata.streetAddress = $('#shipping_address').val();
-    formdata.extendedAddress = $('#extended_address').val();
-    formdata.city = $('#city').val();
-    formdata.country = $('#country').val();
-    formdata.region = $('#regionValue').val();
-    formdata.postalCode = $('#postal_code').val();
-    formdata.phone = $('#phone').val();
-
-    //billing address
-    if ($('#billingAddrChoice').val() == "0") {
-      formdata.billingFirstName = $('#fname').val();
-      formdata.billingLastName = $('#lname').val();
-      formdata.billingCompany = $('#company').val();
-      formdata.billingStreetAddress = $('#shipping_address').val();
-      formdata.extendedBillingAddress = $('#extended_address').val();
-      formdata.billingCity = $('#city').val();
-      formdata.billingCountry = $('#country').val();
-      formdata.billingRegion = $('#regionValue').val();
-      formdata.BillingPostalCode = $('#postal_code').val();
-    }else {
-      formdata.billingFirstName = $('#billingFname').val();
-      formdata.billingLastName = $('#billingLname').val();
-      formdata.billingCompany = $('#billingCompany').val();
-      formdata.billingStreetAddress = $('#billing_address').val();
-      formdata.extendedBillingAddress = $('#extended_billing_address').val();
-      formdata.billingCity = $('#billingCity').val();
-      formdata.billingCountry = $('#billingCountry').val();
-      formdata.billingRegion = $('#billingRegionValue').val();
-      formdata.BillingPostalCode = $('#billingPostal_code').val();
-    }
-
-    formdata.clickID = clickID;
-    formdata.product = checkout.product;
-    formdata.shipAmount = parseFloat($('#shippingRate').html());
-    formdata.tax_rate = tax_rate;
-    // console.log(payload.nonce);
-    const $modal = $('.js-loading-bar');
-    const $bar = $modal.find('.progress-bar');
-    $.ajax({
-        type: 'POST',
-        data: JSON.stringify(formdata),
-        contentType: 'application/json',
-        crossDomain: true,
-        url: `${apiUrl}/checkout`,
-        beforeSend: function() {
-          $modal.modal('show');
-          $bar.addClass('animate');
-        },
-        success: function(data, status){
-          $bar.removeClass('animate');
-          $modal.modal('hide');
-          window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${checkoutRoute}&token=${data.transaction.creditCard.token}&checkoutid=${checkoutID}&chtx=${tax_rate}`;
-        },
-        error: function (data, status) {
-          alert("We're having network issue!! Please try again.");
-          return;
-        }
-    });
-  }
-
-  const checkoutID = getCheckoutID();
-  function getCheckoutID() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i = 0; i < 10; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-  }
+  let clickid = "";
+  clickid = getParameterByName('cid');
 
   $.get(`${apiUrl}/getFunnel`, successGetFN);
   function successGetFN(data, status) {
     if (status == 'success') {
-      checkout = data.checkouts[checkoutRoute]
+      checkout = data.lipcheckouts[checkoutRoute];
       $('#product_name').html(checkout.title);
       $('#product_price').html(checkout.product.price);
+      productVariantId = checkout.product.id;      
       $('#subtotal').html(checkout.product.price);
       nextpage = checkout.funnels[0].offers[0].pagename;
       shippingRate = data.shipRate;
@@ -428,7 +192,6 @@
       return;
     }
   }
-  const clickID = getParameterByName('cid');
 
   function getParameterByName(name, url) {
       if (!url) url = window.location.href;
@@ -453,27 +216,141 @@
     $('input[type=radio][name=paymentradio]').change(function() {
       if (this.value == '0') {
           $('#PP_payment').show();
-          $('#BT_payment').hide();
+          $('#CS_payment').hide();
           $('#submit').hide();
           $('#paymentChoice').val("0");
+          paymentMethod = "paypal";
       }
       else if (this.value == '1') {
-          $('#BT_payment').show();
+          $('#CS_payment').show();
           $('#PP_payment').hide();
           $('#submit').show();
           $('#paymentChoice').val("1");
+          paymentMethod = "card";
       }
   });
+
+  $('#submit').click(function(event){
+    event.preventDefault();
+    formSubmission();
+  })
+
+  function submitForm(action, method, values) {
+    var form = $('<form/>', {
+        id: "payment_confirmation",
+        action: action,
+        method: method
+    });
+    $.each(values, function(index, value) {
+        form.append($('<input/>', {
+            type: 'hidden',
+            id: index,
+            name: index,
+            value: value
+        }));    
+    });
+    form.appendTo('body').submit();
+  }
+
+  function formSubmission () {
+    let formdata = {};
+    formdata.access_key = "9b3c7d838ed93bbc9d3d05953bab7dd4";
+    formdata.profile_id = "citybeautycheckout";
+    formdata.reference_number = String(new Date().getTime());
+    formdata.transaction_type = "sale,create_payment_token";
+    formdata.currency = "USD";
+    formdata.payment_method = paymentMethod;
+    formdata.transaction_uuid = uniqid();
+    formdata.merchant_defined_data5 = checkoutid;
+    formdata.merchant_defined_data6 = clickid;
+    formdata.merchant_defined_data7 = productVariantId;
+    formdata.merchant_defined_data8 = shipping_rate;
+    formdata.merchant_defined_data9 = nextpage;
+    formdata.merchant_defined_data10 = String(checkoutRoute);
+    formdata.merchant_defined_data11 = String(tax_rate);              
+    formdata.signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_method,bill_to_forename,bill_to_surname,bill_to_email,bill_to_company_name,bill_to_address_line1,bill_to_address_line2,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code,merchant_defined_data5,merchant_defined_data6,merchant_defined_data7,merchant_defined_data8,merchant_defined_data9,merchant_defined_data10,merchant_defined_data11,ship_to_forename,ship_to_surname,ship_to_phone,ship_to_company_name,ship_to_address_line1,ship_to_address_line2,ship_to_address_city,ship_to_address_country,ship_to_address_state,ship_to_address_postal_code,override_custom_receipt_page,tax_amount";
+    formdata.unsigned_field_names = "card_type,card_number,card_expiry_date";
+    formdata.signed_date_time = String(new Date().toISOString().split('.')[0]+"Z");
+    formdata.locale = "en";
+    formdata.amount = parseFloat($('#amount').val()).toFixed(2);
+    formdata.tax_amount = taxValue;
+
+    //shipping address
+    formdata.ship_to_forename = $('#fname').val();
+    formdata.ship_to_surname = $('#lname').val();
+    formdata.ship_to_company_name = $('#company').val();
+    formdata.ship_to_address_line1 = $('#shipping_address').val();
+    formdata.ship_to_address_line2 = $('#extended_address').val();
+    formdata.ship_to_address_city = $('#city').val();
+    formdata.ship_to_address_country = $('#country').val();
+    formdata.ship_to_address_state = $('#regionValue').val();
+    formdata.ship_to_address_postal_code = $('#postal_code').val();
+    formdata.ship_to_phone = $('#phone').val();
+
+    //billing address
+    formdata.bill_to_email = $('#email').val();    
+    if ($('#billingAddrChoice').val() == "0") {
+      formdata.bill_to_forename = $('#fname').val();
+      formdata.bill_to_surname = $('#lname').val();
+      formdata.bill_to_company_name = $('#company').val();
+      formdata.bill_to_address_line1 = $('#shipping_address').val();
+      formdata.bill_to_address_line2 = $('#extended_address').val();
+      formdata.bill_to_address_city = $('#city').val();
+      formdata.bill_to_address_country = $('#country').val();
+      formdata.bill_to_address_state = $('#regionValue').val();
+      formdata.bill_to_address_postal_code = $('#postal_code').val();
+    }else {
+      formdata.bill_to_forename = $('#billingFname').val();
+      formdata.bill_to_surname = $('#billingLname').val();
+      formdata.bill_to_company_name = $('#billingCompany').val();
+      formdata.bill_to_address_line1 = $('#billing_address').val();
+      formdata.bill_to_address_line2 = $('#extended_billing_address').val();
+      formdata.bill_to_address_city = $('#billingCity').val();
+      formdata.bill_to_address_country = $('#billingCountry').val();
+      formdata.bill_to_address_state = $('#billingRegionValue').val();
+      formdata.bill_to_address_postal_code = $('#billingPostal_code').val();
+    }
+    formdata.override_custom_receipt_page =  "https://citybeauty.com/scripts/processingorder.php";
+    formdata.card_type = $('select[name=card_type]').val();
+    formdata.card_number = $('input[name=card_number]').val();
+    formdata.card_expiry_date = $('input[name=card_expiry_date]').val();
+
+    const $modal = $('.js-loading-bar');
+    const $bar = $modal.find('.progress-bar');
+    $.ajax({
+        type: 'POST',
+        data: JSON.stringify(formdata),
+        contentType: 'application/json',
+        crossDomain: true,
+        url: `${apiUrl}/getsignature`,
+        beforeSend: function() {
+          $modal.modal('show');
+          $bar.addClass('animate');
+        },
+        success: function(data, status){
+          formdata.signature = data.signature;
+          //add another ajax call to CS endpoint
+          submitForm('https://testsecureacceptance.cybersource.com/silent/pay','POST',formdata);
+          $bar.removeClass('animate');
+          $modal.modal('hide');
+        },
+        error: function (data, status) {
+          alert("We're having network issue!! Please try again later!!");
+          return;
+        }
+    });
+  }
+  
     // $("#submit").on('touchstart', function(event) {
     //   $(this).trigger('click');
     // });
   // Segment analytics section
-  analytics.page('City Checkout', {
-    title: 'City Checkout',
-    url: 'https://checkout.citybeauty.com/src/cbl001wwylt.html'
-  });
-  analytics.track('Email entered', {
-    location: '#email',
-    type: 'input'
-  });
+  // analytics.page('City Checkout', {
+  //   title: 'City Checkout',
+  //   url: 'https://checkout.citybeauty.com/src/cbl001wwylt.html'
+  // });
+  // analytics.track('Email entered', {
+  //   location: '#email',
+  //   type: 'input'
+  // });
   
