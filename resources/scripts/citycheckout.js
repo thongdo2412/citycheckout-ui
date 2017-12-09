@@ -176,7 +176,7 @@
   let clickid = "";
   clickid = getParameterByName('cid');
 
-  $.get(`${apiUrl}/getFunnel`, successGetFN);
+  $.get(`${apiUrl}/getfunnel`, successGetFN);
   function successGetFN(data, status) {
     if (status == 'success') {
       checkouts = data.checkouts;
@@ -364,8 +364,6 @@
           formdata.signature = data.signature;
           //add another ajax call to CS endpoint
           submitForm('https://testsecureacceptance.cybersource.com/silent/pay','POST',formdata);
-          $bar.removeClass('animate');
-          $modal.modal('hide');
         },
         error: function (data, status) {
           alert("We're having network issue!! Please try again later!!");
