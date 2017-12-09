@@ -1,15 +1,15 @@
   const baseUrl = "https://checkout.citybeauty.com";
   const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
-  var checkoutRoute;
-  checkoutRoute = parseInt($('#checkoutRoute').val()) - 1;
   var nextpage = "";
   var tax_rate = 0.0;
   var taxValue = 0.0;
   var checkout = {};
   var shipping_rate = 0.0;
+  var shipping_info;
   var paymentMethod = "card";
   var productVariantId;
   var expiry_date;
+  var funnelRoute;
   // update the tax value, shipping value and total value
   $('#billingAddrChoice').val("0");
   $("#country").change(function() {
@@ -23,8 +23,8 @@
       $('#usState').show();
       $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
       $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
-      if (checkoutRoute == 0) {
-        shipping_rate = parseFloat(shippingRate.US[0].rate);
+      if (currentPageName == 'cbl001') {
+        shipping_rate = parseFloat(shipping_info.US[0].rate);
         $('#shippingRate').html(shipping_rate);
         $('#shippingValueInForm').html(shipping_rate);
       }
@@ -72,7 +72,7 @@
       $('#checkoutTaxValue').hide();
       $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
       $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
-      shipping_rate = parseFloat(shippingRate.Canada);
+      shipping_rate = parseFloat(shipping_info.Canada);
       $('#shippingRate').html(shipping_rate);
       $('#shippingValueInForm').html(shipping_rate);
       $("#caProvince").change(function() {
@@ -92,7 +92,7 @@
       $('#checkoutTaxValue').hide();
       $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
       $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
-      shipping_rate = parseFloat(shippingRate.International);
+      shipping_rate = parseFloat(shipping_info.International);
       $('#shippingRate').html(shipping_rate);
       $('#shippingValueInForm').html(shipping_rate);
       $("#auProvince").change(function() {
@@ -107,7 +107,7 @@
       $('#region').hide();
       $('#countrySelect').addClass('col-sm-6').removeClass('col-sm-4');
       $('#postal').addClass('col-sm-6').removeClass('col-sm-4');
-      shipping_rate = parseFloat(shippingRate.International);
+      shipping_rate = parseFloat(shipping_info.International);
       $('#shippingRate').html(shipping_rate);
       $('#shippingValueInForm').html(shipping_rate);
       totalValue = parseFloat($('#product_price').html()) + shipping_rate;
@@ -179,19 +179,38 @@
   $.get(`${apiUrl}/getFunnel`, successGetFN);
   function successGetFN(data, status) {
     if (status == 'success') {
-      checkout = data.lipcheckouts[checkoutRoute];
-      $('#product_name').html(checkout.title);
-      $('#product_price').html(checkout.product.price);
-      productVariantId = checkout.product.id;      
-      $('#subtotal').html(checkout.product.price);
-      nextpage = checkout.funnels[0].offers[0].pagename;
-      shippingRate = data.shipRate;
-      return;
+      checkouts = data.checkouts;
+      shipping_info = data.ship_rate;
+      US_funnels = data.funnels;
+
+      checkouts.map(function(checkout) {
+        if (checkout.id == currentPageName) {
+          $('#product_name').html(checkout.title);
+          $('#product_price').html(checkout.price);
+          productVariantId = checkout.product_id;      
+          $('#subtotal').html(checkout.price);
+          funnelRoute = checkout.US_funnel;
+        }
+      })
+      US_funnels.map(function(funnel) {
+        if (funnel.id == funnelRoute) {
+          nextpage =  funnel.offers[0].pagename; // might add different offers for split test
+          return;
+        }
+      })
     }
     else {
       alert("We're having issue with network! Please try again later!!");
       return;
     }
+  }
+
+  let currentPageName = getPageNameInURL();
+
+  function getPageNameInURL() {
+    let path = window.location.pathname;
+    let pagename = path.split("/").pop();
+    return pagename.split(".html")[0];
   }
 
   function getParameterByName(name, url) {
@@ -280,7 +299,7 @@
     formdata.merchant_defined_data7 = productVariantId;
     formdata.merchant_defined_data8 = shipping_rate;
     formdata.merchant_defined_data9 = nextpage;
-    formdata.merchant_defined_data10 = String(checkoutRoute);
+    formdata.merchant_defined_data10 = String(funnelRoute);
     formdata.merchant_defined_data11 = String(tax_rate);              
     formdata.signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_method,bill_to_forename,bill_to_surname,bill_to_email,bill_to_company_name,bill_to_address_line1,bill_to_address_line2,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code,merchant_defined_data5,merchant_defined_data6,merchant_defined_data7,merchant_defined_data8,merchant_defined_data9,merchant_defined_data10,merchant_defined_data11,ship_to_forename,ship_to_surname,ship_to_phone,ship_to_company_name,ship_to_address_line1,ship_to_address_line2,ship_to_address_city,ship_to_address_country,ship_to_address_state,ship_to_address_postal_code,override_custom_receipt_page,tax_amount";
     formdata.unsigned_field_names = "card_type,card_number,card_expiry_date";

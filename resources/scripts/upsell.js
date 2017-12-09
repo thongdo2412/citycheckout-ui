@@ -3,9 +3,9 @@ const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api"
 var nextpage = "";
 var nopage = "";
 
-function getCheckoutNameInURL(checkoutcode) {
-  const path = window.location.pathname;
-  const pagename = path.split("/").pop();
+function getPageNameInURL() {
+  let path = window.location.pathname;
+  let pagename = path.split("/").pop();
   return pagename.split(".html")[0];
 }
 
@@ -38,20 +38,27 @@ var tax_amount = 0.0;
 $.get(`${apiUrl}/getFunnel`, successGetFN);
 function successGetFN(data, status) {
   if (status == 'success') {
-    const pagename = getCheckoutNameInURL();
-    offers = data.lipcheckouts[pid].funnels[0].offers;
-    offers.map(function (item) {
-      if (pagename == item.pagename) {
-        nextpage = item.nextpage;
-        nopage = item.nopage;
+    const pagename = getPageNameInURL();
+    let funnels = data.funnels;
+    var offers;
+    funnels.map(function (funnel){
+      if (funnel.id == pid) {
+        offers = funnel.offers;
+      }
+    })
+
+    offers.map(function (offer) {
+      if (offer.pagename == pagename) {
+        nextpage = offer.nextpage;
+        nopage = offer.nopage;
         if (chtx > 0) {
-          amountValue = parseFloat(item.product.price) * (1 + chtx);
-          tax_amount = parseFloat(item.product.price) * chtx;
+          amountValue = parseFloat(offer.price) * (1 + chtx);
+          tax_amount = parseFloat(offer.price) * chtx;
           amountValue = amountValue.toFixed(2);
         }else {
-          amountValue = parseFloat(item.product.price);
+          amountValue = parseFloat(offer.price);
         }
-        productVariantId = item.product.id;
+        productVariantId = offer.product_id;
       }
     });
     return;
