@@ -15,21 +15,19 @@
   $("#country").change(function() {
     const country = $(this).find('option:selected').val();
     if (country == 'US') {
-      $('#totalprice').html("");
       $("#usState").prop('selectedIndex', 0);
-      $('#region').show();
       $('#caProvince').hide();
       $('#auProvince').hide();
       $('#usState').show();
-      $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
-      $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
       if (currentPageName == 'cbl001') {
         shipping_rate = parseFloat(shipping_info.US[0].rate);
         $('#shippingRate').html(shipping_rate);
+        $('#shippingRate_sm').html(shipping_rate);        
         $('#shippingValueInForm').html(shipping_rate);
       }
       else {
         $('#shippingRate').html("0.00");
+        $('#shippingRate_sm').html("0.00");        
         $('#shippingValueInForm').html("Free");
       }
       $("#usState").change(function() {
@@ -38,21 +36,31 @@
         if (state == 'CA') {
           $('#checkoutTaxLabel').show();
           $('#checkoutTaxValue').show();
+          $('#checkoutTaxLabel_sm').show();
+          $('#checkoutTaxValue_sm').show();
           tax_rate = 0.09;
           taxValue = parseFloat($('#product_price').html()) * tax_rate;
           $('#checkoutTaxValue').html(taxValue.toFixed(2));
+          $('#checkoutTaxValue_sm').html(taxValue.toFixed(2));          
           totalValue = parseFloat($('#product_price').html()) + shipping_rate + taxValue;
           $('#totalprice').html(totalValue.toFixed(2));
+          $('#totalprice_sm').html(totalValue.toFixed(2));
+          $('#collapse_btn_price').html(totalValue.toFixed(2));          
           $('#amount').val(totalValue);
         }
         else if (state == "UT") {
           $('#checkoutTaxLabel').show();
           $('#checkoutTaxValue').show();
+          $('#checkoutTaxLabel_sm').show();
+          $('#checkoutTaxValue_sm').show();
           tax_rate = 0.0676;
           taxValue = parseFloat($('#product_price').html()) * .0676;
           $('#checkoutTaxValue').html(taxValue.toFixed(2));
+          $('#checkoutTaxValue_sm').html(taxValue.toFixed(2));
           totalValue = parseFloat($('#product_price').html()) + shipping_rate + taxValue;
           $('#totalprice').html(totalValue.toFixed(2));
+          $('#totalprice_sm').html(totalValue.toFixed(2));
+          $('#collapse_btn_price').html(totalValue.toFixed(2));          
           $('#amount').val(totalValue);
         }
         else {
@@ -60,20 +68,22 @@
           $('#checkoutTaxValue').hide();
           totalValue = parseFloat($('#product_price').html()) + shipping_rate;
           $('#totalprice').html(totalValue.toFixed(2));
+          $('#totalprice_sm').html(totalValue.toFixed(2));
+          $('#collapse_btn_price').html(totalValue.toFixed(2));
           $('#amount').val(totalValue);
         }
       });
     }else if (country == 'CA'){
-      $('#region').show();
       $('#usState').hide();
       $('#auProvince').hide();
       $('#caProvince').show();
       $('#checkoutTaxLabel').hide();
       $('#checkoutTaxValue').hide();
-      $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
-      $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
+      $('#checkoutTaxLabel_sm').hide();
+      $('#checkoutTaxValue_sm').hide();
       shipping_rate = parseFloat(shipping_info.Canada);
       $('#shippingRate').html(shipping_rate);
+      $('#shippingRate_sm').html(shipping_rate);      
       $('#shippingValueInForm').html(shipping_rate);
       $("#caProvince").change(function() {
         const state = $(this).find('option:selected').val();
@@ -81,19 +91,21 @@
       });
       totalValue = parseFloat($('#product_price').html()) + shipping_rate;
       $('#totalprice').html(totalValue.toFixed(2));
+      $('#totalprice_sm').html(totalValue.toFixed(2));
+      $('#collapse_btn_price').html(totalValue.toFixed(2));      
       $('#amount').val(totalValue);
     }
     else if (country == "AU") {
-      $('#region').show();
       $('#usState').hide();
       $('#caProvince').hide();
       $('#auProvince').show();
       $('#checkoutTaxLabel').hide();
       $('#checkoutTaxValue').hide();
-      $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
-      $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
+      $('#checkoutTaxLabel_sm').hide();
+      $('#checkoutTaxValue_sm').hide();
       shipping_rate = parseFloat(shipping_info.International);
       $('#shippingRate').html(shipping_rate);
+      $('#shippingRate_sm').html(shipping_rate); 
       $('#shippingValueInForm').html(shipping_rate);
       $("#auProvince").change(function() {
         const state = $(this).find('option:selected').val();
@@ -101,17 +113,26 @@
       });
       totalValue = parseFloat($('#product_price').html()) + shipping_rate;
       $('#totalprice').html(totalValue.toFixed(2));
+      $('#totalprice_sm').html(totalValue.toFixed(2));
+      $('#collapse_btn_price').html(totalValue.toFixed(2));
       $('#amount').val(totalValue);
     }
     else {
       $('#region').hide();
       $('#countrySelect').addClass('col-sm-6').removeClass('col-sm-4');
       $('#postal').addClass('col-sm-6').removeClass('col-sm-4');
+      $('#checkoutTaxLabel').hide();
+      $('#checkoutTaxValue').hide();
+      $('#checkoutTaxLabel_sm').hide();
+      $('#checkoutTaxValue_sm').hide();
       shipping_rate = parseFloat(shipping_info.International);
       $('#shippingRate').html(shipping_rate);
+      $('#shippingRate_sm').html(shipping_rate);
       $('#shippingValueInForm').html(shipping_rate);
       totalValue = parseFloat($('#product_price').html()) + shipping_rate;
       $('#totalprice').html(totalValue.toFixed(2));
+      $('#totalprice_sm').html(totalValue.toFixed(2));
+      $('#collapse_btn_price').html(totalValue.toFixed(2));
       $('#amount').val(totalValue);
       $('#regionValue').val("");
     }
@@ -186,9 +207,15 @@
       checkouts.map(function(checkout) {
         if (checkout.id == currentPageName) {
           $('#product_name').html(checkout.title);
+          $('#product_name_sm').html(checkout.title);
           $('#product_price').html(checkout.price);
+          $('#product_price_sm').html(checkout.price);          
           productVariantId = checkout.product_id;      
           $('#subtotal').html(checkout.price);
+          $('#subtotal_sm').html(checkout.price);          
+          $('#totalprice').html(checkout.price);
+          $('#totalprice_sm').html(checkout.price);          
+          $('#collapse_btn_price').html(checkout.price);
           funnelRoute = checkout.US_funnel;
         }
       })
@@ -233,22 +260,22 @@
             $('#billingAddrChoice').val("1");
         }
     });
-    $('input[type=radio][name=paymentradio]').change(function() {
-      if (this.value == '0') {
-          $('#PP_payment').show();
-          $('#CS_payment').hide();
-          $('#submit').hide();
-          $('#paymentChoice').val("0");
-          paymentMethod = "paypal";
-      }
-      else if (this.value == '1') {
-          $('#CS_payment').show();
-          $('#PP_payment').hide();
-          $('#submit').show();
-          $('#paymentChoice').val("1");
-          paymentMethod = "card";
-      }
-  });
+  //   $('input[type=radio][name=paymentradio]').change(function() {
+  //     if (this.value == '0') {
+  //         $('#PP_payment').show();
+  //         $('#CS_payment').hide();
+  //         $('#submit').hide();
+  //         $('#paymentChoice').val("0");
+  //         paymentMethod = "paypal";
+  //     }
+  //     else if (this.value == '1') {
+  //         $('#CS_payment').show();
+  //         $('#PP_payment').hide();
+  //         $('#submit').show();
+  //         $('#paymentChoice').val("1");
+  //         paymentMethod = "card";
+  //     }
+  // });
 
   $("#expiration-date").keyup(function(){ //handle expiration date field
     if ($(this).val().length == 4) {
@@ -287,8 +314,8 @@
 
   function formSubmission () {
     let formdata = {};
-    formdata.access_key = "9b3c7d838ed93bbc9d3d05953bab7dd4";
-    formdata.profile_id = "citybeautycheckout";
+    formdata.access_key = "3a901f4e2f3633ca9a686bc4c263295a";
+    formdata.profile_id = "citybeauty";
     formdata.reference_number = String(new Date().getTime());
     formdata.transaction_type = "sale,create_payment_token";
     formdata.currency = "USD";
@@ -363,7 +390,7 @@
         success: function(data, status){
           formdata.signature = data.signature;
           //add another ajax call to CS endpoint
-          submitForm('https://testsecureacceptance.cybersource.com/silent/pay','POST',formdata);
+          submitForm('https://secureacceptance.cybersource.com/silent/pay','POST',formdata);
         },
         error: function (data, status) {
           alert("We're having network issue!! Please try again later!!");
@@ -371,6 +398,68 @@
         }
     });
   }
+
+  $('#collapseBtn').click(function(){
+    var sign;
+    $('#collapse_label').text(function(i,old){
+      sign=old;
+      return old=='Show order summary' ?  'Hide order summary' : 'Show order summary';
+    });
+  })
+
+  paypal.Button.render({
+
+    env: 'sandbox', // sandbox | production
+
+    // Show the buyer a 'Pay Now' button in the checkout flow
+    commit: true,
+
+    style: {
+      label: 'checkout',
+      size:  'medium',    // small | medium | large | responsive
+      shape: 'rect',     // pill | rect
+      color: 'gold',     // gold | blue | silver | black
+      tagline: false    
+    },
+
+    // payment() is called when the button is clicked
+    payment: function() {
+        // Set up a url on your server to create the payment
+        var CREATE_URL = `${apiUrl}/pcreatebill`;
+        data = {
+          return_url : window.location.href,
+          cancel_url : window.location.href,
+          amount : $('#product_price').html()
+        };
+        // Make a call to your server to set up the payment
+        return paypal.request.post(CREATE_URL,data)
+            .then(function(res) {
+              return res.TOKEN;
+            });
+    },
+
+    // onAuthorize() is called when the buyer approves the payment
+    onAuthorize: function(data, actions) {
+           
+      // Set up a url on your server to execute the payment
+        var EXECUTE_URL = `${apiUrl}/pexecbill`;
+        data.checkoutid = checkoutid;
+        data.clickid = clickid;
+        data.productVariantId = productVariantId;
+        // Set up the data you need to pass to your server
+        // var data = {
+        //     paymentToken: data.TOKEN,
+        //     payerID: data.payerID
+        // };
+        // Make a call to your server to execute the payment
+        return paypal.request.post(EXECUTE_URL, data)
+            .then(function (res) {
+              console.log(res)
+              // window.alert('Payment Complete!');
+            });
+    }
+
+  }, '#paypal-button');
   
     // $("#submit").on('touchstart', function(event) {
     //   $(this).trigger('click');

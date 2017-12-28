@@ -96,8 +96,8 @@ function successGetFN(data, status) {
 $('#submit').click(function (event) {
   event.preventDefault();
   var formdata = {};
-  formdata.access_key = "9b3c7d838ed93bbc9d3d05953bab7dd4";
-  formdata.profile_id = "citybeautycheckout";
+  formdata.access_key = "3a901f4e2f3633ca9a686bc4c263295a";
+  formdata.profile_id = "citybeauty";
   formdata.reference_number = String(new Date().getTime());
   formdata.payment_token = cc_token;
   formdata.transaction_type = "sale";
@@ -124,8 +124,6 @@ $('#submit').click(function (event) {
         $bar.addClass('animate');
       },
       success: function(data, status){
-        $bar.removeClass('animate');
-        $modal.modal('hide');
         if (nextpage == "orderconfirmation") {
           window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutid}`;
         }
