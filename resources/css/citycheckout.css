@@ -177,7 +177,7 @@
   #CS_payment {
     margin-top: 20px;
     background-color: #e6e6e6;
-    padding: 15px 15px 0 15px;
+    padding: 25px 15px 0 15px;
   }
   #ccSection {
     margin-top: 6px; font-weight: 400;
@@ -218,7 +218,7 @@
       content: '';
       width: 12px;
       height: 12px;
-      background: #1E90FF;
+      background: #0d1c30;
       position: absolute;
       top: 3px;
       left: 3px;
@@ -241,7 +241,7 @@
   #collapse_label {color: #136f99;font-weight: 400;}
   #smallScreenTotal {margin-bottom: 20px;}
   #modal-label {font-size: 12px; color: #1579a6!important; cursor: pointer;font-weight: 400;}
-  #shippingValueInForm {font-weight: 400; font-size:17px;}
+  #shippingValueInForm {font-weight: 400; font-size:17px;margin-left: 5px;}
   .modal-body {padding: 20px 15px 30px 15px!important;}
   .modal-body p {margin-top: 10px!important;}
   #arrow-section {margin-top: 4px;}
@@ -249,7 +249,7 @@
   .submitBtn {margin-top: 20px;}
   #submit {font-weight: 300;}
   .lock-img {margin-top: -4px;margin-right: 4px;}
-
+  #expiration-date {margin-top: -25px;}
   @media screen and (max-width:992px) {
     .flex_wrapper {flex:1; width: 100%; flex-direction: column;}
     .leftbar {border-right: none;}
@@ -268,7 +268,11 @@
   }
 
   @media screen and (max-width:767px) {
-    #card-number {margin-bottom: -10px;}
+    #expiration-date {margin-top: -15px;}
+    #shipping_address {margin-top: -5px;}
+    #billingCity {margin-top: 10px;}
+    #billingpostal_code {margin-top: 10px;}
+    #city {margin-top: 5px;}
   }
   @media screen and (max-width: 670px) {
     .btn {

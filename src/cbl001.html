@@ -80,7 +80,7 @@
         OR
       </span>
     </div>
-    <form id="payment_form" role="form" data-toggle="validator">
+    <form id="payment_form" data-toggle="validator" role="form">
       <div class="row form-group">
         <input id="amount" name="amount" type="hidden" min="1" value="">
       </div>
@@ -88,7 +88,7 @@
         <h3 class="panel-title">Customer Information</h3>
         <p></p>
         <div class="col-sm-12">
-          <input class="form-control" id="email" name="bill_to_email" type="email" placeholder="Email" data-error="Email address is invalid" required>
+          <input class="form-control" id="email" name="bill_to_email" type="email" placeholder="Email" data-error="The email you've entered is invalid" required>
           <div class="help-block with-errors"></div>
         </div>
       </div>
@@ -383,7 +383,7 @@
             </select>
             <div class="help-block with-errors"></div>
           </div>
-          <div class="col-sm-4" id="region">
+          <div class="col-sm-4 form-group" id="region">
             <select class="form-control" id="usState" name="usState">
               <option selected disabled class="hideoption">Select your state</option>
               <option value="AL">Alabama</option>
@@ -924,22 +924,24 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 form-group">
               <!--  Hosted Fields div container -->
-              <input class="form-control" id="card-number" name="card_number" placeholder="Card number" maxlength="20">
+              <input class="form-control" id="card-number" name="card_number" placeholder="Card number" maxlength="20" data-error="The credit card number you've entered is invalid" required>
               <span class="helper-text"></span>
+              <div class="help-block with-errors"></div>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-6 col-xs-12 form-group">
               <!--  Hosted Fields div container -->
-              <input class="form-control" id="expiration-date" name="card_expiry_date" maxlength="5" placeholder="Expiration date: MM/YY">
+              <input class="form-control" id="expiration-date" name="card_expiry_date" maxlength="5" placeholder="Expiration date: MM/YY" data-error="The expiration date you've entered is invalid" required>
+              <div class="help-block with-errors"></div>
             </div>
           </div>
         </div>
       </div>
       <div class="form-group submitBtn">
-        <button id="submit" class="btn btn-success btn-lg center-block">SUBMIT ORDER</button>
+        <button id="submit" type="submit" class="btn btn-success btn-lg center-block btn-primary">SUBMIT ORDER</button>
       </div>
     </form>
     <div class="footer-company">&copy; <script type="text/javascript">
@@ -947,7 +949,7 @@
       theYear=now.getFullYear()
       document.write(theYear)
       </script> City Beauty LLC - All rights reserved.</div>
-  </div>
+    </div>
   <div class="clearfix"></div>
 </div>
   
