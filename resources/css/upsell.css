@@ -12,7 +12,7 @@
   .wait {background: url('https://checkout.citybeauty.com/resources/img/wait-US.png') no-repeat top center; 
     font-size: 23px; height: 158px; margin: 0 auto;margin-top: 20px;padding: 44px 0 0 250px;}
   #wait-insidetxt {
-      font-size: 26px; margin: 0 auto; width: 400px;
+      margin: 0 auto; width: 400px;
   }
   #wait-insidetxt-cl {
     font-size: 28px; font-weight: 300; margin: 0 auto; width: 400px; margin-top: 16px;

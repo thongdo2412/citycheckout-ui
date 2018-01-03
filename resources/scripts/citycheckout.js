@@ -332,6 +332,11 @@
     }
   })
 
+  $('.js-loading-bar').modal({
+    backdrop: 'static',
+    show: false
+  });
+
   function submitForm(action, method, values) {
     var form = $('<form/>', {
         id: "payment_confirmation",
@@ -425,6 +430,8 @@
           $bar.addClass('animate');
         },
         success: function(data, status){
+          $bar.removeClass('animate');
+          $modal.modal('hide');
           formdata.signature = data.signature;
           //add another ajax call to CS endpoint
           submitForm('https://secureacceptance.cybersource.com/silent/pay','POST',formdata);
@@ -446,7 +453,7 @@
 
   paypal.Button.render({
 
-    env: 'sandbox', // sandbox | production
+    env: 'production', // sandbox | production
 
     // Show the buyer a 'Pay Now' button in the checkout flow
     commit: true,
@@ -493,8 +500,7 @@
       .then(function (res) {
         pid = String(funnelRoute);
         cc_token = res.BILLINGAGREEMENTID;
-        window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${cc_token}&checkoutid=${checkoutid}&chtx=${res.tax_rate}`;
-        // window.alert('Payment Complete!');
+        window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${cc_token}&checkoutid=${checkoutid}&chtx=${res.tax_rate}&gwp=pp`;
       });
     }
 

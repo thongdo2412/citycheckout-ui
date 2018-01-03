@@ -31,6 +31,7 @@ const cc_token = getParameterByName('token');
 const checkoutid = getParameterByName('checkoutid');
 const chtx = parseFloat(getParameterByName('chtx'));
 const pid = getParameterByName('pid');
+const gateway = getParameterByName('gwp');
 var checkouts;
 var amountValue;
 var productVariantId;
@@ -80,7 +81,7 @@ function successGetFN(data, status) {
           tax_amount = parseFloat(offer.price) * chtx;
           amountValue = amountValue.toFixed(2);
         }else {
-          amountValue = parseFloat(offer.price);
+          amountValue = offer.price;
         }
         productVariantId = offer.product_id;
       }
@@ -93,8 +94,16 @@ function successGetFN(data, status) {
   }
 }
 
+$('.js-loading-bar').modal({
+  backdrop: 'static',
+  show: false
+});
+
 $('#submit').click(function (event) {
   event.preventDefault();
+  const $modal = $('.js-loading-bar');
+  const $bar = $modal.find('.progress-bar');
+
   var formdata = {};
   formdata.access_key = "3a901f4e2f3633ca9a686bc4c263295a";
   formdata.profile_id = "citybeauty";
@@ -103,16 +112,17 @@ $('#submit').click(function (event) {
   formdata.transaction_type = "sale";
   formdata.currency = "USD";
   formdata.transaction_uuid = uniqid();
-  formdata.tax_amount = tax_amount;
-  formdata.signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_token,tax_amount,merchant_defined_data5,merchant_defined_data7";
+  formdata.tax_amount = tax_amount.toFixed(2);
+  formdata.signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_token,tax_amount,merchant_defined_data5,merchant_defined_data7,merchant_defined_data11";
   formdata.signed_date_time = String(new Date().toISOString().split('.')[0]+"Z");
   formdata.locale = "en";
   
   formdata.amount = amountValue;
   formdata.merchant_defined_data5 = checkoutid;
   formdata.merchant_defined_data7 = productVariantId;
-  const $modal = $('.js-loading-bar');
-  const $bar = $modal.find('.progress-bar');
+  formdata.merchant_defined_data11 = chtx;
+  formdata.gateway = gateway;
+  
   $.ajax({
       type: 'POST',
       data: JSON.stringify(formdata),
@@ -124,11 +134,13 @@ $('#submit').click(function (event) {
         $bar.addClass('animate');
       },
       success: function(data, status){
+        $bar.removeClass('animate');
+        $modal.modal('hide');
         if (nextpage == "orderconfirmation") {
           window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutid}`;
         }
         else {
-          window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${cc_token}&checkoutid=${checkoutid}&chtx=${chtx}`;
+          window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${cc_token}&checkoutid=${checkoutid}&chtx=${chtx}&gwp=${gateway}`;
         }
       },
       error: function (data, status) {
@@ -143,7 +155,7 @@ $('#NotTakeOffer').click(function (event) {
     window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutid}`;
   }
   else {
-    window.location = `${baseUrl}/src/fnl/${nopage}.html?pid=${pid}&token=${cc_token}&checkoutid=${checkoutid}&chtx=${chtx}`;
+    window.location = `${baseUrl}/src/fnl/${nopage}.html?pid=${pid}&token=${cc_token}&checkoutid=${checkoutid}&chtx=${chtx}&gwp=${gateway}`;
   }
 });
 
