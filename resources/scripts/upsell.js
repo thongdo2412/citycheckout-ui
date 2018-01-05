@@ -113,13 +113,14 @@ $('#submit').click(function (event) {
   formdata.currency = "USD";
   formdata.transaction_uuid = uniqid();
   formdata.tax_amount = tax_amount.toFixed(2);
-  formdata.signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_token,tax_amount,merchant_defined_data5,merchant_defined_data7,merchant_defined_data11";
+  formdata.signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_token,tax_amount,merchant_defined_data5,merchant_defined_data7,merchant_defined_data8,merchant_defined_data11";
   formdata.signed_date_time = String(new Date().toISOString().split('.')[0]+"Z");
   formdata.locale = "en";
   
   formdata.amount = amountValue;
   formdata.merchant_defined_data5 = checkoutid;
   formdata.merchant_defined_data7 = productVariantId;
+  formdata.merchant_defined_data8 = "0.0"; // shipping is free for upsell
   formdata.merchant_defined_data11 = chtx;
   formdata.gateway = gateway;
   

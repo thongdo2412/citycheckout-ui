@@ -267,25 +267,25 @@
   }
 
   function getParameterByName(name, url) {
-      if (!url) url = window.location.href;
-      name = name.replace(/[\[\]]/g, "\\$&");
-      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-      results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
   $('input[type=radio][name=billingradio]').change(function() {
-        if (this.value == '0') {
-            $('#billing_info').hide();
-            $('#billingAddrChoice').val("0");
-        }
-        else if (this.value == '1') {
-            $('#billing_info').show();
-            $('#billingAddrChoice').val("1");
-        }
-    });
+    if (this.value == '0') {
+      $('#billing_info').hide();
+      $('#billingAddrChoice').val("0");
+    }
+    else if (this.value == '1') {
+      $('#billing_info').show();
+      $('#billingAddrChoice').val("1");
+    }
+  });
   //   $('input[type=radio][name=paymentradio]').change(function() {
   //     if (this.value == '0') {
   //         $('#PP_payment').show();
@@ -375,7 +375,7 @@
     formdata.signed_date_time = String(new Date().toISOString().split('.')[0]+"Z");
     formdata.locale = "en";
     formdata.amount = parseFloat($('#amount').val()).toFixed(2);
-    formdata.tax_amount = String(taxValue.toFixed(2));
+    formdata.tax_amount = taxValue.toFixed(2);
 
     //shipping address
     formdata.ship_to_forename = $('#fname').val();
@@ -416,7 +416,7 @@
     formdata.card_type = $('select[name=card_type]').val();
     formdata.card_number = $('input[name=card_number]').val();
     formdata.card_expiry_date = expiryDateFormat($('input[name=card_expiry_date]').val());
-
+    
     const $modal = $('.js-loading-bar');
     const $bar = $modal.find('.progress-bar');
     $.ajax({
@@ -453,7 +453,7 @@
 
   paypal.Button.render({
 
-    env: 'production', // sandbox | production
+    env: 'sandbox', // sandbox | production
 
     // Show the buyer a 'Pay Now' button in the checkout flow
     commit: true,
@@ -498,9 +498,16 @@
       // Make a call to your server to execute the payment
       return paypal.request.post(EXECUTE_URL, data)
       .then(function (res) {
+        console.log(res)
         pid = String(funnelRoute);
-        cc_token = res.BILLINGAGREEMENTID;
-        window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${cc_token}&checkoutid=${checkoutid}&chtx=${res.tax_rate}&gwp=pp`;
+        if (res.BILLINGAGREEMENTID) {
+          cc_token = res.BILLINGAGREEMENTID;
+          window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${cc_token}&checkoutid=${checkoutid}&chtx=${res.tax_rate}&gwp=pp`;
+        }
+        else {
+          cc_token = "not_present";
+          window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutid}`;
+        }
       });
     }
 
