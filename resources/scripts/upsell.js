@@ -123,7 +123,6 @@ $('#submit').click(function (event) {
   formdata.merchant_defined_data8 = "0.0"; // shipping is free for upsell
   formdata.merchant_defined_data11 = chtx;
   formdata.gateway = gateway;
-  
   $.ajax({
       type: 'POST',
       data: JSON.stringify(formdata),

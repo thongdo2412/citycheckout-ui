@@ -498,7 +498,6 @@
       // Make a call to your server to execute the payment
       return paypal.request.post(EXECUTE_URL, data)
       .then(function (res) {
-        console.log(res)
         pid = String(funnelRoute);
         if (res.BILLINGAGREEMENTID) {
           cc_token = res.BILLINGAGREEMENTID;
