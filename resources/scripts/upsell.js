@@ -37,28 +37,28 @@ var amountValue;
 var productVariantId;
 var tax_amount = 0.0;
 
-if (checkoutid) {
-  $.post(`${apiUrl}/checkexpired`, {"checkout_id": checkoutid}, successCheckExp);
-  function successCheckExp(data, status) {
-    if (status == 'success') {
-      if (data.expired == "true") {
-        document.body.style.display = "none";
-        alert("Your one time offer has been expired");
-        window.location = 'https://citybeauty.com/';
-        return;
-      }
-    }
-    else {
-      alert("We're having issue with network! Please try again!!");
-      return;
-    }
-  }
-}
-else {
-  document.body.style.display = "none";
-  alert("Your one time offer has been expired");
-  window.location = 'https://citybeauty.com/';
-}
+// if (checkoutid) {
+//   $.post(`${apiUrl}/checkexpired`, {"checkout_id": checkoutid}, successCheckExp);
+//   function successCheckExp(data, status) {
+//     if (status == 'success') {
+//       if (data.expired == "true") {
+//         document.body.style.display = "none";
+//         alert("Your one time offer has been expired");
+//         window.location = 'https://citybeauty.com/';
+//         return;
+//       }
+//     }
+//     else {
+//       alert("We're having issue with network! Please try again!!");
+//       return;
+//     }
+//   }
+// }
+// else {
+//   document.body.style.display = "none";
+//   alert("Your one time offer has been expired");
+//   window.location = 'https://citybeauty.com/';
+// }
 
 $.get(`${apiUrl}/getfunnel`, successGetFN);
 function successGetFN(data, status) {
@@ -86,6 +86,7 @@ function successGetFN(data, status) {
         productVariantId = offer.product_id;
       }
     });
+    console.log(amountValue);
     return;
   }
   else {

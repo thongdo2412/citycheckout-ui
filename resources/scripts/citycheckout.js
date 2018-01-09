@@ -435,6 +435,7 @@
           formdata.signature = data.signature;
           //add another ajax call to CS endpoint
           submitForm('https://secureacceptance.cybersource.com/silent/pay','POST',formdata);
+          // console.log(formdata);
         },
         error: function (data, status) {
           alert("We're having network issue!! Please try again later!!");

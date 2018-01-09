@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>City Checkout</title>
+  <title>City Beauty - Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i|Playfair+Display:300,300i,400,400i">
   <link rel="stylesheet" type="text/css" href="https://checkout.citybeauty.com/resources/css/citycheckout.css">
   <link rel="stylesheet" type="text/css" href="https://checkout.citybeauty.com/resources/css/upsell.css">
@@ -17,37 +18,51 @@
     </div>
   </header>
 
-  <div class="center"><img src="https://checkout.citybeauty.com/resources/img/city-below-logo1.png" alt="" class="src"></div>
-  <div class="wait"><div id="wait-insidetxt">Last Chance To Get City Lips <br>For An Unbeatable Price</div></div>
-  <div class="topOffer center">Get 3 Tubes of City Lips<span class="reg">&reg;</span> <br>Added To Your Order For Just $25 Each</div>
+  <div class="center hidden-sm hidden-xs"><img src="https://checkout.citybeauty.com/resources/img/city-below-logo1.png" alt="" class="src"></div>
+  <div class="wait hidden-sm hidden-xs"><div id="wait-insidetxt">Last Chance To Get City Lips <br>For An Unbeatable Price</div></div>
+  <div class="visible-sm visible-xs wait-resp">
+    <h1 class="playfair-font">Wait!</h1>
+    <p class="under-wait"><i>Last Chance to Get City Lips for an Unbeatable Price...</i></p>
+  </div>
+  <div class="topOffer center">Add Just 3 Tube of City Lips<span class="reg">&reg;</span> <br>To <b>Save $30 Off</b> Regular Price</div>
   <div class="center polygonWrap"><img src="https://checkout.citybeauty.com/resources/img/polygon.png" alt="" height="20px"></div>
-    <div class="heroContent center">
-      <div class="row">
-        <div class="col-xs-5"><img src="https://checkout.citybeauty.com/resources/img/citylips-1.png" alt=""/></div>
-        <div class="col-xs-7 offer-breakdown">
-          <h3>Add Just 3 Tubes of City Lips <br>And Save $20 Off Regular Price</h3>
-          <p class="fnt24">Was: <s>$35 per tube</s><br>Now: $25 per tube </p>
-          <p class="fnt24">You Save: $30*</p>
-          <p>&nbsp;</p>
-          <p>*This is a one-time opportunity and <br>only available as an add-on to your current order</p>
-        </div>
-        <div class="clearfix"></div>
-      </div>
+  <div class="heroContent center hidden-sm hidden-xs">
+    <div class="row">
+     <div class="col-xs-5"><img src="https://checkout.citybeauty.com/resources/img/citylips-1.png" alt=""/></div>
+     <div class="col-xs-7 offer-breakdown">
+     <h3>Get 3 Tube of City Lips <br>Added To Your Order For Just $25</h3>
+     <p class="fnt24">Was: <s>$35 per tube</s><br>Now: $25 per tube </p>
+     <p class="fnt24">You Save: $30*</p>
+     <p>&nbsp;</p>
+     <p>*This is a one-time opportunity and <br>only available as an add-on to your current order</p>
     </div>
-  
+    <div class="clearfix"></div>
+   </div>
+  </div>
+  <div class="visible-sm visible-xs">
+    <ul class="flex-container">
+     <li class="lipp-image"><img src="https://checkout.citybeauty.com/resources/img/clear-lip-sm.png" alt="small clear"/></li>
+     <li class="offer-breakdown-sm">
+       <p>Was: <s>$35</s> each</p>
+       <p>Now: $25 each</p>
+     </li>
+    </ul>
+  </div>
+    
   <div class="clear"></div>
   
-  <div class="content">
+  <div class="content hidden-sm hidden-xs">
     <h3>Why Are We Doing This?</h3>
-    <p>I understand that adding 6 tubes might feel like a lot. Especially if this is your first time experiencing this amazing formula.</p>
+    <p>I understand that adding 2 tubes might feel like a lot. Especially if this is your first time experiencing this amazing formula.</p>
     <p>But I don't want you to miss out on this opportunity. Never will you find City Lips for only $25 per tube.</p>
-    <p>That's why I'm giving you this chance. So you can add just 3 tubes to your order and still get the best price on City Lips.</p>
+    <p>That's why I'm giving you this chance. So you can add just 1 tube to your order and still get the best price on City Lips.</p>
   
     <h3>Don't Decide Today</h3>
     <p>As always...your order is backed by our 60-day money back guarantee. If you're not completely satisfied - for whatever reason - just send it back for an immediate refund.</p>
-    <p>Click below to add this special to your order for only $25 per tube.</p>
+    <p>Click below to add this special to your order for only $75.</p>
+   </div>
 
-    <div class="upsell-panel panel-default bootstrap-basic">
+    <div class="downsell-panel">
       <form class="panel-body" id="order-form">
         <button value="submit" id="submit" class="btn btn-success usbtn-lg center-block">Yes, I want this special added to my order!</button>
         <p></p>
@@ -55,15 +70,35 @@
         <button id="NotTakeOffer" class="btn usbtn-lg center-block">No thanks, I understand I won't see this offer again</button>
       </form>
     </div>
-      <div class="mbg center">
-        <p>As always, your entire order is backed by our <u>100% Money Back Guarantee</u>. If you don't fall in love with City Lips<span class="reg">&reg;</span> right away, call us and we'll refund every penny.</p>
+
+    <div class="content visible-sm visible-xs">
+      <h3><b>Why Are We Doing This?</b></h3>
+      <p>I understand that adding 2 tubes might feel like a lot. Especially if this is your first time experiencing this amazing formula.</p>
+      <p>But I don't want you to miss out on this opportunity. Never will you find City Lips for only $25 per tube.</p>
+      <p>That's why I'm giving you this chance. So you can add just 1 tube to your order and still get the best price on City Lips.</p>
+      
+      <h3><b>Don't Decide Today</b></h3>
+      <p>As always...your order is backed by our 60-day money back guarantee. If you're not completely satisfied - for whatever reason - just send it back for an immediate refund.</p>
+    </div>
+
+    <div class="content">
+      <div class="mbg center hidden-sm hidden-xs">
+        <p>As always, your entire order is backed by our <u>100% Money Back Guarantee</u>. If you don't fall in love with City Lips<span class="reg">&reg</span> right away, call us and we'll refund every penny.</p>
         <p><b>We want you to have a superior customer experience.</b></p>
         <p>That's why our customer support experts are available by phone 7 days a week.</p> 
         <p>That's also why we make sure your order leaves our warehouse <u>next-day or faster</u>. You'll receive an email with shipment tracking as soon as your order is shipped.</p>
         <p>If you have any questions of concerns about your order, just give us a call at 1-800-347-1558.</p>
       </div>
-      <p>&nbsp;</p>
-  </div>
+      <div class="visible-sm visible-xs xs-mbg">
+        <div class="xs-mbg-wrap"><img src="https://checkout.citybeauty.com/resources/img/mbg.png" alt="mbg icon" /></div> 
+        <p>As always, your entire order is backed by our <u>100% Money Back Guarantee</u>. If you don't fall in love with City Lips<span class="reg">&reg;</span> right away, call us and we'll refund every penny.</p>
+        <p><b>We want you to have a superior customer experience.</b></p>
+        <p>That's why our customer support experts are available by phone 7 days a week.</p> 
+        <p>That's also why we make sure your order leaves our warehouse <u>next-day or faster</u>. You'll receive an email with shipment tracking as soon as your order is shipped.</p>
+        <p>If you have any questions of concerns about your order, just give us a call at 1-800-347-1558.</p>
+        <div class="clearfix"></div>   
+      </div>
+    </div>
   
 <div class="modal js-loading-bar">
  <div class="modal-dialog">
