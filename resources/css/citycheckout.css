@@ -141,7 +141,7 @@
 
   .form-control {height: 40px!important;}
   .hideoption {color: #cccccc;}
-  #checkoutTaxLabel,#checkoutTaxLabel_sm, #checkoutTaxValue, checkoutTaxValue_sm, #billing_info {display: none;}
+  #checkoutTaxLabel, #checkoutTaxValue, #billing_info {display: none;}
   #totalprice, #collapse_btn_price {font-size: 18px;font-weight: 400;}
   #caProvince, #auProvince, #billingCAProvince, #billingAUProvince {display: none;}
   .card-detail-heading {font-size: 16px;}
@@ -233,7 +233,7 @@
 
   #collapseBtn {display: none;width: 100%;padding: 20px 0;}
   #collapse_label {color: #136f99;font-weight: 400;}
-  #smallScreenTotal {margin-bottom: 20px;}
+  #price_breakdown {margin-bottom: 20px;}
   #modal-label {font-size: 12px; color: #1579a6!important; cursor: pointer;font-weight: 400;}
   #shippingValueInForm {font-weight: 400; font-size:17px;margin-left: 5px;}
   .modal-body {padding: 20px 15px 30px 15px!important;}
@@ -253,7 +253,6 @@
       border-top:1px solid #e6e6e6;
       border-bottom:1px solid #e6e6e6;      
     }
-    #bigScreenTotal {display: none;}
     #collapseBtn {display: table;}
     .xcomponent-outlet {
       width: 100%!important;

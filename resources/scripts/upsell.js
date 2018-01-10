@@ -36,6 +36,8 @@ var checkouts;
 var amountValue;
 var productVariantId;
 var tax_amount = 0.0;
+var quantity = 0;
+var discount_amt = 0.0;
 
 // if (checkoutid) {
 //   $.post(`${apiUrl}/checkexpired`, {"checkout_id": checkoutid}, successCheckExp);
@@ -84,6 +86,8 @@ function successGetFN(data, status) {
           amountValue = offer.price;
         }
         productVariantId = offer.product_id;
+        quantity = offer.quantity;
+        discount_amt = offer.discount_amt;
       }
     });
     console.log(amountValue);
@@ -114,7 +118,7 @@ $('#submit').click(function (event) {
   formdata.currency = "USD";
   formdata.transaction_uuid = uniqid();
   formdata.tax_amount = tax_amount.toFixed(2);
-  formdata.signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_token,tax_amount,merchant_defined_data5,merchant_defined_data7,merchant_defined_data8,merchant_defined_data11";
+  formdata.signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_token,tax_amount,merchant_defined_data5,merchant_defined_data7,merchant_defined_data8,merchant_defined_data11,merchant_defined_data12,merchant_defined_data13";
   formdata.signed_date_time = String(new Date().toISOString().split('.')[0]+"Z");
   formdata.locale = "en";
   
@@ -123,6 +127,8 @@ $('#submit').click(function (event) {
   formdata.merchant_defined_data7 = productVariantId;
   formdata.merchant_defined_data8 = "0.0"; // shipping is free for upsell
   formdata.merchant_defined_data11 = chtx;
+  formdata.merchant_defined_data12 = quantity;
+  formdata.merchant_defined_data13 = discount_amt;
   formdata.gateway = gateway;
   $.ajax({
       type: 'POST',

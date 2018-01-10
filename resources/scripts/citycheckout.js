@@ -9,26 +9,41 @@
   var productVariantId;
   var expiry_date;
   var funnelRoute;
+  var quantity = 0;
+  var discount_amt = 0.0;
 
   $('#payment_form').validator();
 
+  if ($(document).width() < 992) {
+    $('#price_breakdown').addClass("collapse");
+  }
+  else {
+    $('#price_breakdown').removeClass("collapse");
+  }
+
+  $(window).resize(function(){
+    if ($(this).width() < 992) {
+      $('#price_breakdown').addClass("collapse");
+    }
+    else {
+      $('#price_breakdown').removeClass("collapse");
+    }
+  })
+  
   // update the tax value, shipping value and total value
   $('#billingAddrChoice').val("0");
 
   function update_total_amount(amount,shipping_rate,tax_value) {
     totalValue = amount + shipping_rate + tax_value;
     $('#totalprice').html(totalValue.toFixed(2));
-    $('#totalprice_sm').html(totalValue.toFixed(2));
     $('#collapse_btn_price').html(totalValue.toFixed(2)); 
     $('#amount').val(totalValue);
   }
 
   function display_shipping_rate(shipping_rate) {
     $('#shippingRate').html(shipping_rate);
-    $('#shippingRate_sm').html(shipping_rate);
     if (shipping_rate == 0.00) {
       $('#shippingRate').hide();
-      $('#shippingRate_sm').hide();
       $('#shippingValueInForm').html("Free");
     }
     else {
@@ -39,7 +54,6 @@
   function update_tax_amount(tax_rate) {
     taxValue = parseFloat($('#product_price').html()) * tax_rate;
     $('#checkoutTaxValue').html(taxValue.toFixed(2));
-    $('#checkoutTaxValue_sm').html(taxValue.toFixed(2));
     return taxValue;
   }
 
@@ -72,8 +86,6 @@
       $('#caProvince').show();
       $('#checkoutTaxLabel').hide();
       $('#checkoutTaxValue').hide();
-      $('#checkoutTaxLabel_sm').hide();
-      $('#checkoutTaxValue_sm').hide();
       shipping_rate = parseFloat(shipping_info.Canada);
       display_shipping_rate(shipping_rate);
       $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
@@ -91,8 +103,6 @@
       $('#auProvince').show();
       $('#checkoutTaxLabel').hide();
       $('#checkoutTaxValue').hide();
-      $('#checkoutTaxLabel_sm').hide();
-      $('#checkoutTaxValue_sm').hide();
       shipping_rate = parseFloat(shipping_info.International);
       display_shipping_rate(shipping_rate);
       $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
@@ -109,8 +119,6 @@
       $('#postal').addClass('col-sm-6').removeClass('col-sm-4');
       $('#checkoutTaxLabel').hide();
       $('#checkoutTaxValue').hide();
-      $('#checkoutTaxLabel_sm').hide();
-      $('#checkoutTaxValue_sm').hide();
       shipping_rate = parseFloat(shipping_info.International);
       display_shipping_rate(shipping_rate);
       update_total_amount(parseFloat($('#product_price').html()),shipping_rate,taxValue);
@@ -125,8 +133,6 @@
     if (state == 'CA') {
       $('#checkoutTaxLabel').show();
       $('#checkoutTaxValue').show();
-      $('#checkoutTaxLabel_sm').show();
-      $('#checkoutTaxValue_sm').show();
       tax_rate = 0.09;
       taxValue = update_tax_amount(tax_rate);          
       update_total_amount(parseFloat($('#product_price').html()),shipping_rate,taxValue);
@@ -134,8 +140,6 @@
     else if (state == "UT") {
       $('#checkoutTaxLabel').show();
       $('#checkoutTaxValue').show();
-      $('#checkoutTaxLabel_sm').show();
-      $('#checkoutTaxValue_sm').show();
       tax_rate = 0.0676;
       taxValue = update_tax_amount(tax_rate);          
       update_total_amount(parseFloat($('#product_price').html()),shipping_rate,taxValue);
@@ -143,8 +147,6 @@
     else {
       $('#checkoutTaxLabel').hide();
       $('#checkoutTaxValue').hide();
-      $('#checkoutTaxLabel_sm').hide();
-      $('#checkoutTaxValue_sm').hide();
       display_shipping_rate(shipping_rate);
       taxValue = 0.00;
       update_total_amount(parseFloat($('#product_price').html()),shipping_rate,taxValue);
@@ -224,14 +226,12 @@
       checkouts.map(function(checkout) {
         if (checkout.id == currentPageName) {
           $('#product_name').html(checkout.title);
-          $('#product_name_sm').html(checkout.title);
           $('#product_price').html(checkout.price);
-          $('#product_price_sm').html(checkout.price);          
-          productVariantId = checkout.product_id;      
+          productVariantId = checkout.product_id;
+          quantity = checkout.quantity;
+          discount_amt = checkout.discount_amt;
           $('#subtotal').html(checkout.price);
-          $('#subtotal_sm').html(checkout.price);          
           $('#totalprice').html(checkout.price);
-          $('#totalprice_sm').html(checkout.price);          
           $('#collapse_btn_price').html(checkout.price);
           funnelRoute = checkout.US_funnel;
           if (currentPageName == 'cbl001') {
@@ -369,8 +369,10 @@
     formdata.merchant_defined_data8 = shipping_rate;
     formdata.merchant_defined_data9 = nextpage;
     formdata.merchant_defined_data10 = String(funnelRoute);
-    formdata.merchant_defined_data11 = String(tax_rate);              
-    formdata.signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_method,bill_to_forename,bill_to_surname,bill_to_email,bill_to_company_name,bill_to_address_line1,bill_to_address_line2,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code,merchant_defined_data5,merchant_defined_data6,merchant_defined_data7,merchant_defined_data8,merchant_defined_data9,merchant_defined_data10,merchant_defined_data11,ship_to_forename,ship_to_surname,ship_to_phone,ship_to_company_name,ship_to_address_line1,ship_to_address_line2,ship_to_address_city,ship_to_address_country,ship_to_address_state,ship_to_address_postal_code,override_custom_receipt_page,tax_amount";
+    formdata.merchant_defined_data11 = String(tax_rate);
+    formdata.merchant_defined_data12 = String(quantity);
+    formdata.merchant_defined_data13 = String(discount_amt);
+    formdata.signed_field_names = "access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency,payment_method,bill_to_forename,bill_to_surname,bill_to_email,bill_to_company_name,bill_to_address_line1,bill_to_address_line2,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code,merchant_defined_data5,merchant_defined_data6,merchant_defined_data7,merchant_defined_data8,merchant_defined_data9,merchant_defined_data10,merchant_defined_data11,merchant_defined_data12,merchant_defined_data13,ship_to_forename,ship_to_surname,ship_to_phone,ship_to_company_name,ship_to_address_line1,ship_to_address_line2,ship_to_address_city,ship_to_address_country,ship_to_address_state,ship_to_address_postal_code,override_custom_receipt_page,tax_amount";
     formdata.unsigned_field_names = "card_type,card_number,card_expiry_date";
     formdata.signed_date_time = String(new Date().toISOString().split('.')[0]+"Z");
     formdata.locale = "en";
@@ -454,7 +456,7 @@
 
   paypal.Button.render({
 
-    env: 'sandbox', // sandbox | production
+    env: 'production', // sandbox | production
 
     // Show the buyer a 'Pay Now' button in the checkout flow
     commit: true,
@@ -491,6 +493,8 @@
       data.checkoutid = checkoutid;
       data.clickid = clickid;
       data.productVariantId = productVariantId;
+      data.quantity = quantity;
+      data.discount_amt = discount_amt;
       // Set up the data you need to pass to your server
       // var data = {
       //     paymentToken: data.TOKEN,
