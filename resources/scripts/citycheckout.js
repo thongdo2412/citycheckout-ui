@@ -322,6 +322,7 @@
   // })
 
   $('#payment_form').validator().on('submit', function (e) {
+    analytics.track('Submit Order Button clicked');
     if (e.isDefaultPrevented()) {
       // handle the invalid form...
       alert("Please enter valid fields in the checkout form");
@@ -412,7 +413,7 @@
       formdata.bill_to_address_city = $('#billingCity').val();
       formdata.bill_to_address_country = $('#billingCountry').val();
       formdata.bill_to_address_state = $('#billingRegionValue').val();
-      formdata.bill_to_address_postal_code = $('#billingPostal_code').val();
+      formdata.bill_to_address_postal_code = $('#billingpostal_code').val();
     }
     formdata.override_custom_receipt_page =  "https://citybeauty.com/scripts/processingorder.php";
     formdata.card_type = $('select[name=card_type]').val();
@@ -495,11 +496,7 @@
       data.productVariantId = productVariantId;
       data.quantity = quantity;
       data.discount_amt = discount_amt;
-      // Set up the data you need to pass to your server
-      // var data = {
-      //     paymentToken: data.TOKEN,
-      //     payerID: data.payerID
-      // };
+      
       // Make a call to your server to execute the payment
       return paypal.request.post(EXECUTE_URL, data)
       .then(function (res) {
@@ -507,10 +504,6 @@
         if (res.BILLINGAGREEMENTID) {
           cc_token = res.BILLINGAGREEMENTID;
           window.location = `${baseUrl}/src/fnl/${nextpage}.html?pid=${pid}&token=${cc_token}&checkoutid=${checkoutid}&chtx=${res.tax_rate}&gwp=pp`;
-        }
-        else {
-          cc_token = "not_present";
-          window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutid}`;
         }
       });
     }
@@ -521,12 +514,5 @@
     //   $(this).trigger('click');
     // });
   // Segment analytics section
-  // analytics.page('City Checkout', {
-  //   title: 'City Checkout',
-  //   url: 'https://checkout.citybeauty.com/src/cbl001wwylt.html'
-  // });
-  // analytics.track('Email entered', {
-  //   location: '#email',
-  //   type: 'input'
-  // });
+  
   
