@@ -1,7 +1,8 @@
   const baseUrl = "https://checkout.citybeauty.com";
   const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
   var nextpage = "";
-  var tax_rate = 0.0;
+  var product_title = "";
+  var tax_rate = 0.09;
   var taxValue = 0.0;
   var checkout = {};
   var shipping_rate = 0.0;
@@ -11,8 +12,6 @@
   var funnelRoute;
   var quantity = 0;
   var discount_amt = 0.0;
-
-  $('#payment_form').validator();
 
   if ($(document).width() < 992) {
     $('#price_breakdown').addClass("collapse");
@@ -126,6 +125,8 @@
     }
   });
 
+  // default to state of California
+  $('#regionValue').val($("#usState").find('option:selected').val());
   //update total amount with tax amount based on state selected
   $("#usState").change(function() {
     const state = $(this).find('option:selected').val();
@@ -213,8 +214,10 @@
     }
     return (Math.floor(Math.random() * 10)+out);
   }
-  let clickid = "";
-  clickid = getParameterByName('cid');
+  let clickid = "nocid";
+  if (getParameterByName('cid')) {
+    clickid = getParameterByName('cid');
+  }
 
   $.get(`${apiUrl}/getfunnel`, successGetFN);
   function successGetFN(data, status) {
@@ -225,6 +228,7 @@
 
       checkouts.map(function(checkout) {
         if (checkout.id == currentPageName) {
+          product_title = checkout.title;
           $('#product_name').html(checkout.title);
           $('#product_price').html(checkout.price);
           productVariantId = checkout.product_id;
@@ -237,10 +241,14 @@
           if (currentPageName == 'cbl001') {
             shipping_rate = parseFloat(shipping_info.US[0].rate);
             display_shipping_rate(shipping_rate);
+            $('#checkoutTaxLabel').show();
+            $('#checkoutTaxValue').show();
+            taxValue = update_tax_amount(tax_rate); //default select is California
             update_total_amount(parseFloat($('#product_price').html()),shipping_rate,taxValue);
           }
           else {
             display_shipping_rate(0.00);
+            taxValue = update_tax_amount(tax_rate); 
             update_total_amount(parseFloat($('#product_price').html()),0.00,taxValue);
           }
         }
@@ -286,22 +294,6 @@
       $('#billingAddrChoice').val("1");
     }
   });
-  //   $('input[type=radio][name=paymentradio]').change(function() {
-  //     if (this.value == '0') {
-  //         $('#PP_payment').show();
-  //         $('#CS_payment').hide();
-  //         $('#submit').hide();
-  //         $('#paymentChoice').val("0");
-  //         paymentMethod = "paypal";
-  //     }
-  //     else if (this.value == '1') {
-  //         $('#CS_payment').show();
-  //         $('#PP_payment').hide();
-  //         $('#submit').show();
-  //         $('#paymentChoice').val("1");
-  //         paymentMethod = "card";
-  //     }
-  // });
 
   $("#expiration-date").keyup(function(){ //handle expiration date field
     if ($(this).val().length == 4) {
@@ -316,27 +308,24 @@
   return `${xDate[0]}-20${xDate[1]}`;
  }
 
-  // $('#submit').click(function(event){
-  //   event.preventDefault();
-  //   handleFormSubmission();
-  // })
-
-  $('#payment_form').validator().on('submit', function (e) {
-    analytics.track('Submit Order Button clicked');
-    if (e.isDefaultPrevented()) {
-      // handle the invalid form...
-      alert("Please enter valid fields in the checkout form");
-    } else {
+  $('#payment_form').on('submit', function (e) {
+    // if (e.isDefaultPrevented()) {
+    //   // handle the invalid form...
+    //   alert("Please enter valid fields in the checkout form");
+    // } else {
       // everything looks good!
       e.preventDefault();
       handleFormSubmission();
-    }
-  })
+    // }
+  });
 
+// progress bar
   $('.js-loading-bar').modal({
     backdrop: 'static',
     show: false
   });
+  const $modal = $('.js-loading-bar');
+  const $bar = $modal.find('.progress-bar');
 
   function submitForm(action, method, values) {
     var form = $('<form/>', {
@@ -352,7 +341,27 @@
             value: value
         }));    
     });
+    analytics.track('Order Completed',{
+      category: 'Conversion',
+      label: 'Checkout',
+      email: $('#email').val(),
+      anonymousId: analytics.user().anonymousId(),
+      firstName: $('#fname').val(),
+      lastName: $('#lname').val(),
+      address: {
+        streetAdress: $('#shipping_address').val(),
+        streetAddress2: $('#extended_address').val(),
+        city: $('#city').val(),
+        state: $('#regionValue').val(),
+        country: $('#country').val(),
+        postalCode:  $('#postal_code').val()
+      },
+      phone: $('#phone').val(),
+      value: values.amount
+    });
     form.appendTo('body').submit();
+    // $bar.removeClass('animate');
+    // $modal.modal('hide');
   }
 
   function handleFormSubmission () {
@@ -391,7 +400,7 @@
     formdata.ship_to_address_state = $('#regionValue').val();
     formdata.ship_to_address_postal_code = $('#postal_code').val();
     formdata.ship_to_phone = $('#phone').val();
-
+    
     //billing address
     formdata.bill_to_email = $('#email').val();    
     if ($('#billingAddrChoice').val() == "0") {
@@ -420,8 +429,6 @@
     formdata.card_number = $('input[name=card_number]').val();
     formdata.card_expiry_date = expiryDateFormat($('input[name=card_expiry_date]').val());
     
-    const $modal = $('.js-loading-bar');
-    const $bar = $modal.find('.progress-bar');
     $.ajax({
         type: 'POST',
         data: JSON.stringify(formdata),
@@ -433,8 +440,6 @@
           $bar.addClass('animate');
         },
         success: function(data, status){
-          $bar.removeClass('animate');
-          $modal.modal('hide');
           formdata.signature = data.signature;
           //add another ajax call to CS endpoint
           submitForm('https://secureacceptance.cybersource.com/silent/pay','POST',formdata);
@@ -457,7 +462,7 @@
 
   paypal.Button.render({
 
-    env: 'production', // sandbox | production
+    env: 'sandbox', // sandbox | production
 
     // Show the buyer a 'Pay Now' button in the checkout flow
     commit: true,
@@ -475,6 +480,7 @@
         // Set up a url on your server to create the payment
       var CREATE_URL = `${apiUrl}/pcreatebill`;
       data = {
+        product_title: product_title,
         return_url : window.location.href,
         cancel_url : window.location.href,
         amount : $('#product_price').html()
@@ -496,10 +502,16 @@
       data.productVariantId = productVariantId;
       data.quantity = quantity;
       data.discount_amt = discount_amt;
-      
+      data.product_title = product_title;
       // Make a call to your server to execute the payment
       return paypal.request.post(EXECUTE_URL, data)
       .then(function (res) {
+        analytics.track('Transaction Completed', {
+          category: 'Conversion',
+          label: 'Checkout',
+          userId: analytics.user().anonymousId(),
+          value: res.PAYMENTINFO_0_AMT
+        });
         pid = String(funnelRoute);
         if (res.BILLINGAGREEMENTID) {
           cc_token = res.BILLINGAGREEMENTID;
@@ -513,6 +525,16 @@
     // $("#submit").on('touchstart', function(event) {
     //   $(this).trigger('click');
     // });
-  // Segment analytics section
+
+// Segment analytics section
+analytics.identify(analytics.user().anonymousId());
+$('#fname').bind('input', function(){
+  if ($('#email').val()) {
+    analytics.identify(`User ${$('#email').val()}`, {
+      email: $('#email').val(),
+      anonymousId: analytics.user().anonymousId()
+    })
+  } 
+});
   
   

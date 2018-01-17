@@ -2,6 +2,7 @@ const baseUrl = "https://checkout.citybeauty.com";
 const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
 var nextpage = "";
 var nopage = "";
+var product_title = "";
 
 function getPageNameInURL() {
   let path = window.location.pathname;
@@ -86,6 +87,7 @@ function successGetFN(data, status) {
           amountValue = offer.price;
         }
         productVariantId = offer.product_id;
+        product_title = offer.title;
         quantity = offer.quantity;
         discount_amt = offer.discount_amt;
       }
@@ -129,6 +131,7 @@ $('#submit').click(function (event) {
   formdata.merchant_defined_data12 = quantity;
   formdata.merchant_defined_data13 = discount_amt;
   formdata.gateway = gateway;
+  formdata.product_title = product_title;
   $.ajax({
       type: 'POST',
       data: JSON.stringify(formdata),
@@ -140,8 +143,15 @@ $('#submit').click(function (event) {
         $bar.addClass('animate');
       },
       success: function(data, status){
-        $bar.removeClass('animate');
-        $modal.modal('hide');
+        // $bar.removeClass('animate');
+        // $modal.modal('hide');
+        // Segment analytics section
+        analytics.track('Upsell Order Completed', {
+          category: 'Conversion',
+          label: 'Upsell',
+          user: analytics.user().anonymousId(),
+          value: formdata.amount
+        });
         if (nextpage == "orderconfirmation") {
           window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutid}`;
         }
@@ -157,6 +167,12 @@ $('#submit').click(function (event) {
 });
 $('#NotTakeOffer').click(function (event) {
   event.preventDefault();
+  // Segment analytics section
+  analytics.track('Upsell Declined', {
+    category: 'Conversion',
+    label: 'Upsell',
+    user: analytics.user().anonymousId()
+  });
   if (nextpage == "orderconfirmation") {
     window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutid}`;
   }
@@ -173,12 +189,5 @@ $("#NotTakeOffer").on('touchstart', function(event) {
   $(this).trigger('click');
 });
 
-// // Segment analytics section
-// analytics.page('City Checkout Upsell', {
-//   title: 'City Lips 3 tubes with special offer',
-//   url: 'https://checkout.citybeauty.com/src/fnl/cbloto3us.html'
-// });
-// analytics.page('City Checkout Upsell', {
-//   title: 'City Lips 3 colors tubes with special offer',
-//   url: 'https://checkout.citybeauty.com/src/fnl/cbloto3us.html'
-// });
+// Segment analytics section
+analytics.identify(analytics.user().anonymousId());

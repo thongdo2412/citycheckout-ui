@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
 <head>
   <!-- Segment analytics -->
   <script>
     !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
     analytics.load("jB1ii2ytLfZUKtGcm4CQOg8YC914AuY9");
-    analytics.page();
+    analytics.page('City Lips Checkout 1 Tube');
     }}();
   </script>
   <title>City Beauty - Checkout</title>
@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
   <header class="centered_flex">
@@ -369,7 +370,6 @@
           </div>
           <div class="col-sm-4 form-group" id="region">
             <select class="form-control" id="usState" name="usState">
-              <option selected disabled class="hideoption">Select your state</option>
               <option value="AL">Alabama</option>
               <option value="AK">Alaska</option>
               <option value="AS">American Samoa</option>
@@ -378,7 +378,7 @@
               <option value="AA">Armed Forces Americas</option>
               <option value="AP">Armed Forces Pacific</option>
               <option value="AE">Armed Forces Others</option>
-              <option value="CA">California</option>
+              <option selected value="CA">California</option>
               <option value="CO">Colorado</option>
               <option value="CT">Connecticut</option>
               <option value="DE">Delaware</option>
@@ -432,8 +432,7 @@
               <option value="WY">Wyoming</option>
             </select>
             <select class="form-control" id="caProvince">
-              <option selected disabled>Select your province</option>
-              <option value="AB">Alberta</option>
+              <option selected value="AB">Alberta</option>
               <option value="BC">British Columbia</option>
               <option value="MB">Manitoba</option>
               <option value="NB">New Brunswick</option>
@@ -448,9 +447,8 @@
               <option value="YT">Yukon</option>
             </select>
             <select class="form-control" id="auProvince">
-              <option selected disabled>Select your state</option>
               <option value="ACT">Australian Capital Territory</option>
-              <option value="NSW">New South Wales</option>
+              <option selected value="NSW">New South Wales</option>
               <option value="NT ">Northern Territory</option>
               <option value="QLD">Queensland</option>
               <option value="SA ">South Australia</option>
@@ -459,15 +457,17 @@
               <option value="WA ">Western Australia</option>
             </select>
             <input type="hidden" id="regionValue" name="ship_to_address_state" />
+            <div class="help-block with-errors"></div>
           </div>
           <div class="col-sm-4 form-group" id="postal">
-            <input class="form-control" id="postal_code" name="ship_to_address_postal_code" type="text" placeholder="Postal/Zip Code">
+            <input class="form-control" id="postal_code" name="ship_to_address_postal_code" type="text" placeholder="Postal/Zip Code" data-error="Region code is missing" required>
+            <div class="help-block with-errors"></div>
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-12" id="phonefield">
-            <input class="form-control" id="phone" name="ship_to_phone" type="text" placeholder="Phone (Optional)">
-            <div class="help-block with-errors"></div>        
+          <div class="col-sm-12 form-group" id="phonefield">
+            <input class="form-control" id="phone" name="ship_to_phone" type="text" placeholder="Phone" data-error="Phone is missing" required>
+            <div class="help-block with-errors"></div>          
           </div>
         </div>
       </div>
@@ -490,12 +490,13 @@
         </div> -->
         <input type="hidden" id="billingAddrChoice" val="" />
         <div id="billing_info">
-          <div class="row">
-            <div class="col-sm-6 form-group">
+          <div class="row form-group" id ="billing_name_section">
+            <div class="col-sm-6">
               <input class="form-control" id="billingFname" name="bill_to_forename" type="text" placeholder="First Name">
               <span class="helper-text"></span>
+              <div class="help-block with-errors"></div>
             </div>
-            <div class="col-sm-6 form-group">
+            <div class="col-sm-6">
               <input class="form-control" id="billingLname" name="bill_to_surname" type="text" placeholder="Last Name">
               <span class="helper-text"></span>
             </div>
@@ -506,8 +507,8 @@
               <span class="helper-text"></span>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-8 form-group">
+          <div class="row form-group">
+            <div class="col-sm-8">
               <input class="form-control" id="billing_address" name="bill_to_address_line1" type="text" placeholder="Address">
               <span class="helper-text"></span>
             </div>
@@ -516,14 +517,14 @@
               <span class="helper-text"></span>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-12 form-group">
+          <div class="row form-group">
+            <div class="col-sm-12">
               <input class="form-control" id="billingCity" name="bill_to_address_city" type="text" placeholder="City" >
               <span class="helper-text"></span>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-4 form-group" id="billingCountrySelect">
+          <div class="row form-group">
+            <div class="col-sm-4" id="billingCountrySelect">
               <select class="form-control" id="billingCountry" name="bill_to_address_country">
                 <option selected value="US">United States</option>
                 <option value="AU">Australia</option>
@@ -780,7 +781,6 @@
             </div>
             <div class="col-sm-4" id="billingRegion">
               <select class="form-control" id="billingUSState">
-                <option selected disabled class="hideoption">Select your billing state</option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
                 <option value="AS">American Samoa</option>
@@ -789,7 +789,7 @@
                 <option value="AA">Armed Forces Americas</option>
                 <option value="AP">Armed Forces Pacific</option>
                 <option value="AE">Armed Forces Others</option>
-                <option value="CA">California</option>
+                <option selected value="CA">California</option>
                 <option value="CO">Colorado</option>
                 <option value="CT">Connecticut</option>
                 <option value="DE">Delaware</option>
@@ -843,8 +843,7 @@
                 <option value="WY">Wyoming</option>
               </select>
               <select class="form-control" id="billingCAProvince">
-                <option selected disabled>Select your billing province</option>
-                <option value="AB">Alberta</option>
+                <option selected value="AB">Alberta</option>
                 <option value="BC">British Columbia</option>
                 <option value="MB">Manitoba</option>
                 <option value="NB">New Brunswick</option>
@@ -859,9 +858,8 @@
                 <option value="YT">Yukon</option>
               </select>
               <select class="form-control" id="billingAUProvince">
-                <option selected disabled>Select your billing state</option>
                 <option value="ACT">Australian Capital Territory</option>
-                <option value="NSW">New South Wales</option>
+                <option selected value="NSW">New South Wales</option>
                 <option value="NT ">Northern Territory</option>
                 <option value="QLD">Queensland</option>
                 <option value="SA ">South Australia</option>
@@ -878,44 +876,45 @@
           </div>
         </div>
       </div>
-      <div class="form-group form_section">
+      <div class="form-group form_section" id="shipping_method_section">
         <h3 class="card-detail-heading">Shipping Method</h3>
         <p></p>
         <div>Standard Shipping (3-5 Business Days): <span id="shippingValueInForm"></span></div>
       </div>
       <div class="form_section">
         <h3 class="card-detail-heading">Payment Information</h3>
-        <span><img class="lock-img" src="../resources/img/lock_symbol.png"> All transactions are secured and encrypted.</span>
+        <span><img class="lock-img" src="https://checkout.citybeauty.com/resources/img/lock_symbol.png"> All transactions are secured and encrypted.</span>
         <div class="row">
           <div class="col-sm-6 col-xs-12" id="ccSection">Credit Cards</div>
-          <div class="col-sm-6 col-xs-12 text-right"><img src="../resources/img/cc-sm-4.png" alt="credit cards logo"/></div>
+          <div class="col-sm-6 col-xs-12 text-right"><img src="https://checkout.citybeauty.com/resources/img/creditcardlogos-sm.png" alt="credit cards logo"/></div>
         </div>
         <div id="CS_payment">
           <div class="row">
             <div class="col-sm-7 col-xs-12 form-group">
               <!--  Hosted Fields div container -->
-              <input class="form-control" id="name-on-card" name="name_on_card" placeholder="Name on card">
+              <input class="form-control" id="name-on-card" name="name_on_card" placeholder="Name on card" data-error="Name on card is invalid" required>
+              <div class="help-block with-errors"></div>
             </div>
             <div class="col-sm-5 col-xs-12 form-group">
               <!--  Hosted Fields div container -->
-              <select class="form-control" id="card-type" name="card_type">
-                <option selected disabled>Select your card type</option>
+              <select class="form-control" id="card-type" name="card_type" data-error="Card type is invalid" required>
+                <option value="" selected disabled>Select your card type</option>
                 <option value="001">Visa</option>
                 <option value="002">Mastercard</option>
                 <option value="003">American Express</option>
                 <option value="004">Discover</option>
-              </select>        
+              </select>
+              <div class="help-block with-errors"></div>        
             </div>
           </div>
           <div class="row">
             <div class="col-sm-12 form-group">
               <!--  Hosted Fields div container -->
               <input class="form-control" id="card-number" name="card_number" placeholder="Card number" maxlength="20" data-error="The credit card number you've entered is invalid" required>
-              <span class="helper-text"></span>
               <div class="help-block with-errors"></div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" id="exp_date_section">
             <div class="col-sm-6 col-xs-12 form-group">
               <!--  Hosted Fields div container -->
               <input class="form-control" id="expiration-date" name="card_expiry_date" maxlength="5" placeholder="Expiration date: MM/YY" data-error="The expiration date you've entered is invalid" required>
@@ -938,23 +937,24 @@
 </div>
   
 <div class="modal js-loading-bar">
- <div class="modal-dialog">
-   <div class="modal-content">
-     <div class="modal-body">
-       <p>Your order will be completed shortly!</p>
-       <div class="progress progress-popup">
-        <div class="progress-bar"></div>
-       </div>
-     </div>
-   </div>
- </div>
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>Your order will be completed shortly!</p>
+          <div class="progress progress-popup">
+            <div class="progress-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Load bluebird for Promise support -->
 <script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script src="https://checkout.citybeauty.com/resources/scripts/citycheckout.js"></script>
 </body>

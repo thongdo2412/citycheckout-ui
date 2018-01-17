@@ -121,6 +121,7 @@
   .floatL {float: left;}
   .clear {clear: both;}
   .priceProp-sm {text-align: center;margin-top: 10px;}
+  #NotTakeOffer {background-color: #DCDCDC;}
   @media screen and (max-width:992px) {
     .heroOffer {background-size: auto;}
     .upsell-panel {margin-top: -40px;margin-bottom: -40px;}
