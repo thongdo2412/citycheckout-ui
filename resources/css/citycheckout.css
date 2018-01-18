@@ -33,7 +33,7 @@
   }
   .maincol {
     border-right: 1px solid #ddd;
-    width: 55%;
+    width: 60%;
     padding: 20px 50px 20px 70px;
   }
 
@@ -72,6 +72,7 @@
   }
 
   #paypal_exp_checkout {
+    margin-bottom: 30px;
     padding-top: 20px;
     text-align: left!important;
   }
@@ -113,7 +114,6 @@
 }
 
   .form-control {height: 40px!important;}
-  #billing_name_section {margin-bottom: -15px;}
   #exp_date_section {margin-top: 20px;}
   .hideoption {color: #cccccc;}
   #checkoutTaxLabel, #checkoutTaxValue, #billing_info {display: none;}
@@ -130,15 +130,11 @@
   .progress-bar.animate {
     width: 100%;
   }
-  #companywrapper {
-    margin-bottom: 16px;
-  }
-  #billingcompanywrapper{
-    margin-bottom: 14px;
-  }
+  
   #shipping_info, #billing_info {
    padding-bottom: 10px;
   }
+  #billing_info {margin-top: 20px;}
 
   .radio-section {
     padding: 6px 0;
