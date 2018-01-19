@@ -1,6 +1,7 @@
 const baseUrl = "https://checkout.citybeauty.com";
 const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
 var nextpage = "";
+var product_title = "";
 var tax_rate = 0.0;
 var taxValue = 0.0;
 var checkout = {};
@@ -284,11 +285,13 @@ $("#billingAUProvince").change(function() {
 
 const checkoutid = uniqid();
 function uniqid() {
-  var ts=String(new Date().getTime()), i = 0, out = '';
-  for(i=0;i<ts.length;i+=1) {        
-     out+=Number(ts.substr(i, 2)).toString(36);    
-  }
-  return (Math.floor(Math.random() * 10)+out);
+  var d = new Date().getTime();
+  var uuid = 'xxxxxxxxxxxxxxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = (d + Math.random()*16)%16 | 0;
+    d = Math.floor(d/16);
+    return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+  });
+  return uuid;
 }
 let clickid = "nocid";
 if (getParameterByName('cid')) {
@@ -304,6 +307,7 @@ function successGetFN(data, status) {
 
     checkouts.map(function(checkout) {
       if (checkout.id == currentPageName) {
+        product_title = checkout.title;
         $('#product_name').html(checkout.title);
         $('#product_price').html(checkout.price);
         productVariantId = checkout.product_id;
@@ -527,6 +531,7 @@ paypal.Button.render({
       // Set up a url on your server to create the payment
     var CREATE_URL = `${apiUrl}/pcreatebill`;
     data = {
+      product_title : product_title,
       return_url : window.location.href,
       cancel_url : window.location.href,
       amount : $('#product_price').html()
@@ -549,7 +554,7 @@ paypal.Button.render({
     data.productVariantId = productVariantId;
     data.quantity = quantity;
     data.discount_amt = discount_amt;
-    
+    data.product_title = product_title;
     // Make a call to your server to execute the payment
     return paypal.request.post(EXECUTE_URL, data)
     .then(function (res) {
