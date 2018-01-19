@@ -1,18 +1,20 @@
+// declaration
 const baseUrl = "https://checkout.citybeauty.com";
 const apiUrl = "https://dbh99ppw9f.execute-api.us-east-1.amazonaws.com/prod/api";
-var nextpage = "";
-var product_title = "";
-var tax_rate = 0.0;
-var taxValue = 0.0;
-var checkout = {};
-var shipping_rate = 0.0;
-var shipping_info;
-var productVariantId;
-var expiry_date;
-var funnelRoute;
-var quantity = 0;
-var discount_amt = 0.0;
+let nextpage = "";
+let product_title = "";
+let tax_rate = 0.0;
+let taxValue = 0.0;
+let checkout = {};
+let shipping_rate = 0.0;
+let shipping_info;
+let productVariantId;
+let expiry_date;
+let funnelRoute;
+let quantity = 0;
+let discount_amt = 0.0;
 
+// handles small screen collapse price bar
 if ($(document).width() < 992) {
   $('#price_breakdown').addClass("collapse");
 }
@@ -29,23 +31,24 @@ $(window).resize(function(){
   }
 })
 
-// update the tax value, shipping value and total value
+// default billing address choice same with shipping
 $('#billingAddrChoice').val("0");
 
+//functions to update and display total amount, shipping amount, and tax amount
 function update_total_amount(amount,shipping_rate,tax_value) {
-  totalValue = amount + shipping_rate + tax_value;
+  let totalValue = amount + shipping_rate + tax_value;
   $('#totalprice').html(totalValue.toFixed(2));
   $('#collapse_btn_price').html(totalValue.toFixed(2)); 
   $('#amount').val(totalValue);
 }
 
 function display_shipping_rate(shipping_rate) {
-  $('#shippingRate').html(shipping_rate);
   if (shipping_rate == 0.00) {
-    $('#shippingRate').hide();
+    $('#shippingRate').html("&mdash;");
     $('#shippingValueInForm').html("Free");
   }
   else {
+    $('#shippingRate').html(shipping_rate);
     $('#shippingValueInForm').html(`$${shipping_rate}`);
   }        
 }
@@ -56,11 +59,14 @@ function update_tax_amount(tax_rate) {
   return taxValue;
 }
 
-//update total amount with shipping amount based on country selected
+//handles country change and updates total amount, shipping amount, tax amount
 $("#country").change(function() {
   const country = $(this).find('option:selected').val();
-  $('#regionValue').val("");  
-  if (country == 'US') {
+  tax_rate = 0.0;
+  taxValue = 0.0;
+  shipping_rate = 0.0;
+  $('#regionValue').val("");  // reset hidden input to hold region value for US states, CA provinces, or AU states
+  if (country == 'US') { // handles country = US
     $('#region').show();
     $('#caProvince').hide();
     $('#auProvince').hide();
@@ -70,10 +76,10 @@ $("#country").change(function() {
     $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
     $('#usState').prop('required', true);
     $("#caProvince").prop('required', false);
-    $("#usState").change(function() {
-      const state = $(this).find('option:selected').val();
-      $('#regionValue').val(state);
-    });
+    // $("#usState").change(function() {
+    //   const state = $(this).find('option:selected').val();
+    //   $('#regionValue').val(state);
+    // });
     if (currentPageName == 'cbl001') {
       shipping_rate = parseFloat(shipping_info.US[0].rate);
       display_shipping_rate(shipping_rate);
@@ -82,7 +88,7 @@ $("#country").change(function() {
       display_shipping_rate(0.00);
     }
     update_total_amount(parseFloat($('#product_price').html()),shipping_rate,taxValue);
-  }else if (country == 'CA'){
+  }else if (country == 'CA'){ // handles country = Canada
     $('#region').show();
     $('#usState').hide();
     $('#auProvince').hide();
@@ -96,13 +102,13 @@ $("#country").change(function() {
     $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
     $("#caProvince").prop('required', true);
     $('#usState').prop('required', false);
-    $("#caProvince").change(function() {
-      const state = $(this).find('option:selected').val();
-      $('#regionValue').val(state);
-    });
+    // $("#caProvince").change(function() {
+    //   const state = $(this).find('option:selected').val();
+    //   $('#regionValue').val(state);
+    // });
     update_total_amount(parseFloat($('#product_price').html()),shipping_rate,taxValue);
   }
-  else if (country == "AU") {
+  else if (country == "AU") { // handles country = Australia
     $('#region').show();
     $('#usState').hide();
     $('#caProvince').hide();
@@ -116,13 +122,13 @@ $("#country").change(function() {
     display_shipping_rate(shipping_rate);
     $('#countrySelect').addClass('col-sm-4').removeClass('col-sm-6');
     $('#postal').addClass('col-sm-4').removeClass('col-sm-6');
-    $("#auProvince").change(function() {
-      const state = $(this).find('option:selected').val();
-      $('#regionValue').val(state);
-    });
+    // $("#auProvince").change(function() {
+    //   const state = $(this).find('option:selected').val();
+    //   $('#regionValue').val(state);
+    // });
     update_total_amount(parseFloat($('#product_price').html()),shipping_rate,taxValue);
   }
-  else {
+  else { // handles country  = somewhere else
     $("#caProvince").prop('required', false);
     $('#usState').prop('required', false);
     $('#region').hide();
@@ -139,7 +145,7 @@ $("#country").change(function() {
 //set validator for US state
 $('#usState').prop('required', true);
 
-//update total amount with tax amount based on state selected
+//update total amount with tax amount based on US state selected
 $("#usState").change(function() {
   const state = $(this).find('option:selected').val();
   $('#regionValue').val(state);
@@ -166,6 +172,7 @@ $("#usState").change(function() {
   }
 });
 
+//handles changes of CA provinces or AU states
 $("#caProvince").change(function() {
   const state = $(this).find('option:selected').val();
   $('#regionValue').val(state);
@@ -176,10 +183,12 @@ $("#auProvince").change(function() {
   $('#regionValue').val(state);
 });
 
+//handles separate billing address from shipping address
 $('input[type=radio][name=billingradio]').change(function() {
   if (this.value == '0') {
     $('#billing_info').hide();
     $('#billingAddrChoice').val("0");
+    // removes required fields for form validator
     $('#billingFname').prop('required', false);
     $('#billingLname').prop('required', false);
     $('#billing_address').prop('required', false);
@@ -192,11 +201,13 @@ $('input[type=radio][name=billingradio]').change(function() {
   else if (this.value == '1') {
     $('#billing_info').show();
     $('#billingAddrChoice').val("1");
+    // adds required fields for form validator
     $('#billingFname').prop('required', true);
     $('#billingLname').prop('required', true);
     $('#billing_address').prop('required', true);
     $('#billingCity').prop('required', true);
     $('#billingpostal_code').prop('required', true);
+    // add and removes fields for form validator based on billing country = US, CA or others
     if ($('#billingCountry').val() == "US") {
       $('#billingUSState').prop('required', true);
       $('#billingCAProvince').prop('required', false);
@@ -210,7 +221,7 @@ $('input[type=radio][name=billingradio]').change(function() {
   }
 });
 
-// update billing address
+// update billing country change
 $("#billingCountry").change(function() {
   const billingCountry = $(this).find('option:selected').val();
   $('#billingRegionValue').val("");
@@ -224,10 +235,10 @@ $("#billingCountry").change(function() {
     $('#billingCAProvince').prop('required', false);    
     $('#billingCountrySelect').addClass('col-sm-4').removeClass('col-sm-6');
     $('#billingPostal').addClass('col-sm-4').removeClass('col-sm-6');
-    $("#billingUSState").change(function() {
-      const state = $(this).find('option:selected').val();
-      $('#billingRegionValue').val(state);
-    });
+    // $("#billingUSState").change(function() {
+    //   const state = $(this).find('option:selected').val();
+    //   $('#billingRegionValue').val(state);
+    // });
   }
   else if (billingCountry == 'CA') {
     $('#billingRegion').show();
@@ -239,10 +250,10 @@ $("#billingCountry").change(function() {
     $('#billingCAProvince').prop('required', true);
     $('#billingCountrySelect').addClass('col-sm-4').removeClass('col-sm-6');
     $('#billingPostal').addClass('col-sm-4').removeClass('col-sm-6');
-    $("#billingCAProvince").change(function() {
-      const state = $(this).find('option:selected').val();
-      $('#billingRegionValue').val(state);
-    });
+    // $("#billingCAProvince").change(function() {
+    //   const state = $(this).find('option:selected').val();
+    //   $('#billingRegionValue').val(state);
+    // });
   }
   else if (billingCountry == 'AU') {
     $('#billingRegion').show();
@@ -254,10 +265,10 @@ $("#billingCountry").change(function() {
     $('#billingCAProvince').prop('required', false);
     $('#billingCountrySelect').addClass('col-sm-4').removeClass('col-sm-6');
     $('#billingPostal').addClass('col-sm-4').removeClass('col-sm-6');
-    $("#billingAUProvince").change(function() {
-      const state = $(this).find('option:selected').val();
-      $('#billingRegionValue').val(state);
-    });
+    // $("#billingAUProvince").change(function() {
+    //   const state = $(this).find('option:selected').val();
+    //   $('#billingRegionValue').val(state);
+    // });
   }
   else {
     $('#billingUSState').prop('required', false);
@@ -283,6 +294,7 @@ $("#billingAUProvince").change(function() {
   $('#billingRegionValue').val(state);
 });
 
+// create checkout id as uuid
 const checkoutid = uniqid();
 function uniqid() {
   var d = new Date().getTime();
@@ -293,11 +305,13 @@ function uniqid() {
   });
   return uuid;
 }
+//handles cid from Voluum
 let clickid = "nocid";
 if (getParameterByName('cid')) {
   clickid = getParameterByName('cid');
 }
 
+//gets funnel map from API
 $.get(`${apiUrl}/getfunnel`, successGetFN);
 function successGetFN(data, status) {
   if (status == 'success') {
@@ -368,8 +382,8 @@ $("#expiration-date").keyup(function(){ //handle expiration date field
 });
 
 function expiryDateFormat(dateStr) {
-let xDate = dateStr.split("/");
-return `${xDate[0]}-20${xDate[1]}`;
+  let xDate = dateStr.split("/");
+  return `${xDate[0]}-20${xDate[1]}`;
 }
 
 $('#payment_form').validator().on('submit', function (e) {
