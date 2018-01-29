@@ -400,6 +400,7 @@ $('#payment_form').validator().on('submit', function (e) {
       }
       else {
         alert("Please enter a valid email address");
+        return;
       } 
   }
 })

@@ -45,8 +45,8 @@ if (checkoutid) {
   function successCheckExp(data, status) {
     if (status == 'success') {
       if (data.expired == "true") {
-        document.body.style.display = "none";
-        alert("Your one time offer has been expired");
+        $("#page_content").hide();
+        alert("Your one time offer has been expired!");
         window.location = 'https://citybeauty.com/';
         return;
       }
@@ -58,8 +58,8 @@ if (checkoutid) {
   }
 }
 else {
-  document.body.style.display = "none";
-  alert("Your one time offer has been expired");
+  $("#page_content").hide();  
+  alert("Your one time offer has been expired!");
   window.location = 'https://citybeauty.com/';
 }
 
