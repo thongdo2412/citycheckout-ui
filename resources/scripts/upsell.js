@@ -40,32 +40,32 @@ var tax_amount = 0.0;
 var quantity = 0;
 var discount_amt = 0.0;
 
-if (checkoutid) {
-  $.post(`${apiUrl}/checkexpired`, {"checkout_id": checkoutid}, successCheckExp);
-  function successCheckExp(data, status) {
-    if (status == 'success') {
-      if (data.expired == "true") {
-        $("#page_content").hide();
-        alert("Your one time offer has been expired!");
-        window.location = 'https://citybeauty.com/';
-        return;
-      }
-    }
-    else {
-      alert("We're having issue with network! Please try again!!");
-      return;
-    }
-  }
-}
-else {
-  $("#page_content").hide();  
-  alert("Your one time offer has been expired!");
-  window.location = 'https://citybeauty.com/';
-}
-
 $.get(`${apiUrl}/getfunnel`, successGetFN);
 function successGetFN(data, status) {
   if (status == 'success') {
+    if (checkoutid) {
+      $.post(`${apiUrl}/checkexpired`, {"checkout_id": checkoutid}, successCheckExp);
+      function successCheckExp(data, status) {
+        if (status == 'success') {
+          if (data.expired == "true") {
+            $("#page_content").hide();
+            alert("Your one time offer has been expired!");
+            window.location = 'https://citybeauty.com/';
+            return;
+          }
+        }
+        else {
+          alert("We're having issue with network! Please try again!!");
+          return;
+        }
+      }
+    }
+    else {
+      $("#page_content").hide();  
+      alert("Your one time offer has been expired!");
+      window.location = 'https://citybeauty.com/';
+    }
+
     const pagename = getPageNameInURL();
     let funnels = data.funnels;
     var offers;
@@ -173,7 +173,7 @@ $('#NotTakeOffer').click(function (event) {
     label: 'Upsell',
     user: analytics.user().anonymousId()
   });
-  if (nextpage == "orderconfirmation") {
+  if (nopage == "orderconfirmation") {
     window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutid}`;
   }
   else {
@@ -189,5 +189,26 @@ $("#NotTakeOffer").on('touchstart', function(event) {
   $(this).trigger('click');
 });
 
-// Segment analytics section
-analytics.identify(analytics.user().anonymousId());
+// // Segment analytics section
+// analytics.identify(analytics.user().anonymousId());
+
+// handle back button click event
+function back() {
+  // pathEl.innerHTML = window.location.pathname;
+  window.location = `https://citybeauty.com/orderconfirmation.php?checkoutid=${checkoutid}`;
+}
+
+function push() {
+  const url = window.location.href + '&#' + Date.now();
+  history.pushState({}, null, url);
+}
+push();
+
+window.addEventListener('popstate',handleBackButton, false);
+function handleBackButton() {
+  if(confirm("Are you sure you want to go back? If you go back, you'll lose your one-time only offer. You can click Cancel to stay in this page or click OK to go back.")) {
+    back();
+  }else {
+    push();
+  }
+}

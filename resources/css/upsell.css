@@ -122,12 +122,22 @@
   .clear {clear: both;}
   .priceProp-sm {text-align: center;margin-top: 10px;}
   #NotTakeOffer {background-color: #DCDCDC;}
+  .heroContentColor {width: 900px; margin: 0 auto;}
+  .snowlip-sm {display: flex;margin: 0 auto;}
+  .snowlipwrap {width: 100%;}
+  .underlined {text-decoration: underline;}
+  .cityfaceTxtWrap {font-size: 20px;margin-top:50px;}
+  .cfImgWrap img {width: 200px;}
+
   @media screen and (max-width:992px) {
     .heroOffer {background-size: auto;}
     .upsell-panel {margin-top: -40px;margin-bottom: -40px;}
     .usbtn-lg {font-size: 16px!important;}
     .btn {white-space: normal!important;}
     .colorlip-img-wrap img {width: 75%;}
-    .three-color-img-wrap img {width: 40%;}
+    .three-color-img-wrap img {width: 60%;}
+  }
+  @media screen and (max-width:767px) {
+    .snowlip-sm {width: 100%;}
   }
   
