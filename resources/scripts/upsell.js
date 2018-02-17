@@ -43,29 +43,6 @@ var discount_amt = 0.0;
 $.get(`${apiUrl}/getfunnel`, successGetFN);
 function successGetFN(data, status) {
   if (status == 'success') {
-    if (checkoutid) {
-      $.post(`${apiUrl}/checkexpired`, {"checkout_id": checkoutid}, successCheckExp);
-      function successCheckExp(data, status) {
-        if (status == 'success') {
-          if (data.expired == "true") {
-            $("#page_content").hide();
-            alert("Your one time offer has been expired!");
-            window.location = 'https://citybeauty.com/';
-            return;
-          }
-        }
-        else {
-          alert("We're having issue with network! Please try again!!");
-          return;
-        }
-      }
-    }
-    else {
-      $("#page_content").hide();  
-      alert("Your one time offer has been expired!");
-      window.location = 'https://citybeauty.com/';
-    }
-
     const pagename = getPageNameInURL();
     let funnels = data.funnels;
     var offers;
@@ -212,3 +189,31 @@ function handleBackButton() {
     push();
   }
 }
+
+setTimeout(function(){
+  $("#page_content").hide();
+  alert("Your one time offer has been expired!");
+  window.location = 'https://citybeauty.com/';
+}, 1800000);
+// if (checkoutid) {
+    //   $.post(`${apiUrl}/checkexpired`, {"checkout_id": checkoutid}, successCheckExp);
+    //   function successCheckExp(data, status) {
+    //     if (status == 'success') {
+    //       if (data.expired == "true") {
+    //         $("#page_content").hide();
+    //         alert("Your one time offer has been expired!");
+    //         window.location = 'https://citybeauty.com/';
+    //         return;
+    //       }
+    //     }
+    //     else {
+    //       alert("We're having issue with network! Please try again!!");
+    //       return;
+    //     }
+    //   }
+    // }
+    // else {
+    //   $("#page_content").hide();  
+    //   alert("Your one time offer has been expired!");
+    //   window.location = 'https://citybeauty.com/';
+    // }
